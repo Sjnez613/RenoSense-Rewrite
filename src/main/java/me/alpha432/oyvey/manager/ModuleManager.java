@@ -42,7 +42,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
-        this.modules.add(new TimerSpeed());
+        this.modules.add(new RPC());
         this.modules.add(new AntiWeb());
         this.modules.add(new Logo());
         this.modules.add(new ClickGui());

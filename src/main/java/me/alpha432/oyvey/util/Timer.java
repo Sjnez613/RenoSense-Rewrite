@@ -1,46 +1,55 @@
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
 package me.alpha432.oyvey.util;
 
-public class Timer {
-    private long time = -1L;
-
-    public boolean passedS(double s) {
-        return this.getMs(System.nanoTime() - this.time) >= (long) (s * 1000.0);
+public class Timer
+{
+    private long time;
+    
+    public Timer() {
+        this.time = -1L;
     }
-
-    public boolean passedM(double m) {
-        return this.getMs(System.nanoTime() - this.time) >= (long) (m * 1000.0 * 60.0);
+    
+    public boolean passedS(final double s) {
+        return this.passedMs((long)s * 1000L);
     }
-
-    public boolean passedDms(double dms) {
-        return this.getMs(System.nanoTime() - this.time) >= (long) (dms * 10.0);
+    
+    public boolean passedDms(final double dms) {
+        return this.passedMs((long)dms * 10L);
     }
-
-    public boolean passedDs(double ds) {
-        return this.getMs(System.nanoTime() - this.time) >= (long) (ds * 100.0);
+    
+    public boolean passedDs(final double ds) {
+        return this.passedMs((long)ds * 100L);
     }
-
-    public boolean passedMs(long ms) {
-        return this.getMs(System.nanoTime() - this.time) >= ms;
+    
+    public boolean passedMs(final long ms) {
+        return this.passedNS(this.convertToNS(ms));
     }
-
-    public boolean passedNS(long ns) {
+    
+    public void setMs(final long ms) {
+        this.time = System.nanoTime() - this.convertToNS(ms);
+    }
+    
+    public boolean passedNS(final long ns) {
         return System.nanoTime() - this.time >= ns;
     }
-
-    public void setMs(long ms) {
-        this.time = System.nanoTime() - ms * 1000000L;
-    }
-
+    
     public long getPassedTimeMs() {
         return this.getMs(System.nanoTime() - this.time);
     }
-
-    public void reset() {
+    
+    public Timer reset() {
         this.time = System.nanoTime();
+        return this;
     }
-
-    public long getMs(long time) {
+    
+    public long getMs(final long time) {
         return time / 1000000L;
     }
+    
+    public long convertToNS(final long time) {
+        return time * 1000000L;
+    }
 }
-

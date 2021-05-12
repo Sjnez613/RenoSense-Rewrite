@@ -1,8 +1,6 @@
 package me.alpha432.oyvey.features.modules.movement;
 
-import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.modules.Module;
-import me.alpha432.oyvey.features.modules.player.TimerSpeed;
 import me.alpha432.oyvey.features.setting.Setting;
 import me.alpha432.oyvey.util.EntityUtil;
 
@@ -10,6 +8,10 @@ import me.alpha432.oyvey.util.EntityUtil;
 
 public class AntiWeb extends Module {
     private Setting<Boolean> HoleOnly;
+    public Setting<Float> timerSpeed = register(new Setting("Speed", 4.0f, 0.1f, 50.0f));
+
+    public float speed = 1.0f;
+
 
     public AntiWeb() {
         super("AntiWeb", "Turns on timer when in a web", Module.Category.COMBAT, true, false, false);
@@ -17,26 +19,36 @@ public class AntiWeb extends Module {
     }
 
     @Override
+    public void onEnable() {
+        this.speed = timerSpeed.getValue();
+    }
+
+
+    @Override
     public void onUpdate() {
 
-        TimerSpeed timerspeed = OyVey.moduleManager.getModuleByClass(TimerSpeed.class);
         if (HoleOnly.getValue()) {
-            if (mc.player.isInWeb && EntityUtil.isInHole(mc.player))
-                mc.timer.tickLength = 2;
-            else {
-                mc.timer.elapsedTicks = 0;
+            if (mc.player.isInWeb && EntityUtil.isInHole(mc.player)) {
+                AntiWeb.mc.timer.tickLength = 50.0f / ((this.timerSpeed.getValue() == 0.0f) ? 0.1f : this.timerSpeed.getValue());
+            } else {
+                AntiWeb.mc.timer.tickLength = 50.0f;
             }
-            if (mc.player.onGround && EntityUtil.isInHole(mc.player))
-                mc.timer.elapsedTicks = 0;
+            if (mc.player.onGround && EntityUtil.isInHole(mc.player)) {
+                AntiWeb.mc.timer.tickLength = 50.0f;
+            }
         }
         if (!HoleOnly.getValue()) {
-            if (mc.player.isInWeb)
-                mc.timer.tickLength = 2;
-            else {
-                mc.timer.elapsedTicks = 0;
+            if (mc.player.isInWeb) {
+                AntiWeb.mc.timer.tickLength = 50.0f / ((this.timerSpeed.getValue() == 0.0f) ? 0.1f : this.timerSpeed.getValue());
+
+            } else {
+                AntiWeb.mc.timer.tickLength = 50.0f;
+
             }
-            if (mc.player.onGround)
-                mc.timer.elapsedTicks = 0;
+            if (mc.player.onGround) {
+                AntiWeb.mc.timer.tickLength = 50.0f;
+
+            }
         }
     }
 }

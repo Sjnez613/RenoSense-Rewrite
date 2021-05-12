@@ -20,7 +20,6 @@ public class OyVey {
     public static final String MODNAME = "RenoSense";
     public static final String MODVER = "0.1";
     public static final Logger LOGGER = LogManager.getLogger("RenoSense");
-    public static TimerManager timerManager;
     public static CommandManager commandManager;
     public static FriendManager friendManager;
     public static ModuleManager moduleManager;
@@ -53,7 +52,6 @@ public class OyVey {
             reloadManager.unload();
             reloadManager = null;
         }
-        timerManager = new TimerManager();
         textManager = new TextManager();
         commandManager = new CommandManager();
         friendManager = new FriendManager();
@@ -88,7 +86,6 @@ public class OyVey {
             reloadManager.init(commandManager != null ? commandManager.getPrefix() : ".");
         }
         OyVey.onUnload();
-        timerManager = null;
         eventManager = null;
         friendManager = null;
         speedManager = null;
