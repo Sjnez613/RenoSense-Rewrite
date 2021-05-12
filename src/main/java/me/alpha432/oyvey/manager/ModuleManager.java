@@ -72,7 +72,6 @@ public class ModuleManager
         this.modules.add(new AutoArmor());
         this.modules.add(new FastPlace());
         this.modules.add(new Selftrap());
-        this.modules.add(new SelfFill());
     }
 
     public Module getModuleByName(String name) {

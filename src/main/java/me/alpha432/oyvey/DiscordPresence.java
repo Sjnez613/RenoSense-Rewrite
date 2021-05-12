@@ -23,10 +23,10 @@ public class DiscordPresence
         DiscordPresence.presence.startTimestamp = System.currentTimeMillis() / 1000L;
         DiscordPresence.presence.details = ((Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu) ? "At the main menu." : ("Playing " + ((Minecraft.getMinecraft().getCurrentServerData() != null) ? (RPC.INSTANCE.showIP.getValue() ? ("on " + Minecraft.getMinecraft().getCurrentServerData().serverIP + ".") : " multiplayer.") : " singleplayer.")));
         DiscordPresence.presence.state = RPC.INSTANCE.state.getValue();
-        DiscordPresence.presence.largeImageText = "RenoSense Rewrite 0.1";
+        DiscordPresence.presence.largeImageText = RPC.INSTANCE.largeImageText.getValue();
         DiscordPresence.presence.smallImageKey = "skitttyy";
         DiscordPresence.presence.largeImageKey = "renosense";
-        DiscordPresence.presence.smallImageText = "Best Client!";
+        DiscordPresence.presence.smallImageText = RPC.INSTANCE.smallImageText.getValue();
         DiscordPresence.presence.partyId = "ae488379-351d-4a4f-ad32-2b9b01c91657";
         DiscordPresence.presence.partyMax = 13;
         DiscordPresence.presence.partySize = 1;
