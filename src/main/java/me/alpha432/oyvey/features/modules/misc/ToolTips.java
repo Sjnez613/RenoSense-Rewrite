@@ -34,7 +34,7 @@ public class ToolTips
     private int textRadarY = 0;
 
     public ToolTips() {
-        super("ShulkerViewer", "Several tweaks for tooltips.", Module.Category.MISC, true, false, false);
+        super("ToolTips", "Several tweaks for tooltips.", Module.Category.MISC, true, false, false);
         this.setInstance();
     }
 

@@ -1,15 +1,15 @@
 [
   {
-    "modid": "oyvey",
-    "name": "OyVey",
+    "modid": "renosense",
+    "name": "RenoSense",
     "description": "1.12.2 Anarchy PvP Client",
-    "version": "0.0.3",
+    "version": "0.1",
     "mcversion": "1.12.2",
-    "logoFile": "niggahack.png",
-    "url": "https://discordapp.com/invite/WcAx3ps",
+    "logoFile": "renosense.png",
+    "url": "https://youtube.com/sjnez",
     "updateUrl": "",
     "authorList": [
-      "Alpha432"
+      "Sjnez"
     ],
     "screenshots": [],
     "dependencies": []

@@ -2,10 +2,7 @@ package me.alpha432.oyvey.mixin.mixins;
 
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.events.KeyEvent;
-import me.alpha432.oyvey.features.modules.player.MultiTask;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.crash.CrashReport;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
@@ -43,14 +40,5 @@ public abstract class MixinMinecraft {
         OyVey.LOGGER.info("Finished client shutdown.");
     }
 
-    @Redirect(method = {"sendClickBlockToController"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;isHandActive()Z"))
-    private boolean isHandActiveWrapper(EntityPlayerSP playerSP) {
-        return !MultiTask.getInstance().isOn() && playerSP.isHandActive();
-    }
-
-    @Redirect(method = {"rightClickMouse"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;getIsHittingBlock()Z", ordinal = 0))
-    private boolean isHittingBlockHook(PlayerControllerMP playerControllerMP) {
-        return !MultiTask.getInstance().isOn() && playerControllerMP.getIsHittingBlock();
-    }
 }
 

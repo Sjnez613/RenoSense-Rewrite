@@ -5,7 +5,6 @@ import me.alpha432.oyvey.event.events.PacketEvent;
 import me.alpha432.oyvey.event.events.Render3DEvent;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
-import me.alpha432.oyvey.features.modules.misc.AutoGG;
 import me.alpha432.oyvey.features.setting.Setting;
 import me.alpha432.oyvey.util.Timer;
 import me.alpha432.oyvey.util.*;
@@ -289,10 +288,6 @@ public class AutoCrystal
                 return;
             }
             this.realTarget = this.target;
-            if (AutoGG.getINSTANCE().isOn()) {
-                AutoGG autoGG = (AutoGG) OyVey.moduleManager.getModuleByName("AutoGG");
-                autoGG.addTargetedPlayer(this.target.getName());
-            }
             if (this.hotBarSlot != -1 && this.autoswitch.getValue().booleanValue() && !AutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS)) {
                 AutoCrystal.mc.player.inventory.currentItem = this.hotBarSlot;
             }

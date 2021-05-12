@@ -41,13 +41,12 @@ public class HUD extends Module {
     private final Setting<Boolean> lag = register(new Setting("LagNotifier", Boolean.valueOf(false), "The time"));
     private final Timer timer = new Timer();
     private final Map<String, Integer> players = new HashMap<>();
-    public Setting<String> command = register(new Setting("Command", "OyVey"));
+    public Setting<String> command = register(new Setting("Command", "RenoSense"));
     public Setting<TextUtil.Color> bracketColor = register(new Setting("BracketColor", TextUtil.Color.BLUE));
     public Setting<TextUtil.Color> commandColor = register(new Setting("NameColor", TextUtil.Color.BLUE));
     public Setting<String> commandBracket = register(new Setting("Bracket", "<"));
     public Setting<String> commandBracket2 = register(new Setting("Bracket2", ">"));
     public Setting<Boolean> notifyToggles = register(new Setting("ChatNotify", Boolean.valueOf(false), "notifys in chat"));
-    public Setting<Boolean> magenDavid = register(new Setting("MagenDavid", Boolean.valueOf(false), "draws magen david"));
     public Setting<Integer> animationHorizontalTime = register(new Setting("AnimationHTime", Integer.valueOf(500), Integer.valueOf(1), Integer.valueOf(1000), v -> this.arrayList.getValue().booleanValue()));
     public Setting<Integer> animationVerticalTime = register(new Setting("AnimationVTime", Integer.valueOf(50), Integer.valueOf(1), Integer.valueOf(500), v -> this.arrayList.getValue().booleanValue()));
     public Setting<RenderingMode> renderingMode = register(new Setting("Ordering", RenderingMode.ABC));
@@ -89,7 +88,7 @@ public class HUD extends Module {
         int height = this.renderer.scaledHeight;
         this.color = ColorUtil.toRGBA((ClickGui.getInstance()).red.getValue().intValue(), (ClickGui.getInstance()).green.getValue().intValue(), (ClickGui.getInstance()).blue.getValue().intValue());
         if (this.waterMark.getValue().booleanValue()) {
-            String string = this.command.getPlannedValue() + " v0.0.3";
+            String string = this.command.getPlannedValue() + " v0.1";
             if ((ClickGui.getInstance()).rainbow.getValue().booleanValue()) {
                 if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
                     this.renderer.drawString(string, 2.0F, this.waterMarkY.getValue().intValue(), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);

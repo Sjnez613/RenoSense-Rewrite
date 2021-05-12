@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class FakePlayer
         extends Module {
-    private final String name = "NiggaHack.me";
+    private final String name = "Sjnez";
     private EntityOtherPlayerMP _fakePlayer;
 
     public FakePlayer() {
@@ -58,7 +58,7 @@ public class FakePlayer
             try {
                 this._fakePlayer = new EntityOtherPlayerMP(FakePlayer.mc.world, new GameProfile(UUID.fromString(FakePlayer.getUuid(this.name)), this.name));
             } catch (Exception e) {
-                this._fakePlayer = new EntityOtherPlayerMP(FakePlayer.mc.world, new GameProfile(UUID.fromString("70ee432d-0a96-4137-a2c0-37cc9df67f03"), this.name));
+                this._fakePlayer = new EntityOtherPlayerMP(FakePlayer.mc.world, new GameProfile(UUID.fromString("991e28a2-c216-43aa-a7a5-0f7492bd1b78"), this.name));
                 Command.sendMessage("Failed to load uuid, setting another one.");
             }
             Command.sendMessage(String.format("%s has been spawned.", this.name));

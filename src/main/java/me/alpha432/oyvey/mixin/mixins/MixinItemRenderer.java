@@ -1,17 +1,12 @@
 package me.alpha432.oyvey.mixin.mixins;
 
-import me.alpha432.oyvey.features.modules.client.ClickGui;
-import me.alpha432.oyvey.features.modules.render.HandChams;
 import me.alpha432.oyvey.features.modules.render.SmallShield;
-import me.alpha432.oyvey.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumHandSide;
-import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -49,33 +44,9 @@ public abstract class MixinItemRenderer {
                 xOffset = offset.offX.getValue().floatValue();
                 yOffset = offset.offY.getValue().floatValue();
             }
-            if (HandChams.getINSTANCE().isOn() && hand == EnumHand.MAIN_HAND && stack.isEmpty()) {
-                if (HandChams.getINSTANCE().mode.getValue().equals(HandChams.RenderMode.WIREFRAME)) {
-                    this.renderItemInFirstPerson(player, p_187457_2_, p_187457_3_, hand, p_187457_5_ + xOffset, stack, p_187457_7_ + yOffset);
-                }
-                GlStateManager.pushMatrix();
-                if (HandChams.getINSTANCE().mode.getValue().equals(HandChams.RenderMode.WIREFRAME)) {
-                    GL11.glPushAttrib(1048575);
-                } else {
-                    GlStateManager.pushAttrib();
-                }
-                if (HandChams.getINSTANCE().mode.getValue().equals(HandChams.RenderMode.WIREFRAME)) {
-                    GL11.glPolygonMode(1032, 6913);
-                }
-                GL11.glDisable(3553);
-                GL11.glDisable(2896);
-                if (HandChams.getINSTANCE().mode.getValue().equals(HandChams.RenderMode.WIREFRAME)) {
-                    GL11.glEnable(2848);
-                    GL11.glEnable(3042);
-                }
-                GL11.glColor4f(ClickGui.getInstance().rainbow.getValue() != false ? (float) ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRed() / 255.0f : (float) HandChams.getINSTANCE().red.getValue().intValue() / 255.0f, ClickGui.getInstance().rainbow.getValue() != false ? (float) ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getGreen() / 255.0f : (float) HandChams.getINSTANCE().green.getValue().intValue() / 255.0f, ClickGui.getInstance().rainbow.getValue() != false ? (float) ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getBlue() / 255.0f : (float) HandChams.getINSTANCE().blue.getValue().intValue() / 255.0f, (float) HandChams.getINSTANCE().alpha.getValue().intValue() / 255.0f);
+            if (SmallShield.getINSTANCE().isOn() && (!stack.isEmpty)) {
                 this.renderItemInFirstPerson(player, p_187457_2_, p_187457_3_, hand, p_187457_5_ + xOffset, stack, p_187457_7_ + yOffset);
-                GlStateManager.popAttrib();
-                GlStateManager.popMatrix();
-            }
-            if (SmallShield.getINSTANCE().isOn() && (!stack.isEmpty || HandChams.getINSTANCE().isOff())) {
-                this.renderItemInFirstPerson(player, p_187457_2_, p_187457_3_, hand, p_187457_5_ + xOffset, stack, p_187457_7_ + yOffset);
-            } else if (!stack.isEmpty || HandChams.getINSTANCE().isOff()) {
+            } else if (!stack.isEmpty) {
                 this.renderItemInFirstPerson(player, p_187457_2_, p_187457_3_, hand, p_187457_5_, stack, p_187457_7_);
             }
             this.injection = true;

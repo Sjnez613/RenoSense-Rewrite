@@ -10,11 +10,16 @@ import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.features.modules.client.FontMod;
 import me.alpha432.oyvey.features.modules.client.HUD;
+import me.alpha432.oyvey.features.modules.client.Logo;
 import me.alpha432.oyvey.features.modules.combat.*;
 import me.alpha432.oyvey.features.modules.misc.*;
-import me.alpha432.oyvey.features.modules.movement.*;
+import me.alpha432.oyvey.features.modules.movement.AntiWeb;
+import me.alpha432.oyvey.features.modules.movement.NoVoid;
+import me.alpha432.oyvey.features.modules.movement.ReverseStep;
 import me.alpha432.oyvey.features.modules.player.*;
-import me.alpha432.oyvey.features.modules.render.*;
+import me.alpha432.oyvey.features.modules.render.BlockHighlight;
+import me.alpha432.oyvey.features.modules.render.HoleESP;
+import me.alpha432.oyvey.features.modules.render.SmallShield;
 import me.alpha432.oyvey.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
@@ -37,32 +42,22 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new TimerSpeed());
+        this.modules.add(new AntiWeb());
+        this.modules.add(new Logo());
         this.modules.add(new ClickGui());
         this.modules.add(new FontMod());
-        this.modules.add(new ExtraTab());
         this.modules.add(new HUD());
         this.modules.add(new BlockHighlight());
         this.modules.add(new HoleESP());
-        this.modules.add(new Skeleton());
-        this.modules.add(new Wireframe());
-        this.modules.add(new Replenish());
         this.modules.add(new SmallShield());
-        this.modules.add(new HandChams());
-        this.modules.add(new Trajectories());
         this.modules.add(new FakePlayer());
-        this.modules.add(new TpsSync());
-        this.modules.add(new MultiTask());
         this.modules.add(new MCP());
-        this.modules.add(new LiquidInteract());
         this.modules.add(new Speedmine());
         this.modules.add(new ReverseStep());
         this.modules.add(new NoVoid());
-        this.modules.add(new NoHandShake());
-        this.modules.add(new BuildHeight());
-        this.modules.add(new ChatModifier());
         this.modules.add(new MCF());
         this.modules.add(new PearlNotify());
-        this.modules.add(new AutoGG());
         this.modules.add(new ToolTips());
         this.modules.add(new Tracker());
         this.modules.add(new PopCounter());
@@ -75,18 +70,9 @@ public class ModuleManager
         this.modules.add(new Criticals());
         this.modules.add(new HoleFiller());
         this.modules.add(new AutoArmor());
-        this.modules.add(new Speed());
-        this.modules.add(new Step());
-        this.modules.add(new Flight());
-        this.modules.add(new Scaffold());
-        this.modules.add(new PacketFly());
         this.modules.add(new FastPlace());
-        this.modules.add(new ESP());
         this.modules.add(new Selftrap());
-        this.modules.add(new NoHitBox());
-        this.modules.add(new AutoMinecart());
         this.modules.add(new SelfFill());
-        this.modules.add(new ArrowESP());
     }
 
     public Module getModuleByName(String name) {
