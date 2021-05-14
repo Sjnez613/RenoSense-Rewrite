@@ -16,10 +16,12 @@ import me.alpha432.oyvey.features.modules.misc.*;
 import me.alpha432.oyvey.features.modules.movement.AntiWeb;
 import me.alpha432.oyvey.features.modules.movement.NoVoid;
 import me.alpha432.oyvey.features.modules.movement.ReverseStep;
-import me.alpha432.oyvey.features.modules.player.*;
+import me.alpha432.oyvey.features.modules.player.FakePlayer;
+import me.alpha432.oyvey.features.modules.player.FastPlace;
+import me.alpha432.oyvey.features.modules.player.MCP;
+import me.alpha432.oyvey.features.modules.player.Speedmine;
 import me.alpha432.oyvey.features.modules.render.BlockHighlight;
 import me.alpha432.oyvey.features.modules.render.HoleESP;
-import me.alpha432.oyvey.features.modules.render.SmallShield;
 import me.alpha432.oyvey.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
@@ -42,6 +44,8 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new AutoCrystal());
+        this.modules.add(new QueueSkip());
         this.modules.add(new RPC());
         this.modules.add(new AntiWeb());
         this.modules.add(new Logo());
@@ -50,7 +54,6 @@ public class ModuleManager
         this.modules.add(new HUD());
         this.modules.add(new BlockHighlight());
         this.modules.add(new HoleESP());
-        this.modules.add(new SmallShield());
         this.modules.add(new FakePlayer());
         this.modules.add(new MCP());
         this.modules.add(new Speedmine());
@@ -65,7 +68,7 @@ public class ModuleManager
         this.modules.add(new Surround());
         this.modules.add(new AutoTrap());
         this.modules.add(new AutoWeb());
-        this.modules.add(new AutoCrystal());
+        this.modules.add(new OyVeyAutoCrystal());
         this.modules.add(new Killaura());
         this.modules.add(new Criticals());
         this.modules.add(new HoleFiller());

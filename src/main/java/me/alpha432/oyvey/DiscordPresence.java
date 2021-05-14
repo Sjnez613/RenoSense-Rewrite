@@ -21,14 +21,14 @@ public class DiscordPresence
         final DiscordEventHandlers handlers = new DiscordEventHandlers();
         DiscordPresence.rpc.Discord_Initialize("842110822221348895", handlers, true, "");
         DiscordPresence.presence.startTimestamp = System.currentTimeMillis() / 1000L;
-        DiscordPresence.presence.details = ((Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu) ? "At the main menu." : ("Playing " + ((Minecraft.getMinecraft().getCurrentServerData() != null) ? (RPC.INSTANCE.showIP.getValue() ? ("on " + Minecraft.getMinecraft().getCurrentServerData().serverIP + ".") : " multiplayer.") : " singleplayer.")));
+        DiscordPresence.presence.details = ((Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu) ? "In the main menu." : ("Playing " + ((Minecraft.getMinecraft().getCurrentServerData() != null) ? (RPC.INSTANCE.showIP.getValue() ? ("on " + Minecraft.getMinecraft().getCurrentServerData().serverIP + ".") : " multiplayer.") : " singleplayer.")));
         DiscordPresence.presence.state = RPC.INSTANCE.state.getValue();
         DiscordPresence.presence.largeImageText = RPC.INSTANCE.largeImageText.getValue();
         DiscordPresence.presence.smallImageKey = "skitttyy";
         DiscordPresence.presence.largeImageKey = "renosense";
         DiscordPresence.presence.smallImageText = RPC.INSTANCE.smallImageText.getValue();
         DiscordPresence.presence.partyId = "ae488379-351d-4a4f-ad32-2b9b01c91657";
-        DiscordPresence.presence.partyMax = 13;
+        DiscordPresence.presence.partyMax = 50;
         DiscordPresence.presence.partySize = 1;
         DiscordPresence.presence.joinSecret = "MTI4NzM0OjFpMmhuZToxMjMxMjM=";
         DiscordPresence.rpc.Discord_UpdatePresence(DiscordPresence.presence);

@@ -88,7 +88,7 @@ public class HUD extends Module {
         int height = this.renderer.scaledHeight;
         this.color = ColorUtil.toRGBA((ClickGui.getInstance()).red.getValue().intValue(), (ClickGui.getInstance()).green.getValue().intValue(), (ClickGui.getInstance()).blue.getValue().intValue());
         if (this.waterMark.getValue().booleanValue()) {
-            String string = this.command.getPlannedValue() + " v0.1";
+            String string = this.command.getPlannedValue() + " " + OyVey.MODVER;
             if ((ClickGui.getInstance()).rainbow.getValue().booleanValue()) {
                 if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
                     this.renderer.drawString(string, 2.0F, this.waterMarkY.getValue().intValue(), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
