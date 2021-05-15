@@ -142,7 +142,7 @@ public class OyVey {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        Display.setTitle("RenoSense v0.4");
+        Display.setTitle("RenoSense " + MODVER);
         setWindowsIcon();
         OyVey.load();
     }
