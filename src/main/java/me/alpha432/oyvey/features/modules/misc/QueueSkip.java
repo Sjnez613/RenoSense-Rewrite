@@ -27,7 +27,8 @@ public class QueueSkip extends Module {
     }
     public enum Server {
         NORMAL,
-        OLDFAG
+        OLDFAG,
+        NINEBEE
     }
 
 }

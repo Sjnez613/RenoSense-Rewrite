@@ -44,6 +44,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new WurstHoleFill());
         this.modules.add(new AutoCrystal());
         this.modules.add(new QueueSkip());
         this.modules.add(new RPC());

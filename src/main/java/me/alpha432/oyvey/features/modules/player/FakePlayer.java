@@ -75,5 +75,12 @@ public class FakePlayer
             FakePlayer.mc.world.removeEntity(this._fakePlayer);
         }
     }
+
+    @Override
+    public void onLogout() {
+        if (this.isOn()) {
+            this.disable();
+        }
+    }
 }
 

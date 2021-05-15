@@ -12,6 +12,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.util.EnumFacing;
@@ -393,5 +395,95 @@ public class BlockUtil
     public static boolean rayTracePlaceCheck(BlockPos pos) {
         return BlockUtil.rayTracePlaceCheck(pos, true);
     }
+
+    public static BlockPos GetLocalPlayerPosFloored() {
+        return new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY), Math.floor(mc.player.posZ));
+    }
+
+    public static ValidResult valid(BlockPos pos) {
+        // There are no entities to block placement,
+        if (!mc.world.checkNoEntityCollision(new AxisAlignedBB(pos)))
+            return ValidResult.NoEntityCollision;
+
+        if (!checkForNeighbours(pos))
+            return ValidResult.NoNeighbors;
+
+        IBlockState l_State = mc.world.getBlockState(pos);
+
+        if (l_State.getBlock() == Blocks.AIR) {
+            final BlockPos[] l_Blocks =
+                    {pos.north(), pos.south(), pos.east(), pos.west(), pos.up(), pos.down()};
+
+            for (BlockPos l_Pos : l_Blocks) {
+                IBlockState l_State2 = mc.world.getBlockState(l_Pos);
+
+                if (l_State2.getBlock() == Blocks.AIR)
+                    continue;
+
+                for (final EnumFacing side : EnumFacing.values()) {
+                    final BlockPos neighbor = pos.offset(side);
+
+                    if (mc.world.getBlockState(neighbor).getBlock().canCollideCheck(mc.world.getBlockState(neighbor), false)) {
+                        return ValidResult.Ok;
+                    }
+                }
+            }
+
+            return ValidResult.NoNeighbors;
+        }
+
+        return ValidResult.AlreadyBlockThere;
+    }
+
+    public static boolean checkForNeighbours(final BlockPos blockPos) {
+        if (!hasNeighbour(blockPos)) {
+            for (final EnumFacing side : EnumFacing.values()) {
+                final BlockPos neighbour = blockPos.offset(side);
+                if (hasNeighbour(neighbour)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean hasNeighbour(final BlockPos blockPos) {
+        for (final EnumFacing side : EnumFacing.values()) {
+            final BlockPos neighbour = blockPos.offset(side);
+            if (!mc.world.getBlockState(neighbour).getMaterial().isReplaceable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int findObiInHotbar() {
+        for (int i = 0; i < 9; ++i) {
+            final ItemStack stack = mc.player.inventory.getStackInSlot(i);
+            if (stack != ItemStack.EMPTY && stack.getItem() instanceof ItemBlock) {
+                final Block block = ((ItemBlock) stack.getItem()).getBlock();
+                if (block instanceof BlockEnderChest)
+                    return i;
+                else if (block instanceof BlockObsidian)
+                    return i;
+            }
+        }
+        return -1;
+    }
+
+    public static BlockPos getPlayerPos() {
+        return new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY), Math.floor(mc.player.posZ));
+    }
+
+
+    public enum ValidResult {
+        NoEntityCollision,
+        AlreadyBlockThere,
+        NoNeighbors,
+        Ok
+    }
 }
+
+
 
