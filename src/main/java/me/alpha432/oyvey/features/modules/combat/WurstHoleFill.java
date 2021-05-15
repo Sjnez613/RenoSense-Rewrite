@@ -83,7 +83,10 @@ public class WurstHoleFill extends Module {
 
         if (pos_to_fill != null) {
             int obbySlot = InventoryUtil.findHotbarBlock(BlockObsidian.class);
+            int echestSlot = InventoryUtil.findHotbarBlock(BlockEnderChest.class);
             InventoryUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(obbySlot));
+            InventoryUtil.mc.playerController.updateController();
+            InventoryUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(echestSlot));
             InventoryUtil.mc.playerController.updateController();
             if (BlockUtil.placeBlock(pos_to_fill, EnumHand.MAIN_HAND, hole_rotate.getValue(), false, false)) {
                 holes.remove(pos_to_fill);

@@ -16,10 +16,7 @@ import me.alpha432.oyvey.features.modules.misc.*;
 import me.alpha432.oyvey.features.modules.movement.AntiWeb;
 import me.alpha432.oyvey.features.modules.movement.NoVoid;
 import me.alpha432.oyvey.features.modules.movement.ReverseStep;
-import me.alpha432.oyvey.features.modules.player.FakePlayer;
-import me.alpha432.oyvey.features.modules.player.FastPlace;
-import me.alpha432.oyvey.features.modules.player.MCP;
-import me.alpha432.oyvey.features.modules.player.Speedmine;
+import me.alpha432.oyvey.features.modules.player.*;
 import me.alpha432.oyvey.features.modules.render.BlockHighlight;
 import me.alpha432.oyvey.features.modules.render.HoleESP;
 import me.alpha432.oyvey.util.Util;
@@ -44,6 +41,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new FakeKick());
         this.modules.add(new WurstHoleFill());
         this.modules.add(new AutoCrystal());
         this.modules.add(new QueueSkip());
