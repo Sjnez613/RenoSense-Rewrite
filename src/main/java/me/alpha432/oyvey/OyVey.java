@@ -14,11 +14,11 @@ import org.lwjgl.opengl.Display;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-@Mod(modid = "renosense", name = "RenoSense", version = "0.3")
+@Mod(modid = "renosense", name = "RenoSense", version = "0.4")
 public class OyVey {
     public static final String MODID = "renosense";
     public static final String MODNAME = "RenoSense";
-    public static final String MODVER = "0.3";
+    public static final String MODVER = "0.4";
     public static final Logger LOGGER = LogManager.getLogger("RenoSense");
     public static CommandManager commandManager;
     public static FriendManager friendManager;
@@ -142,7 +142,7 @@ public class OyVey {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        Display.setTitle("RenoSense v0.2");
+        Display.setTitle("RenoSense v0.4");
         setWindowsIcon();
         OyVey.load();
     }

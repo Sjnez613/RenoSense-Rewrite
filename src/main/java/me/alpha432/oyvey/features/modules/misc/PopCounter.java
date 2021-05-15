@@ -43,6 +43,7 @@ public class PopCounter
                 Command.sendMessage(ChatFormatting.RED + player.getName() + " died after popping " + ChatFormatting.GREEN + l_Count + ChatFormatting.RED + " Totems!");
             }
         }
+        return;
     }
 
     public void onTotemPop(EntityPlayer player) {
@@ -65,5 +66,6 @@ public class PopCounter
             Command.sendMessage(ChatFormatting.RED + player.getName() + " popped " + ChatFormatting.GREEN + l_Count + ChatFormatting.RED + " Totems.");
         }
     }
+
 }
 

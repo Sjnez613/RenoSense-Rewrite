@@ -6,6 +6,7 @@ import me.alpha432.oyvey.features.gui.OyVeyGui;
 import me.alpha432.oyvey.features.gui.components.items.Item;
 import me.alpha432.oyvey.features.gui.components.items.buttons.Button;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
+import me.alpha432.oyvey.features.modules.client.HUD;
 import me.alpha432.oyvey.util.ColorUtil;
 import me.alpha432.oyvey.util.RenderUtil;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -54,7 +55,7 @@ public class Component
         counter1 = new int[]{1};
         float totalItemHeight = this.open ? this.getTotalItemHeight() - 2.0f : 0.0f;
         int color = ColorUtil.toARGB(ClickGui.getInstance().topRed.getValue(), ClickGui.getInstance().topGreen.getValue(), ClickGui.getInstance().topBlue.getValue(), 255);
-        Gui.drawRect(this.x, this.y - 1, this.x + this.width, this.y + this.height - 6, ClickGui.getInstance().rainbow.getValue() != false ? ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB() : color);
+        Gui.drawRect(this.x, this.y - 1, this.x + this.width, this.y + this.height - 6, HUD.getInstance().rainbow.getValue() != false ? ColorUtil.rainbow(HUD.getInstance().rainbowHue.getValue()).getRGB() : color);
         if (this.open) {
             RenderUtil.drawRect(this.x, (float) this.y + 12.5f, this.x + this.width, (float) (this.y + this.height) + totalItemHeight, 0x77000000);
         }

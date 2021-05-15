@@ -14,7 +14,7 @@ public class AntiWeb extends Module {
 
 
     public AntiWeb() {
-        super("AntiWeb", "Turns on timer when in a web", Module.Category.COMBAT, true, false, false);
+        super("AntiWeb", "Turns on timer when in a web", Category.MOVEMENT, true, false, false);
         this.HoleOnly = (Setting<Boolean>) this.register(new Setting("HoleOnly", true));
     }
 
