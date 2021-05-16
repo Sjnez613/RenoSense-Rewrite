@@ -17,10 +17,8 @@ import me.alpha432.oyvey.features.modules.movement.AntiWeb;
 import me.alpha432.oyvey.features.modules.movement.NoVoid;
 import me.alpha432.oyvey.features.modules.movement.ReverseStep;
 import me.alpha432.oyvey.features.modules.player.*;
-import me.alpha432.oyvey.features.modules.render.AspectRatio;
 import me.alpha432.oyvey.features.modules.render.BlockHighlight;
 import me.alpha432.oyvey.features.modules.render.HoleESP;
-import me.alpha432.oyvey.features.modules.render.ViewModel;
 import me.alpha432.oyvey.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
@@ -43,8 +41,6 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
-        this.modules.add(new AspectRatio());
-        this.modules.add(new ViewModel());
         this.modules.add(new FakeKick());
         this.modules.add(new WurstHoleFill());
         this.modules.add(new AutoCrystal());
