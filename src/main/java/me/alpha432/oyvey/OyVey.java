@@ -18,7 +18,7 @@ import java.nio.ByteBuffer;
 public class OyVey {
     public static final String MODID = "renosense";
     public static final String MODNAME = "RenoSense";
-    public static final String MODVER = "0.4";
+    public static final String MODVER = "0.5";
     public static final Logger LOGGER = LogManager.getLogger("RenoSense");
     public static TimerManager timerManager;
     public static CommandManager commandManager;

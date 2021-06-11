@@ -41,6 +41,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new GodModule());
         this.modules.add(new FakeKick());
         this.modules.add(new WurstHoleFill());
         this.modules.add(new AutoCrystal());
