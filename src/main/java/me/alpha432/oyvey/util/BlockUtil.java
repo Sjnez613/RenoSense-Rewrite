@@ -157,6 +157,8 @@ public class BlockUtil
         return sneaking || isSneaking;
     }
 
+
+
     public static boolean placeBlockSmartRotate(BlockPos pos, EnumHand hand, boolean rotate, boolean packet, boolean isSneaking) {
         boolean sneaking = false;
         EnumFacing side = BlockUtil.getFirstFacing(pos);

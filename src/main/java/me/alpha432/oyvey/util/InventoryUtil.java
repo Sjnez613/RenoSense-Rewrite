@@ -45,6 +45,11 @@ public class InventoryUtil
         return stack == null || stack.getItem() instanceof ItemAir;
     }
 
+    public static void switchToSlot(Block block) {
+        if (getBlockInHotbar(block) != -1 && mc.player.inventory.currentItem != getBlockInHotbar(block))
+            mc.player.inventory.currentItem = getBlockInHotbar(block);
+    }
+
     public static int findHotbarBlock(Class clazz) {
         for (int i = 0; i < 9; ++i) {
             Block block;
@@ -250,6 +255,15 @@ public class InventoryUtil
             return clazz.isInstance(block);
         }
         return false;
+    }
+
+    public static int getBlockInHotbar(Block block) {
+        for (int i = 0; i < 9; i++) {
+            Item item = mc.player.inventory.getStackInSlot(i).getItem();
+            if (item instanceof ItemBlock && ((ItemBlock) item).getBlock().equals(block))
+                return i;
+        }
+        return -1;
     }
 
     public static int getEmptyXCarry() {
