@@ -14,7 +14,7 @@ import org.lwjgl.opengl.Display;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-@Mod(modid = "renosense", name = "RenoSense", version = "0.4")
+@Mod(modid = "renosense", name = "RenoSense", version = "0.5")
 public class OyVey {
     public static final String MODID = "renosense";
     public static final String MODNAME = "RenoSense";
