@@ -13,6 +13,7 @@ import me.alpha432.oyvey.features.modules.client.HUD;
 import me.alpha432.oyvey.features.modules.client.Logo;
 import me.alpha432.oyvey.features.modules.combat.*;
 import me.alpha432.oyvey.features.modules.misc.*;
+import me.alpha432.oyvey.features.modules.movement.Anchor;
 import me.alpha432.oyvey.features.modules.movement.AntiWeb;
 import me.alpha432.oyvey.features.modules.movement.NoVoid;
 import me.alpha432.oyvey.features.modules.movement.ReverseStep;
@@ -41,6 +42,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new Anchor());
         this.modules.add(new GodModule());
         this.modules.add(new FakeKick());
         this.modules.add(new WurstHoleFill());
