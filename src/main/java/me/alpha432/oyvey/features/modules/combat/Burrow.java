@@ -67,24 +67,24 @@ public class Burrow extends Module
             case OBBY: {
                 if (BurrowUtil.findHotbarBlock(BlockObsidian.class) == -1) {
                     Command.sendMessage("Can't find obby in hotbar!");
-                    this.toggle();
-                    break;
+                    this.disable();
+                    return;
                 }
                 break;
             }
             case ECHEST: {
                 if (BurrowUtil.findHotbarBlock(BlockEnderChest.class) == -1) {
                     Command.sendMessage("Can't find echest in hotbar!");
-                    this.toggle();
-                    break;
+                    this.disable();
+                    return;
                 }
                 break;
             }
             case EABypass: {
                 if (BurrowUtil.findHotbarBlock(BlockChest.class) == -1) {
                     Command.sendMessage("Can't find chest in hotbar!");
-                    this.toggle();
-                    break;
+                    this.disable();
+                    return;
                 }
                 break;
             }
