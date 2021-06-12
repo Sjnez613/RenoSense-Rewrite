@@ -37,6 +37,7 @@ public class Offhand
     public Setting<Boolean> gapple = this.register(new Setting<Boolean>("Gapple", true));
     public Setting<Boolean> armorCheck = this.register(new Setting<Boolean>("ArmorCheck", true));
     public Setting<Integer> actions = this.register(new Setting<Integer>("Packets", 4, 1, 4));
+    public Setting<Integer> fallDistance = this.register(new Setting<Integer>("FallDistance", 0, 0, 20));
     public Mode2 currentMode = Mode2.TOTEMS;
     public int totems = 0;
     public int crystals = 0;

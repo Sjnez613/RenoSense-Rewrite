@@ -31,6 +31,7 @@ public class HUD extends Module {
     private final Setting<Boolean> grayNess = register(new Setting("Gray", Boolean.valueOf(true)));
     private final Setting<Boolean> renderingUp = register(new Setting("RenderingUp", Boolean.valueOf(false), "Orientation of the HUD-Elements."));
     private final Setting<Boolean> waterMark = register(new Setting("Watermark", Boolean.valueOf(false), "displays watermark"));
+    private final Setting<Boolean> v = register(new Setting("Version", Boolean.valueOf(false), v -> this.waterMark.getValue()));
     private final Setting<Boolean> arrayList = register(new Setting("ActiveModules", Boolean.valueOf(false), "Lists the active modules."));
     private final Setting<Boolean> coords = register(new Setting("Coords", Boolean.valueOf(false), "Your current coordinates"));
     private final Setting<Boolean> direction = register(new Setting("Direction", Boolean.valueOf(false), "The Direction you are facing."));
@@ -134,6 +135,10 @@ public class HUD extends Module {
         this.color = ColorUtil.toRGBA((ClickGui.getInstance()).red.getValue().intValue(), (ClickGui.getInstance()).green.getValue().intValue(), (ClickGui.getInstance()).blue.getValue().intValue());
         if (this.waterMark.getValue().booleanValue()) {
             String string = this.command.getPlannedValue() + " " + OyVey.MODVER;
+            if (this.v.getValue().booleanValue()){
+                string = this.command.getPlannedValue() + " v" + OyVey.MODVER;
+
+            }
             if ((HUD.getInstance()).rainbow.getValue().booleanValue()) {
                 if ((HUD.getInstance()).rainbowModeHud.getValue() == HUD.rainbowMode.Static) {
                     this.renderer.drawString(string, 2.0F, this.waterMarkY.getValue().intValue(), ColorUtil.rainbow((HUD.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);

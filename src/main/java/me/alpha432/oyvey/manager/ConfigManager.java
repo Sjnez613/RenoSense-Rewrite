@@ -13,7 +13,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileAttribute;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -219,7 +218,7 @@ public class ConfigManager implements Util {
             }
             if (setting.isStringSetting()) {
                 String str = (String) setting.getValue();
-                setting.setValue(str.replace(" ", "_"));
+                setting.setValue(str.replace(" ", " "));
             }
             try {
                 object.add(setting.getName(), jp.parse(setting.getValueAsString()));
