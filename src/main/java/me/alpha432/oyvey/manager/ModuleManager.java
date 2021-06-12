@@ -42,6 +42,8 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new PhobosOffhand());
+        this.modules.add(new Burrow());
         this.modules.add(new Anchor());
         this.modules.add(new GodModule());
         this.modules.add(new FakeKick());
