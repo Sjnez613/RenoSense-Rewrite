@@ -1,4 +1,3 @@
 # RenoSense Rewrite
-Renosense !
-
-:3
+Renosense Rewrite By Sjnez
+- OyVey skid without the useless placeholder modules and added stuff
