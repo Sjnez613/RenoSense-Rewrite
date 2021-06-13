@@ -2,7 +2,7 @@ package me.alpha432.oyvey.features.modules.render;
 
 import me.alpha432.oyvey.features.modules.Module;
 
-public class TestModule extends Module{
+public class TestModule extends Module {
 
 
 
@@ -11,9 +11,9 @@ public class TestModule extends Module{
     }
 
 
-    @Override
     public void onUpdate() {
 
 
+        }
     }
-}
+
