@@ -60,16 +60,16 @@ public class RotationUtil
     public static String getDirection4D(boolean northRed) {
         int dirnumber = RotationUtil.getDirection4D();
         if (dirnumber == 0) {
-            return "South (+Z)";
+            return "South [+Z]";
         }
         if (dirnumber == 1) {
-            return "West (-X)";
+            return "West [-X]";
         }
         if (dirnumber == 2) {
-            return (northRed ? "\u00c2\u00a7c" : "") + "North (-Z)";
+            return (northRed ? "\u00c2\u00a7c" : "") + "North [-Z]";
         }
         if (dirnumber == 3) {
-            return "East (+X)";
+            return "East [+X]";
         }
         return "Loading...";
     }
