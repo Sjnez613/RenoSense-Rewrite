@@ -14,7 +14,7 @@ import me.alpha432.oyvey.features.modules.client.Logo;
 import me.alpha432.oyvey.features.modules.combat.*;
 import me.alpha432.oyvey.features.modules.misc.*;
 import me.alpha432.oyvey.features.modules.movement.AntiWeb;
-import me.alpha432.oyvey.features.modules.movement.NoVoid;
+import me.alpha432.oyvey.features.modules.movement.AntiVoid;
 import me.alpha432.oyvey.features.modules.movement.ReverseStep;
 import me.alpha432.oyvey.features.modules.player.*;
 import me.alpha432.oyvey.features.modules.render.BlockHighlight;
@@ -59,7 +59,7 @@ public class ModuleManager
         this.modules.add(new MCP());
         this.modules.add(new Speedmine());
         this.modules.add(new ReverseStep());
-        this.modules.add(new NoVoid());
+        this.modules.add(new AntiVoid());
         this.modules.add(new MCF());
         this.modules.add(new PearlNotify());
         this.modules.add(new ToolTips());
