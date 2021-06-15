@@ -8,6 +8,8 @@ import net.minecraft.util.math.Vec3d;
 public class AntiVoid
         extends Module {
     public Setting<Float> yLevel = this.register(new Setting<Float>("YLevel", 0.5F, 0.1F, 10.0F));
+    public Setting<Double> yForce = this.register(new Setting<Double>("YMotion", 0.41, 0.0, 1.0));
+
 
 
     public AntiVoid() {
@@ -24,7 +26,7 @@ public class AntiVoid
             if (trace != null && trace.typeOfHit == RayTraceResult.Type.BLOCK) {
                 return;
             }
-            AntiVoid.mc.player.motionY = 0.41;
+            AntiVoid.mc.player.motionY = yForce.getValue();
             if (AntiVoid.mc.player.getRidingEntity() != null) {
                 AntiVoid.mc.player.getRidingEntity().setVelocity(0.0, 0.41, 0.0);
             }
