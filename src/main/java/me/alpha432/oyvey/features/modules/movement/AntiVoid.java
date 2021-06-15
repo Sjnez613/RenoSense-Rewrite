@@ -28,7 +28,7 @@ public class AntiVoid
             }
             AntiVoid.mc.player.motionY = yForce.getValue();
             if (AntiVoid.mc.player.getRidingEntity() != null) {
-                AntiVoid.mc.player.getRidingEntity().setVelocity(0.0, 0.41, 0.0);
+                AntiVoid.mc.player.getRidingEntity().motionY = yForce.getValue();
             }
         }
     }
