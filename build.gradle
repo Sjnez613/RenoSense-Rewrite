@@ -35,7 +35,7 @@ minecraft {
     version = project.forgeVersion
     runDir = 'run'
     mappings = project.mcpVersion
-    coreMod = 'me.alpha432.oyvey.mixin.OyVeyMixinLoader'
+    coreMod = 'me.alpha432.oyvey.mixin.OyVeyLoader'
     makeObfSourceJar = false
 }
 
@@ -113,7 +113,7 @@ jar {
                 'tweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
                 'TweakOrder': 0,
                 'FMLCorePluginContainsFMLMod': 'true',
-                'FMLCorePlugin': 'me.alpha432.oyvey.mixin.OyVeyMixinLoader',
+                'FMLCorePlugin': 'me.alpha432.oyvey.mixin.OyVeyLoader',
                 'ForceLoadAsMod': 'true',
                 'FMLAT': 'oyvey_at.cfg'
         )

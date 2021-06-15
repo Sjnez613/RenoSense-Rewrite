@@ -17,6 +17,7 @@ import me.alpha432.oyvey.features.modules.movement.AntiWeb;
 import me.alpha432.oyvey.features.modules.movement.AntiVoid;
 import me.alpha432.oyvey.features.modules.movement.ReverseStep;
 import me.alpha432.oyvey.features.modules.player.*;
+import me.alpha432.oyvey.features.modules.render.Aspect;
 import me.alpha432.oyvey.features.modules.render.BlockHighlight;
 import me.alpha432.oyvey.features.modules.render.HoleESP;
 import me.alpha432.oyvey.util.Util;
@@ -41,6 +42,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new Aspect());
         this.modules.add(new PhobosOffhand());
         this.modules.add(new Burrow());
         this.modules.add(new GodModule());

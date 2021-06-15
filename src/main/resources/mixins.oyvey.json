@@ -4,6 +4,7 @@
   "package": "me.alpha432.oyvey.mixin.mixins",
   "refmap": "mixins.oyvey.refmap.json",
   "mixins": [
+    "MixinEntityRenderer",
     "MixinEntityPlayerSP",
     "MixinGuiScreen",
     "MixinItemRenderer",
