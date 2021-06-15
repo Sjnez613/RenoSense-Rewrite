@@ -44,7 +44,6 @@ public class ModuleManager
         this.modules.add(new PhobosOffhand());
         this.modules.add(new Burrow());
         this.modules.add(new GodModule());
-        this.modules.add(new FakeKick());
         this.modules.add(new WurstHoleFill());
         this.modules.add(new AutoCrystal());
         this.modules.add(new QueueSkip());
