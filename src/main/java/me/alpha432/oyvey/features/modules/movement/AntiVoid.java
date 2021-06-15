@@ -24,7 +24,7 @@ public class AntiVoid
             if (trace != null && trace.typeOfHit == RayTraceResult.Type.BLOCK) {
                 return;
             }
-            AntiVoid.mc.player.setVelocity(0.0, 0.41, 0.0);
+            AntiVoid.mc.player.motionY = 0.41;
             if (AntiVoid.mc.player.getRidingEntity() != null) {
                 AntiVoid.mc.player.getRidingEntity().setVelocity(0.0, 0.41, 0.0);
             }
