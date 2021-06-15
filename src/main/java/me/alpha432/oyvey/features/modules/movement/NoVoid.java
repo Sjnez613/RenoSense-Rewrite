@@ -20,9 +20,9 @@ public class NoVoid
             if (trace != null && trace.typeOfHit == RayTraceResult.Type.BLOCK) {
                 return;
             }
-            NoVoid.mc.player.setVelocity(0.0, 0.0, 0.0);
+            NoVoid.mc.player.setVelocity(0.0, 1.0, 0.0);
             if (NoVoid.mc.player.getRidingEntity() != null) {
-                NoVoid.mc.player.getRidingEntity().setVelocity(0.0, 0.0, 0.0);
+                NoVoid.mc.player.getRidingEntity().setVelocity(0.0, 1.0, 0.0);
             }
         }
     }
