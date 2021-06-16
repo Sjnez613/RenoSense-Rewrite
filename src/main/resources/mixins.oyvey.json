@@ -12,6 +12,7 @@
     "MixinNetworkManager",
     "MixinPlayerControllerMP",
     "MixinRenderLivingBase",
-    "MixinWorld"
+    "MixinWorld",
+    "MixinFontRenderer"
   ]
 }

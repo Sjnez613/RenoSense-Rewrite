@@ -7,10 +7,7 @@ import me.alpha432.oyvey.event.events.Render3DEvent;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.gui.OyVeyGui;
 import me.alpha432.oyvey.features.modules.Module;
-import me.alpha432.oyvey.features.modules.client.ClickGui;
-import me.alpha432.oyvey.features.modules.client.FontMod;
-import me.alpha432.oyvey.features.modules.client.HUD;
-import me.alpha432.oyvey.features.modules.client.Logo;
+import me.alpha432.oyvey.features.modules.client.*;
 import me.alpha432.oyvey.features.modules.combat.*;
 import me.alpha432.oyvey.features.modules.misc.*;
 import me.alpha432.oyvey.features.modules.movement.AntiWeb;
@@ -40,6 +37,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new NickHider());
         this.modules.add(new SkyColor());
         this.modules.add(new ViewModel());
         this.modules.add(new Aspect());
