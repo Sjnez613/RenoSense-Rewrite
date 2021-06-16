@@ -22,6 +22,7 @@ public abstract class MixinFontRenderer {
     public void renderStringAtPosHook(FontRenderer renderer, String text, boolean shadow) {
         if (NickHider.getInstance().isOn()) {
             this.renderStringAtPos(text.replace(Minecraft.getMinecraft().getSession().getUsername(), NickHider.getInstance().NameString.getValueAsString()), shadow);
+
         } else {
             this.renderStringAtPos(text, shadow);
         }
