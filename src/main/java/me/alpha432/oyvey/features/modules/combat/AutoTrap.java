@@ -22,7 +22,7 @@ public class AutoTrap
         extends Module {
     public static boolean isPlacing = false;
     private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 50, 0, 250));
-    private final Setting<Integer> blocksPerPlace = this.register(new Setting<Integer>("BlocksPerTick", 8, 1, 30));
+    private final Setting<Integer> blocksPerPlace = this.register(new Setting<Integer>("BlocksPerTick", 8, 1, 20));
     private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Rotate", true));
     private final Setting<Boolean> raytrace = this.register(new Setting<Boolean>("Raytrace", false));
     private final Setting<Boolean> antiScaffold = this.register(new Setting<Boolean>("AntiScaffold", false));

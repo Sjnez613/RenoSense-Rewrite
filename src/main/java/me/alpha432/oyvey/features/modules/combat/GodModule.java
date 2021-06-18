@@ -35,8 +35,8 @@ public class GodModule
     public Setting<Boolean> checkPos = this.register(new Setting<Boolean>("CheckPos", true));
     public Setting<Boolean> oneDot15 = this.register(new Setting<Boolean>("1.15", false));
     public Setting<Boolean> entitycheck = this.register(new Setting<Boolean>("EntityCheck", false));
-    public Setting<Integer> attacks = this.register(new Setting<Integer>("Attacks", 1, 1, 10));
-    public Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 0, 0, 50));
+    public Setting<Integer> attacks = this.register(new Setting<Integer>("Attacks", 1, 1, 20));
+    public Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 20, 0, 100));
     private float yaw = 0.0f;
     private float pitch = 0.0f;
     private boolean rotating;

@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class TotemKick extends Module{
     public static HashMap<String, Integer> TotemPopContainer = new HashMap();
-    public Setting<Integer> attacks = this.register(new Setting<Integer>("Pops", 4, 1, 20));
+    public Setting<Integer> attacks = this.register(new Setting<Integer>("Pops", 4, 1, 36));
     private static TotemKick INSTANCE = new TotemKick();
 
     public TotemKick() {

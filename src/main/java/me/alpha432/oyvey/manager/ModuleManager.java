@@ -37,6 +37,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new FastLog());
         this.modules.add(new TotemKick());
         this.modules.add(new NickHider());
         this.modules.add(new SkyColor());

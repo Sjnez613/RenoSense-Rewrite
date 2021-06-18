@@ -20,7 +20,7 @@ public class AutoWeb
         extends Module {
     public static boolean isPlacing = false;
     private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 50, 0, 250));
-    private final Setting<Integer> blocksPerPlace = this.register(new Setting<Integer>("BlocksPerTick", 8, 1, 30));
+    private final Setting<Integer> blocksPerPlace = this.register(new Setting<Integer>("BlocksPerTick", 8, 1, 20));
     private final Setting<Boolean> packet = this.register(new Setting<Boolean>("PacketPlace", false));
     private final Setting<Boolean> disable = this.register(new Setting<Boolean>("AutoDisable", false));
     private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Rotate", true));
