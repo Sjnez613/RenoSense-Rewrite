@@ -3,15 +3,19 @@ package me.alpha432.oyvey.features.gui;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.gui.components.Component;
+import me.alpha432.oyvey.features.gui.components.Snow;
 import me.alpha432.oyvey.features.gui.components.items.Item;
 import me.alpha432.oyvey.features.gui.components.items.buttons.ModuleButton;
 import me.alpha432.oyvey.features.modules.Module;
+import me.alpha432.oyvey.features.modules.client.ClickGui;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Random;
 
 public class OyVeyGui
         extends GuiScreen {
@@ -24,9 +28,13 @@ public class OyVeyGui
 
     private final ArrayList<Component> components = new ArrayList();
 
+    private ArrayList<Snow> _snowList = new ArrayList<Snow>();
+
+
     public OyVeyGui() {
         this.setInstance();
         this.load();
+
     }
 
     public static OyVeyGui getInstance() {
@@ -46,6 +54,19 @@ public class OyVeyGui
 
     private void load() {
         int x = -84;
+
+        Random random = new Random(); {
+
+        for (int i = 0; i < 100; ++i)
+        {
+            for (int y = 0; y < 3; ++y)
+            {
+                Snow snow = new Snow(25 * i, y * -50, random.nextInt(3) + 1, random.nextInt(2)+1);
+                _snowList.add(snow);
+            }
+        }
+    }
+
         for (final Module.Category category : OyVey.moduleManager.getCategories()) {
             this.components.add(new Component(category.getName(), x += 90, 4, true) {
 
@@ -75,10 +96,21 @@ public class OyVeyGui
         }
     }
 
+    private OyVeyGui ClickGuiMod;
+
+
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.checkMouseWheel();
         this.drawDefaultBackground();
         this.components.forEach(components -> components.drawScreen(mouseX, mouseY, partialTicks));
+
+        final ScaledResolution res = new ScaledResolution(mc);
+
+
+        if (!_snowList.isEmpty() && ClickGui.getInstance().snowing.getValue())
+        {
+            _snowList.forEach(snow -> snow.Update(res));
+        }
     }
 
     public void mouseClicked(int mouseX, int mouseY, int clickedButton) {
