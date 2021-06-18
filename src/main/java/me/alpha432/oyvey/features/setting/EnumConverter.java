@@ -32,7 +32,7 @@ public class EnumConverter
     }
 
     public static String getProperName(Enum clazz) {
-        return Character.toUpperCase(clazz.name().charAt(0)) + clazz.name().toLowerCase().substring(1);
+        return clazz.name().charAt(0) + clazz.name().toLowerCase().substring(1);
     }
 
     public JsonElement doForward(Enum anEnum) {
