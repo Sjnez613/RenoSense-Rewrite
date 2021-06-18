@@ -16,13 +16,15 @@ public class FastLog
     }
 
     public void onEnable() {
-        if (!FakeKick.getValue())
+        if (!FakeKick.getValue()) {
 
             Minecraft.getMinecraft().getConnection().handleDisconnect(new SPacketDisconnect(new TextComponentString("[FastLog] Logged out")));
-        this.disable();
+            this.disable();
+            {
 
-        if (FakeKick.getValue())
-        Minecraft.getMinecraft().getConnection().handleDisconnect(new SPacketDisconnect(new TextComponentString("Internal Exception: java.lang.NullPointerException")));
-        this.disable();
+                Minecraft.getMinecraft().getConnection().handleDisconnect(new SPacketDisconnect(new TextComponentString("Internal Exception: java.lang.NullPointerException")));
+                this.disable();
+            }
+        }
     }
 }
