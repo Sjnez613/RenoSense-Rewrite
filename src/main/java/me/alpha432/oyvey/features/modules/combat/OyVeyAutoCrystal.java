@@ -61,6 +61,7 @@ public class OyVeyAutoCrystal
     public Setting<Boolean> opPlace = this.register(new Setting<Boolean>("1.13 Place", true));
     public Setting<Boolean> suicide = this.register(new Setting<Boolean>("AntiSuicide", true));
     public Setting<Boolean> autoswitch = this.register(new Setting<Boolean>("AutoSwitch", true));
+    public Setting<Boolean> silent = this.register(new Setting<Boolean>("Silent", false, v -> this.autoswitch.getValue()));
     public Setting<Boolean> ignoreUseAmount = this.register(new Setting<Boolean>("IgnoreUseAmount", true));
     public Setting<Integer> wasteAmount = this.register(new Setting<Integer>("UseAmount", 4, 1, 5));
     public Setting<Boolean> facePlaceSword = this.register(new Setting<Boolean>("FacePlaceSword", true));
@@ -290,7 +291,11 @@ public class OyVeyAutoCrystal
             this.realTarget = this.target;
             if (this.hotBarSlot != -1 && this.autoswitch.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS)) {
                 OyVeyAutoCrystal.mc.player.inventory.currentItem = this.hotBarSlot;
+            }else if (this.hotBarSlot != -1 && this.silent.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS)) {
+                InventoryUtil.switchToHotbarSlot(this.hotBarSlot, true);
+
             }
+
             if (!this.ignoreUseAmount.getValue().booleanValue()) {
                 int crystalLimit = this.wasteAmount.getValue();
                 if (this.crystalCount >= crystalLimit) {

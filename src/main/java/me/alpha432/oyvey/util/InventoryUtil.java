@@ -27,6 +27,7 @@ public class InventoryUtil
         if (silent) {
             InventoryUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
             InventoryUtil.mc.playerController.updateController();
+
         } else {
             InventoryUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
             InventoryUtil.mc.player.inventory.currentItem = slot;

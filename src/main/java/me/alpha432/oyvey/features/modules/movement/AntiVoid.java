@@ -7,7 +7,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class AntiVoid
         extends Module {
-    public Setting<Float> yLevel = this.register(new Setting<Double>("YLevel", 1.0, 0.1, 8.0));
+    public Setting<Float> yLevel = this.register(new Setting<Double>("YLevel", 1.0, 0.1, 5.0));
     public Setting<Double> yForce = this.register(new Setting<Double>("YMotion", 0.1, 0.0, 1.0));
 
 
