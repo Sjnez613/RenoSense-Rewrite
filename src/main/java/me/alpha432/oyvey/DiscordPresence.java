@@ -30,8 +30,7 @@ public class DiscordPresence
         DiscordPresence.presence.partyId = "ae488379-351d-4a4f-ad32-2b9b01c91657";
         DiscordPresence.presence.partyMax = 50;
         DiscordPresence.presence.partySize = 1;
-        DiscordPresence.presence.spectateSecret = "c2puZXpzcGVjdDR0ZWxvbA==";
-        DiscordPresence.presence.joinSecret = "cmVub1MzbnNlam9pbg==";
+        DiscordPresence.presence.joinSecret = "MTI4NzM0OjFpMmhuZToxMjMxMjM=";
         DiscordPresence.rpc.Discord_UpdatePresence(DiscordPresence.presence);
         (DiscordPresence.thread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
@@ -69,11 +68,7 @@ public class DiscordPresence
         }
         DiscordPresence.rpc.Discord_Shutdown();
     }
-
-    public static void accept( ) {
-
-    }
-
+    
     static {
         rpc = DiscordRPC.INSTANCE;
         DiscordPresence.presence = new DiscordRichPresence();
