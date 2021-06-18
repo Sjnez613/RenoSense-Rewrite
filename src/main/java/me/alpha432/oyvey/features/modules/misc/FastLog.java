@@ -8,15 +8,14 @@ import net.minecraft.util.text.TextComponentString;
 
 public class FastLog
         extends Module {
-    private final Setting<Boolean> FakeKick;
+    private final Setting<Boolean> fakeKick = this.register(new Setting<Boolean>("FakeKick", false));
 
     public FastLog() {
         super("FastLog", "Log with the press of a button", Category.PLAYER, true, false, false);
-        this.FakeKick = (Setting<Boolean>) this.register(new Setting("FakeKick", false));
     }
 
     public void onEnable() {
-        if (!FakeKick.getValue()) {
+        if (!fakeKick.getValue()) {
 
             Minecraft.getMinecraft().getConnection().handleDisconnect(new SPacketDisconnect(new TextComponentString("[FastLog] Logged out")));
             this.disable();
