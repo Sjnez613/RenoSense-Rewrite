@@ -289,11 +289,11 @@ public class OyVeyAutoCrystal
                 return;
             }
             this.realTarget = this.target;
-            if (this.hotBarSlot != -1 && this.autoswitch.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS)) {
+            if (this.hotBarSlot != -1 && this.autoswitch.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS) && this.silent.getValue().booleanValue() == false) {
                 OyVeyAutoCrystal.mc.player.inventory.currentItem = this.hotBarSlot;
             }else if (this.hotBarSlot != -1 && this.silent.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS)) {
                 InventoryUtil.switchToHotbarSlot(this.hotBarSlot, true);
-
+                InventoryUtil.mc.playerController.updateController();
             }
 
             if (!this.ignoreUseAmount.getValue().booleanValue()) {
