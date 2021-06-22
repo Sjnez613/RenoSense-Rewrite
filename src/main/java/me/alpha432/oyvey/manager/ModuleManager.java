@@ -37,6 +37,8 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new NoRender());
+        this.modules.add(new CustomChat());
         this.modules.add(new FastLog());
         this.modules.add(new TotemKick());
         this.modules.add(new NickHider());
