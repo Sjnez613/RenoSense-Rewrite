@@ -24,8 +24,6 @@ public class CustomChat
     public Setting<Boolean> autoQMain = this.register(new Setting<Boolean>("AutoQMain", Boolean.valueOf(false), "Spams AutoQMain"));
     public Setting<Boolean> qNotification = this.register(new Setting<Object>("QNotification", Boolean.valueOf(false), v -> this.autoQMain.getValue()));
     public Setting<Integer> qDelay = this.register(new Setting<Object>("QDelay", Integer.valueOf(9), Integer.valueOf(1), Integer.valueOf(90), v -> this.autoQMain.getValue()));
-    public Setting<TextUtil.Color> timeStamps = this.register(new Setting<TextUtil.Color>("Time", TextUtil.Color.NONE));
-    public Setting<TextUtil.Color> bracket = this.register(new Setting<Object>("Bracket", (Object)TextUtil.Color.WHITE, v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
     private final Timer timer = new Timer();
     private static CustomChat INSTANCE = new CustomChat();
 
@@ -89,23 +87,6 @@ public class CustomChat
         if (event.getStage() != 0 || event.getPacket() instanceof SPacketChat) {
             // empty if block
         }
-    }
-
-    @SubscribeEvent
-    public void onPacketReceive(PacketEvent.Receive event) {
-        if (event.getStage() == 0 && this.timeStamps.getValue() != TextUtil.Color.NONE && event.getPacket() instanceof SPacketChat) {
-            if (!((SPacketChat)event.getPacket()).isSystem()) {
-                return;
-            }
-            String originalMessage = ((SPacketChat)event.getPacket()).chatComponent.getFormattedText();
-            String message = this.getTimeString() + originalMessage;
-            ((SPacketChat)event.getPacket()).chatComponent = new TextComponentString(message);
-        }
-    }
-
-    public String getTimeString() {
-        String date = new SimpleDateFormat("k:mm").format(new Date());
-        return (this.bracket.getValue() == TextUtil.Color.NONE ? "" : TextUtil.coloredString("<", this.bracket.getValue())) + TextUtil.coloredString(date, this.timeStamps.getValue()) + (this.bracket.getValue() == TextUtil.Color.NONE ? "" : TextUtil.coloredString(">", this.bracket.getValue())) + "\u00a7r";
     }
 
     private boolean shouldSendMessage(EntityPlayer player) {
