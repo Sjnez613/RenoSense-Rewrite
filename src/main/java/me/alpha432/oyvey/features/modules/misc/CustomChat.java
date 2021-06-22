@@ -30,7 +30,7 @@ public class CustomChat
     private static CustomChat INSTANCE = new CustomChat();
 
     public CustomChat() {
-        super("Chat", "Modifies your chat", Module.Category.MISC, true, false, false);
+        super("CustomChat", "Modifies your chat", Module.Category.MISC, true, false, false);
         this.setInstance();
     }
 
