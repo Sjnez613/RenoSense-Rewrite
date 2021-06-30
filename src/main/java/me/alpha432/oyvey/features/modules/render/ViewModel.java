@@ -28,7 +28,6 @@ public class ViewModel extends Module {
     public Setting<Double> offScaleY = this.register(new Setting<Double>("offScaleY", 1.0, -5.0, 10.0));
     public Setting<Double> offScaleZ = this.register(new Setting<Double>("offScaleZ", 1.0, -5.0, 10.0));
 
-    // Like look at all this shit xd
 
     public ViewModel() {
         super("ViewModel", "Cool", Category.RENDER, true, false, false);
@@ -63,4 +62,8 @@ public class ViewModel extends Module {
         event.setOffHandScaleY(offScaleY.getValue());
         event.setOffHandScaleZ(offScaleZ.getValue());
     }
+
+
+
+
 }
