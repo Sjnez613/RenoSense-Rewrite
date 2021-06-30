@@ -13,6 +13,9 @@
     "MixinPlayerControllerMP",
     "MixinRenderLivingBase",
     "MixinWorld",
-    "MixinFontRenderer"
+    "MixinFontRenderer",
+    "MixinGuiToast",
+    "MixinRenderGlobal",
+    "MixinLayerArmorBase"
   ]
 }
