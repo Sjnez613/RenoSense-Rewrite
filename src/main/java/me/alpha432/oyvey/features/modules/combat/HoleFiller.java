@@ -32,6 +32,7 @@ public class HoleFiller extends Module {
     private final Setting<Integer> range;
     private final Setting<Integer> delay;
     private final Setting<Integer> blocksPerTick;
+    private final Setting<Boolean> rotate;
     private final Timer offTimer;
     private final Timer timer;
     private final Map<BlockPos, Integer> retries;
@@ -40,8 +41,10 @@ public class HoleFiller extends Module {
     private ArrayList<BlockPos> holes;
     private int trie;
 
+
     public HoleFiller() {
         super("HoleFiller", "Fills holes around you.", Category.COMBAT, true, false, true);
+        this.rotate = (Setting<Boolean>) this.register(new Setting("Rotate", false));
         this.range = (Setting<Integer>) this.register(new Setting("PlaceRange", 8, 0, 10));
         this.delay = (Setting<Integer>) this.register(new Setting("Delay", 50, 0, 250));
         this.blocksPerTick = (Setting<Integer>) this.register(new Setting("BlocksPerTick", 20, 8, 30));
@@ -76,14 +79,17 @@ public class HoleFiller extends Module {
 
     @Override
     public void onTick() {
-        if (this.isOn()) {
+        if (this.isOn() || !this.rotate.getValue().booleanValue()) {
             this.doHoleFill();
         }
+
     }
 
     @Override
     public void onDisable() {
+
         this.retries.clear();
+
     }
 
     private void doHoleFill() {
@@ -104,6 +110,8 @@ public class HoleFiller extends Module {
         this.holes.forEach(this::placeBlock);
         this.toggle();
     }
+
+
 
     private void placeBlock(final BlockPos pos) {
         for (final Entity entity : HoleFiller.mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos))) {

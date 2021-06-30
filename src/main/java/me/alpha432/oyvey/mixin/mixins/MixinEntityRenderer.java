@@ -1,6 +1,7 @@
 package me.alpha432.oyvey.mixin.mixins;
 
 import me.alpha432.oyvey.event.events.PerspectiveEvent;
+import me.alpha432.oyvey.features.modules.render.NoRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -9,7 +10,9 @@ import org.lwjgl.util.glu.Project;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = EntityRenderer.class, priority = 1001)
 public class MixinEntityRenderer {
@@ -80,6 +83,19 @@ public class MixinEntityRenderer {
 //            callbackInfo.cancel();
 //        }
 //    }
+
+
+
+
+    @Inject(method={"updateLightmap"}, at={@At(value="HEAD")}, cancellable=true)
+    private void updateLightmap(float partialTicks, CallbackInfo info) {
+        if (NoRender.getInstance().isOn() && (NoRender.getInstance().skylight.getValue() == NoRender.Skylight.ENTITY || NoRender.getInstance().skylight.getValue() == NoRender.Skylight.ALL)) {
+            info.cancel();
+        }
+    }
+
+
+
 
     @Redirect(method = "setupCameraTransform", at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
     private void onSetupCameraTransform(float fovy, float aspect, float zNear, float zFar) {

@@ -22,7 +22,7 @@ public class WurstHoleFill extends Module {
         super("WurstHoleFill", "fills holes", Module.Category.COMBAT, true, false, false);
     }
 
-    public Setting<Boolean> hole_toggle = this.register(new Setting<Boolean>("Toggle", true));
+    public Setting<Boolean> hole_toggle = this.register(new Setting<Boolean>("Toggle", false));
     public Setting<Boolean> hole_rotate = this.register(new Setting<Boolean>("Rotate", false));
     public Setting<Integer> hole_range = this.register(new Setting<Integer>("Range", 4, 1, 6));
 
@@ -50,14 +50,12 @@ public class WurstHoleFill extends Module {
             return;
         }
 
-        if (holes.isEmpty()) {
-            if (!hole_toggle.getValue()) {
-                this.toggle();
-                return;
-
-            } else {
-                find_new_holes();
-            }
+        BlockPos posToFill = null;
+        if (holes.isEmpty() && hole_toggle.getValue()) {
+            this.disable();
+            return;
+        } else {
+            find_new_holes();
         }
 
         BlockPos pos_to_fill = null;
@@ -84,10 +82,13 @@ public class WurstHoleFill extends Module {
         if (pos_to_fill != null) {
             int obbySlot = InventoryUtil.findHotbarBlock(BlockObsidian.class);
             int echestSlot = InventoryUtil.findHotbarBlock(BlockEnderChest.class);
-            InventoryUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(obbySlot));
-            InventoryUtil.mc.playerController.updateController();
-            InventoryUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(echestSlot));
-            InventoryUtil.mc.playerController.updateController();
+            if (obbySlot == -1) { InventoryUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(echestSlot));
+                InventoryUtil.mc.playerController.updateController(); }
+            if (echestSlot == -1) { InventoryUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(obbySlot));
+                InventoryUtil.mc.playerController.updateController(); } else if (echestSlot != -1 && obbySlot != -1) {
+                InventoryUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(obbySlot));
+                InventoryUtil.mc.playerController.updateController();
+            }
             if (BlockUtil.placeBlock(pos_to_fill, EnumHand.MAIN_HAND, hole_rotate.getValue(), false, false)) {
                 holes.remove(pos_to_fill);
             }
@@ -97,6 +98,7 @@ public class WurstHoleFill extends Module {
             InventoryUtil.mc.playerController.updateController();
         }
     }
+
 
 
 

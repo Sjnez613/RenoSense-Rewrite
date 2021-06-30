@@ -115,7 +115,7 @@ public class PhobosOffhand extends Module {
     private boolean switchedForHealthReason = false;
 
     public PhobosOffhand() {
-        super("PhobosOffhand", "Allows you to switch up your Offhand.", Module.Category.COMBAT, true, false, false);
+        super("PhobosOffhand", "Allows you to switch up your Offhand.", Module.Category.COMBAT, true, true, false);
         instance = this;
     }
 

@@ -24,8 +24,8 @@ public class DiscordPresence
         DiscordPresence.presence.details = ((Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu) ? "In the main menu." : ("Playing " + ((Minecraft.getMinecraft().getCurrentServerData() != null) ? (RPC.INSTANCE.showIP.getValue() ? ("on " + Minecraft.getMinecraft().getCurrentServerData().serverIP + ".") : " multiplayer.") : " singleplayer.")));
         DiscordPresence.presence.state = RPC.INSTANCE.state.getValue();
         DiscordPresence.presence.largeImageText = RPC.INSTANCE.largeImageText.getValue();
-        DiscordPresence.presence.smallImageKey = "skitttyy";
-        DiscordPresence.presence.largeImageKey = "renosense";
+        DiscordPresence.presence.smallImageKey = RPC.INSTANCE.smallImage.getValue().toString();
+        DiscordPresence.presence.largeImageKey = RPC.INSTANCE.largeImage.getValue().toString();
         DiscordPresence.presence.smallImageText = RPC.INSTANCE.smallImageText.getValue();
         DiscordPresence.presence.partyId = "ae488379-351d-4a4f-ad32-2b9b01c91657";
         DiscordPresence.presence.partyMax = 50;
