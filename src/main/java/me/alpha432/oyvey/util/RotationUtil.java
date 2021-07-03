@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.util;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import me.alpha432.oyvey.features.modules.client.HUD;
+import me.alpha432.oyvey.features.modules.client.ClickGui;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.CPacketPlayer;
@@ -62,24 +62,24 @@ public class RotationUtil
     public static String getDirection4D(boolean northRed) {
         int dirnumber = RotationUtil.getDirection4D();
         if (dirnumber == 0) {
-            if(!HUD.getInstance().rainbow.getValue().booleanValue()){
+            if(!ClickGui.getInstance().rainbow.getValue().booleanValue()){
                 return "South " + ChatFormatting.WHITE + "[" + ChatFormatting.RESET + "+Z" + ChatFormatting.WHITE + "]";}
             return "South [+Z]";
 
         }
         if (dirnumber == 1) {
-            if(!HUD.getInstance().rainbow.getValue().booleanValue()){
+            if(!ClickGui.getInstance().rainbow.getValue().booleanValue()){
             return "West " + ChatFormatting.WHITE + "[" + ChatFormatting.RESET + "-X" + ChatFormatting.WHITE + "]";}
             return "West [-X]";
         }
         if (dirnumber == 2) {
-            if(!HUD.getInstance().rainbow.getValue().booleanValue()){
+            if(!ClickGui.getInstance().rainbow.getValue().booleanValue()){
                 return (northRed ? "\u00c2\u00a7c" : "") + "North " + ChatFormatting.WHITE + "[" + ChatFormatting.RESET + "-Z" + ChatFormatting.WHITE + "]";}
             return "North [-Z]";
 
         }
         if (dirnumber == 3) {
-            if(!HUD.getInstance().rainbow.getValue().booleanValue()){
+            if(!ClickGui.getInstance().rainbow.getValue().booleanValue()){
                 return "East " + ChatFormatting.WHITE + "[" + ChatFormatting.RESET + "+X" + ChatFormatting.WHITE + "]";}
             return "East [+X]";
 

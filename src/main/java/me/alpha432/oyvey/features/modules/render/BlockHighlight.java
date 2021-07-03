@@ -26,7 +26,7 @@ public class BlockHighlight
         RayTraceResult ray = BlockHighlight.mc.objectMouseOver;
         if (ray != null && ray.typeOfHit == RayTraceResult.Type.BLOCK) {
             BlockPos blockpos = ray.getBlockPos();
-            RenderUtil.drawBlockOutline(blockpos, HUD.getInstance().rainbow.getValue() != false ? ColorUtil.rainbow(HUD.getInstance().rainbowHue.getValue()) : new Color(ClickGui.getInstance().red.getValue(), ClickGui.getInstance().green.getValue(), ClickGui.getInstance().blue.getValue(), this.cAlpha.getValue()), this.lineWidth.getValue().floatValue(), false);
+            RenderUtil.drawBlockOutline(blockpos, ClickGui.getInstance().rainbow.getValue() != false ? ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()) : new Color(ClickGui.getInstance().red.getValue(), ClickGui.getInstance().green.getValue(), ClickGui.getInstance().blue.getValue(), this.cAlpha.getValue()), this.lineWidth.getValue().floatValue(), false);
         }
     }
 }
