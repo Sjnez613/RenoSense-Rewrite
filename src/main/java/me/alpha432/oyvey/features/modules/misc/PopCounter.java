@@ -13,7 +13,7 @@ public class PopCounter
     private static PopCounter INSTANCE = new PopCounter();
 
     public PopCounter() {
-        super("PopCo  unter", "Counts other players totem pops.", Module.Category.MISC, true, true, false);
+        super("PopCounter", "Counts other players totem pops.", Module.Category.MISC, true, true, false);
         this.setInstance();
     }
 
