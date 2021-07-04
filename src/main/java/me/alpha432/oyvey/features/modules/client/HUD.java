@@ -49,6 +49,7 @@ public class HUD extends Module {
     public Setting<Integer> rainbowSpeed = this.register(new Setting<Object>("PrefixSpeed", Integer.valueOf(20), Integer.valueOf(0), Integer.valueOf(100), v -> this.rainbowPrefix.getValue()));
     private final Timer timer = new Timer();
     private final Map<String, Integer> players = new HashMap<>();
+    public Setting<Boolean> commandPrefix = register(new Setting("CommandPrefix", true));
     public Setting<String> command = register(new Setting("Command", "RenoSense"));
     public Setting<TextUtil.Color> bracketColor = register(new Setting("BracketColor", TextUtil.Color.BLUE));
     public Setting<TextUtil.Color> commandColor = register(new Setting("NameColor", TextUtil.Color.BLUE));

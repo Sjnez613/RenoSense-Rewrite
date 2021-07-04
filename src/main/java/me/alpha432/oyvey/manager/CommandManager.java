@@ -72,7 +72,8 @@ public class CommandManager
     }
 
     public String getClientMessage() {
-        return this.clientMessage;
+            return this.clientMessage;
+
     }
 
     public void setClientMessage(String clientMessage) {
