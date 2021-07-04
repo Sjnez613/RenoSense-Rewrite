@@ -6,23 +6,21 @@ import me.alpha432.oyvey.event.events.ClientEvent;
 import me.alpha432.oyvey.event.events.Render2DEvent;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.setting.Setting;
+import me.alpha432.oyvey.util.Timer;
 import me.alpha432.oyvey.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.Display;
 
-import java.awt.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class HUD extends Module {
     private static final ResourceLocation box = new ResourceLocation("textures/gui/container/shulker_box.png");
@@ -64,9 +62,7 @@ public class HUD extends Module {
     public Setting<Integer> lagTime = register(new Setting("LagTime", Integer.valueOf(1000), Integer.valueOf(0), Integer.valueOf(2000)));
     public Setting<Boolean> colorSync = this.register(new Setting("Sync", Boolean.valueOf(false), "Universal colors for hud."));
     private int color;
-    private final Map<Potion, Color> potionColorMap = new HashMap<Potion, Color>();
     private boolean shouldIncrement;
-    public Map<Integer, Integer> colorMap = new HashMap<Integer, Integer>();
     private int hitMarkerTimer;
     public float hue;
 
@@ -170,6 +166,14 @@ public class HUD extends Module {
         int i = (mc.currentScreen instanceof net.minecraft.client.gui.GuiChat && this.renderingUp.getValue().booleanValue()) ? 13 : (this.renderingUp.getValue().booleanValue() ? -2 : 0);
         if (this.renderingUp.getValue().booleanValue()) {
 
+            if (potions.getValue().booleanValue()) {
+                List<PotionEffect> effects = new ArrayList<>((Minecraft.getMinecraft()).player.getActivePotionEffects());
+                for (PotionEffect potionEffect : effects) {
+                    String str = OyVey.potionManager.getColoredPotionString(potionEffect);
+                    i += 10;
+                    renderer.drawString(str, (width - renderer.getStringWidth(str) - 2), (height - 2 - i), potionEffect.getPotion().getLiquidColor(), true);
+                }
+            }
 
             if (this.speed.getValue().booleanValue()) {
                 String str = grayString + "Speed " + ChatFormatting.WHITE + OyVey.speedManager.getSpeedKpH() + " km/h";
@@ -215,6 +219,14 @@ public class HUD extends Module {
                 }
             }
         } else {
+
+            if (potions.getValue().booleanValue()) {
+                List<PotionEffect> effects = new ArrayList<>((Minecraft.getMinecraft()).player.getActivePotionEffects());
+                for (PotionEffect potionEffect : effects) {
+                    String str = OyVey.potionManager.getColoredPotionString(potionEffect);
+                    renderer.drawString(str, (width - renderer.getStringWidth(str) - 2), (2 + i++ * 10), potionEffect.getPotion().getLiquidColor(), true);
+                }
+            }
 
             if (this.speed.getValue().booleanValue()) {
                 String str = grayString + "Speed " + ChatFormatting.WHITE + OyVey.speedManager.getSpeedKpH() + " km/h";

@@ -54,37 +54,7 @@ public class PotionManager
     }
 
     public String getColoredPotionString(PotionEffect effect) {
-        Potion potion = effect.getPotion();
-        switch (I18n.format(potion.getName(), new Object[0])) {
-            case "Jump Boost":
-            case "Speed": {
-                return "\u00a7b" + this.getPotionString(effect);
-            }
-            case "Resistance":
-            case "Strength": {
-                return "\u00a7c" + this.getPotionString(effect);
-            }
-            case "Wither":
-            case "Slowness":
-            case "Weakness": {
-                return "\u00a70" + this.getPotionString(effect);
-            }
-            case "Absorption": {
-                return "\u00a79" + this.getPotionString(effect);
-            }
-            case "Haste":
-            case "Fire Resistance": {
-                return "\u00a76" + this.getPotionString(effect);
-            }
-            case "Regeneration": {
-                return "\u00a7d" + this.getPotionString(effect);
-            }
-            case "Night Vision":
-            case "Poison": {
-                return "\u00a7a" + this.getPotionString(effect);
-            }
-        }
-        return "\u00a7f" + this.getPotionString(effect);
+        return this.getPotionString(effect);
     }
 
     public static class PotionList {
