@@ -55,6 +55,7 @@ public class EventManager extends Feature {
     @SubscribeEvent
     public void onUpdate(LivingEvent.LivingUpdateEvent event) {
         if (!fullNullCheck() && (event.getEntity().getEntityWorld()).isRemote && event.getEntityLiving().equals(mc.player)) {
+
             OyVey.inventoryManager.update();
             OyVey.moduleManager.onUpdate();
             if ((HUD.getInstance()).renderingMode.getValue() == HUD.RenderingMode.Length) {

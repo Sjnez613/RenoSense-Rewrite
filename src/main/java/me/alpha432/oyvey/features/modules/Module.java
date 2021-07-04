@@ -102,7 +102,7 @@ public class Module
         this.onToggle();
         this.onEnable();
         if (HUD.getInstance().notifyToggles.getValue().booleanValue()) {
-            TextComponentString text = new TextComponentString(OyVey.commandManager.getClientMessage() + " " + ChatFormatting.GREEN + this.getDisplayName() + " toggled on.");
+            TextComponentString text = new TextComponentString(OyVey.commandManager.getClientMessage() + " " + ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.GREEN + " enabled.");
             Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 1);
         }
         if (this.isOn() && this.hasListener && !this.alwaysListening) {
@@ -116,7 +116,7 @@ public class Module
         }
         this.enabled.setValue(false);
         if (HUD.getInstance().notifyToggles.getValue().booleanValue()) {
-            TextComponentString text = new TextComponentString(OyVey.commandManager.getClientMessage() + " " + ChatFormatting.RED + this.getDisplayName() + " toggled off.");
+            TextComponentString text = new TextComponentString(OyVey.commandManager.getClientMessage() + " " + ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.RED + " disabled.");
             Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 1);
         }
         this.onToggle();

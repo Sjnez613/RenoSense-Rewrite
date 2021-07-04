@@ -16,6 +16,7 @@
     "MixinFontRenderer",
     "MixinGuiToast",
     "MixinRenderGlobal",
-    "MixinLayerArmorBase"
+    "MixinLayerArmorBase",
+    "MixinGuiNewChat"
   ]
 }

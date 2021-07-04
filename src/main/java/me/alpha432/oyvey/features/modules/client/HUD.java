@@ -15,6 +15,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.lwjgl.opengl.Display;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -26,6 +28,7 @@ public class HUD extends Module {
     private static final ResourceLocation box = new ResourceLocation("textures/gui/container/shulker_box.png");
     private static final ItemStack totem = new ItemStack(Items.TOTEM_OF_UNDYING);
     private static HUD INSTANCE = new HUD();
+    public Setting<String> gameTitle = register(new Setting("AppTitle", "RenoSense 0.6.4"));
     private final Setting<Boolean> grayNess = register(new Setting("Gray", Boolean.valueOf(true)));
     private final Setting<Boolean> renderingUp = register(new Setting("RenderingUp", Boolean.valueOf(false), "Orientation of the HUD-Elements."));
     private final Setting<Boolean> waterMark = register(new Setting("Watermark", Boolean.valueOf(false), "displays watermark"));
@@ -42,6 +45,8 @@ public class HUD extends Module {
     private final Setting<Boolean> tps = register(new Setting("TPS", Boolean.valueOf(false), "Ticks per second of the server."));
     private final Setting<Boolean> fps = register(new Setting("FPS", Boolean.valueOf(false), "Your frames per second."));
     private final Setting<Boolean> lag = register(new Setting("LagNotifier", Boolean.valueOf(false), "The time"));
+    public Setting<Boolean> rainbowPrefix = this.register(new Setting<Boolean>("RainbowPrefix", false));
+    public Setting<Integer> rainbowSpeed = this.register(new Setting<Object>("PrefixSpeed", Integer.valueOf(20), Integer.valueOf(0), Integer.valueOf(100), v -> this.rainbowPrefix.getValue()));
     private final Timer timer = new Timer();
     private final Map<String, Integer> players = new HashMap<>();
     public Setting<String> command = register(new Setting("Command", "RenoSense"));
@@ -62,6 +67,8 @@ public class HUD extends Module {
     private boolean shouldIncrement;
     public Map<Integer, Integer> colorMap = new HashMap<Integer, Integer>();
     private int hitMarkerTimer;
+    public float hue;
+
 
 
     public HUD() {
@@ -86,6 +93,10 @@ public class HUD extends Module {
             this.hitMarkerTimer = 0;
             this.shouldIncrement = false;
         }
+    }
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event) {
+        Display.setTitle(gameTitle.getValue());
     }
 
     public void onRender2D(Render2DEvent event) {
@@ -357,33 +368,32 @@ public class HUD extends Module {
         GlStateManager.enableTexture2D();
         int i = width / 2;
         int iteration = 0;
-        int y = height - 55 - ((mc.player.isInWater() && mc.playerController.gameIsSurvivalOrAdventure()) ? 10 : 0);
-        for (ItemStack is : mc.player.inventory.armorInventory) {
-            iteration++;
-            if (is.isEmpty())
-                continue;
+        int y = height - 55 - (HUD.mc.player.isInWater() && HUD.mc.playerController.gameIsSurvivalOrAdventure() ? 10 : 0);
+        for (ItemStack is : HUD.mc.player.inventory.armorInventory) {
+            ++iteration;
+            if (is.isEmpty()) continue;
             int x = i - 90 + (9 - iteration) * 20 + 2;
             GlStateManager.enableDepth();
-            RenderUtil.itemRender.zLevel = 200.0F;
+            RenderUtil.itemRender.zLevel = 200.0f;
             RenderUtil.itemRender.renderItemAndEffectIntoGUI(is, x, y);
-            RenderUtil.itemRender.renderItemOverlayIntoGUI(mc.fontRenderer, is, x, y, "");
-            RenderUtil.itemRender.zLevel = 0.0F;
+            RenderUtil.itemRender.renderItemOverlayIntoGUI(HUD.mc.fontRenderer, is, x, y, "");
+            RenderUtil.itemRender.zLevel = 0.0f;
             GlStateManager.enableTexture2D();
             GlStateManager.disableLighting();
             GlStateManager.disableDepth();
-            String s = (is.getCount() > 1) ? (is.getCount() + "") : "";
-            this.renderer.drawStringWithShadow(s, (x + 19 - 2 - this.renderer.getStringWidth(s)), (y + 9), 16777215);
-            if (percent) {
-                float green = (is.getMaxDamage() - is.getItemDamage()) / is.getMaxDamage();
-                float red = 1.0F - green;
-                int dmg = 100 - (int) (red * 100.0F);
-                this.renderer.drawStringWithShadow(dmg + "", (x + 8 - this.renderer.getStringWidth(dmg + "") / 2), (y - 11), ColorUtil.toRGBA((int) (red * 255.0F), (int) (green * 255.0F), 0));
-            }
+            String s = is.getCount() > 1 ? is.getCount() + "" : "";
+            this.renderer.drawStringWithShadow(s, x + 19 - 2 - this.renderer.getStringWidth(s), y + 9, 0xFFFFFF);
+            if (!percent) continue;
+            int dmg = 0;
+            int itemDurability = is.getMaxDamage() - is.getItemDamage();
+            float green = ((float)is.getMaxDamage() - (float)is.getItemDamage()) / (float)is.getMaxDamage();
+            float red = 1.0f - green;
+            dmg = percent ? 100 - (int)(red * 100.0f) : itemDurability;
+            this.renderer.drawStringWithShadow(dmg + "", x + 8 - this.renderer.getStringWidth(dmg + "") / 2, y - 11, ColorUtil.toRGBA((int)(red * 255.0f), (int)(green * 255.0f), 0));
         }
         GlStateManager.enableDepth();
         GlStateManager.disableLighting();
     }
-
     @SubscribeEvent
     public void onUpdateWalkingPlayer(AttackEntityEvent event) {
         this.shouldIncrement = true;
@@ -401,7 +411,24 @@ public class HUD extends Module {
     }
 
     public String getCommandMessage() {
+        if (this.rainbowPrefix.getPlannedValue().booleanValue()) {
+            StringBuilder stringBuilder = new StringBuilder(this.getRawCommandMessage());
+            stringBuilder.insert(0, "\u00a7+");
+            stringBuilder.append("\u00a7r");
+            return stringBuilder.toString();
+        }
         return TextUtil.coloredString(this.commandBracket.getPlannedValue(), this.bracketColor.getPlannedValue()) + TextUtil.coloredString(this.command.getPlannedValue(), this.commandColor.getPlannedValue()) + TextUtil.coloredString(this.commandBracket2.getPlannedValue(), this.bracketColor.getPlannedValue());
+    }
+
+    public String getRainbowCommandMessage() {
+        StringBuilder stringBuilder = new StringBuilder(this.getRawCommandMessage());
+        stringBuilder.insert(0, "\u00a7+");
+        stringBuilder.append("\u00a7r");
+        return stringBuilder.toString();
+    }
+
+    public String getRawCommandMessage() {
+        return this.commandBracket.getValue() + this.command.getValue() + this.commandBracket2.getValue();
     }
 
     public void drawTextRadar(int yOffset) {
