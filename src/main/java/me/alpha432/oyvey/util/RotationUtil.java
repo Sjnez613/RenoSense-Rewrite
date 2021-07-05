@@ -63,24 +63,24 @@ public class RotationUtil
         int dirnumber = RotationUtil.getDirection4D();
         if (dirnumber == 0) {
             if(!ClickGui.getInstance().rainbow.getValue().booleanValue()){
-                return "South " + ChatFormatting.WHITE + "[" + ChatFormatting.RESET + "+Z" + ChatFormatting.WHITE + "]";}
+                return "South " + ChatFormatting.GRAY + "[" + ChatFormatting.WHITE + "+Z" + ChatFormatting.GRAY + "]";}
             return "South [+Z]";
 
         }
         if (dirnumber == 1) {
             if(!ClickGui.getInstance().rainbow.getValue().booleanValue()){
-            return "West " + ChatFormatting.WHITE + "[" + ChatFormatting.RESET + "-X" + ChatFormatting.WHITE + "]";}
+            return "West " + ChatFormatting.GRAY + "[" + ChatFormatting.WHITE + "-X" + ChatFormatting.GRAY + "]";}
             return "West [-X]";
         }
         if (dirnumber == 2) {
             if(!ClickGui.getInstance().rainbow.getValue().booleanValue()){
-                return (northRed ? "\u00c2\u00a7c" : "") + "North " + ChatFormatting.WHITE + "[" + ChatFormatting.RESET + "-Z" + ChatFormatting.WHITE + "]";}
+                return (northRed ? "\u00c2\u00a7c" : "") + "North " + ChatFormatting.GRAY + "[" + ChatFormatting.WHITE + "-Z" + ChatFormatting.GRAY + "]";}
             return "North [-Z]";
 
         }
         if (dirnumber == 3) {
             if(!ClickGui.getInstance().rainbow.getValue().booleanValue()){
-                return "East " + ChatFormatting.WHITE + "[" + ChatFormatting.RESET + "+X" + ChatFormatting.WHITE + "]";}
+                return "East " + ChatFormatting.GRAY + "[" + ChatFormatting.WHITE + "+X" + ChatFormatting.GRAY + "]";}
             return "East [+X]";
 
         }

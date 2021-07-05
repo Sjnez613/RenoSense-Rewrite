@@ -51,7 +51,7 @@ public class TextManager
     public void drawRainbowString(String text, float x, float y, int startColor, float factor, boolean shadow) {
         Color currentColor = new Color(startColor);
         float hueIncrement = 1.0f / factor;
-        String[] rainbowStrings = text.split("\u00a7.");
+        String[] rainbowStrings = text.split("\u00a7+");
         float currentHue = Color.RGBtoHSB(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), null)[0];
         float saturation = Color.RGBtoHSB(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), null)[1];
         float brightness = Color.RGBtoHSB(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), null)[2];
@@ -72,10 +72,10 @@ public class TextManager
             }
             if ((String.valueOf(currentChar) + nextChar).equals("\u00a7r")) {
                 String escapeString = text.substring(i);
-                this.drawString(escapeString, x + (float) currentWidth, y, Color.WHITE.getRGB(), shadow);
+                this.drawString(escapeString, x + (float)currentWidth, y, Color.WHITE.getRGB(), shadow);
                 break;
             }
-            this.drawString(String.valueOf(currentChar).equals("\u00a7") ? "" : String.valueOf(currentChar), x + (float) currentWidth, y, shouldRainbow ? currentColor.getRGB() : Color.WHITE.getRGB(), shadow);
+            this.drawString(String.valueOf(currentChar).equals("\u00a7") ? "" : String.valueOf(currentChar), x + (float)currentWidth, y, shouldRainbow ? currentColor.getRGB() : Color.WHITE.getRGB(), shadow);
             if (String.valueOf(currentChar).equals("\u00a7")) {
                 shouldContinue = true;
             }

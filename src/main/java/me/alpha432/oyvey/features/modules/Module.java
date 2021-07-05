@@ -13,6 +13,9 @@ import me.alpha432.oyvey.features.setting.Setting;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Module
         extends Feature {
     private final String description;
@@ -97,16 +100,28 @@ public class Module
         }
     }
 
+    public String getTimeString() {
+        String date = new SimpleDateFormat("h:mm").format(new Date());
+        String timeString = "<" + date + ">";
+        StringBuilder builder = new StringBuilder(timeString);
+        builder.insert(0, "\u00a7+");
+        builder.append("\u00a7r");
+        return builder.toString();
+    }
+
     public void enable() {
         this.enabled.setValue(Boolean.TRUE);
         this.onToggle();
         this.onEnable();
         if (HUD.getInstance().notifyToggles.getValue().booleanValue()) {
-            if (HUD.getInstance().commandPrefix.getValue()) {
-                TextComponentString text = new TextComponentString(OyVey.commandManager.getClientMessage() + " " + ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.GREEN + " enabled.");
+
+            if (HUD.getInstance().timestamp.getValue()) {
+
+                TextComponentString text = new TextComponentString(getTimeString() + OyVey.commandManager.getClientMessage() + " " + ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.GREEN + " enabled.");
                 Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 1);
-            } else if(!HUD.getInstance().commandPrefix.getValue()) {
-                TextComponentString text = new TextComponentString(ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.GREEN + " enabled.");
+
+            }else if(!HUD.getInstance().timestamp.getValue()) {
+                TextComponentString text = new TextComponentString(OyVey.commandManager.getClientMessage() + ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.GREEN + " enabled.");
                 Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 1);
             }
         }
@@ -115,20 +130,24 @@ public class Module
         }
     }
 
+
+
     public void disable() {
         if (this.hasListener && !this.alwaysListening) {
             MinecraftForge.EVENT_BUS.unregister(this);
         }
         this.enabled.setValue(false);
         if (HUD.getInstance().notifyToggles.getValue().booleanValue()) {
-            if (HUD.getInstance().commandPrefix.getValue()) {
-                TextComponentString text = new TextComponentString(OyVey.commandManager.getClientMessage() + " " + ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.RED + " disabled.");
+            if (HUD.getInstance().timestamp.getValue()) {
+                TextComponentString text = new TextComponentString(getTimeString() + OyVey.commandManager.getClientMessage() + " " + ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.RED + " disabled.");
                 Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 1);
-            } else if(!HUD.getInstance().commandPrefix.getValue()) {
-                TextComponentString text = new TextComponentString(ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.RED + " disabled.");
+
+            }else if(!HUD.getInstance().timestamp.getValue()){
+                TextComponentString text = new TextComponentString(OyVey.commandManager.getClientMessage() + ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.RED + " disabled.");
                 Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 1);
-            }
         }
+        }
+
         this.onToggle();
         this.onDisable();
     }

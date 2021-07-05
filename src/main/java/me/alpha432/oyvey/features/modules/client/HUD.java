@@ -3,6 +3,7 @@ package me.alpha432.oyvey.features.modules.client;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.events.ClientEvent;
+import me.alpha432.oyvey.event.events.PacketEvent;
 import me.alpha432.oyvey.event.events.Render2DEvent;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.setting.Setting;
@@ -12,8 +13,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketChat;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -27,6 +30,7 @@ public class HUD extends Module {
     private static final ItemStack totem = new ItemStack(Items.TOTEM_OF_UNDYING);
     private static HUD INSTANCE = new HUD();
     public Setting<String> gameTitle = register(new Setting("AppTitle", "RenoSense 0.6.4"));
+    public Setting<Boolean> timestamp = register(new Setting("TimeStamps", Boolean.valueOf(true)));
     private final Setting<Boolean> grayNess = register(new Setting("Gray", Boolean.valueOf(true)));
     private final Setting<Boolean> renderingUp = register(new Setting("RenderingUp", Boolean.valueOf(false), "Orientation of the HUD-Elements."));
     private final Setting<Boolean> waterMark = register(new Setting("Watermark", Boolean.valueOf(false), "displays watermark"));
@@ -104,9 +108,9 @@ public class HUD extends Module {
 
         this.color = ColorUtil.toRGBA((ClickGui.getInstance()).red.getValue().intValue(), (ClickGui.getInstance()).green.getValue().intValue(), (ClickGui.getInstance()).blue.getValue().intValue());
         if (this.waterMark.getValue().booleanValue()) {
-            String string = this.command.getPlannedValue() + " " + OyVey.MODVER;
+            String string = this.command.getPlannedValue();
             if (this.v.getValue().booleanValue()){
-                string = this.command.getPlannedValue() + " v" + OyVey.MODVER;
+                string = this.command.getPlannedValue() + " - " + OyVey.MODVER;
 
             }
             if ((ClickGui.getInstance()).rainbow.getValue().booleanValue()) {
@@ -273,12 +277,12 @@ public class HUD extends Module {
         int hposX = (int) (mc.player.posX * nether);
         int hposZ = (int) (mc.player.posZ * nether);
         i = (mc.currentScreen instanceof net.minecraft.client.gui.GuiChat) ? 14 : 0;
-        String coordinates = ChatFormatting.WHITE + "XYZ " + ChatFormatting.RESET + (inHell ? (posX + ", " + posY + ", " + posZ + ChatFormatting.WHITE + " [" + ChatFormatting.RESET + hposX + ", " + hposZ + ChatFormatting.WHITE + "]" + ChatFormatting.RESET) : (posX + ", " + posY + ", " + posZ + ChatFormatting.WHITE + " [" + ChatFormatting.RESET + hposX + ", " + hposZ + ChatFormatting.WHITE + "]"));
+        String coordinates = ChatFormatting.RESET + (inHell ? String.valueOf(ChatFormatting.WHITE) + posX + ChatFormatting.GRAY + " [" + hposX + "], " + ChatFormatting.WHITE + posY + ChatFormatting.GRAY + "," + ChatFormatting.WHITE + posZ + ChatFormatting.GRAY +" [" + hposZ + "]" : (String.valueOf(ChatFormatting.WHITE) + posX + ChatFormatting.GRAY + " [" + hposX + "], " + ChatFormatting.WHITE + posY + ChatFormatting.GRAY + ", " + ChatFormatting.WHITE + posZ + ChatFormatting.GRAY + " [" + hposZ + "]"));
         String direction = this.direction.getValue().booleanValue() ? OyVey.rotationManager.getDirection4D(false) : "";
         String coords = this.coords.getValue().booleanValue() ? coordinates : "";
         i += 10;
         if ((ClickGui.getInstance()).rainbow.getValue().booleanValue()) {
-            String rainbowCoords = this.coords.getValue().booleanValue() ? ("XYZ " + (inHell ? (posX + ", " + posY + ", " + posZ + " [" + hposX + ", " + hposZ + "]") : (posX + ", " + posY + ", " + posZ + " [" + hposX + ", " + hposZ + "]"))) : "";
+            String rainbowCoords = this.coords.getValue().booleanValue() ? ((inHell ? (posX + " [" + hposX + "], " + posY + " ," + posZ + " [" + hposZ + "]") : (posX + " [" + hposX + "], " + posY + ", " + posZ + " [" + hposZ + "]"))) : "";
             if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
                 this.renderer.drawString(direction, 2.0F, (height - i - 11), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
                 this.renderer.drawString(rainbowCoords, 2.0F, (height - i), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
@@ -421,6 +425,31 @@ public class HUD extends Module {
         if (event.getStage() == 2 &&
                 equals(event.getSetting().getFeature()))
             OyVey.commandManager.setClientMessage(getCommandMessage());
+    }
+
+    @SubscribeEvent
+    public void onPacketReceive(PacketEvent.Receive event) {
+        if (event.getStage() == 0 && event.getPacket() instanceof SPacketChat) {
+            if (!((SPacketChat)event.getPacket()).isSystem()) {
+                return;
+            }
+           if(timestamp.getValue()) {
+               String originalMessage = ((SPacketChat) event.getPacket()).chatComponent.getFormattedText();
+               String message = this.getTimeString(originalMessage) + originalMessage;
+               ((SPacketChat) event.getPacket()).chatComponent = new TextComponentString(message);
+           }
+        }
+    }
+
+    public String getTimeString(String message) {
+        String date = new SimpleDateFormat("h:mm").format(new Date());
+            String timeString = "<" + date + ">" + " ";
+            StringBuilder builder = new StringBuilder(timeString);
+            builder.insert(0, "\u00a7+");
+            builder.append("\u00a7r");
+
+            return builder.toString();
+
     }
 
     public String getCommandMessage() {

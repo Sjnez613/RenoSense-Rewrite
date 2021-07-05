@@ -27,7 +27,7 @@ public abstract class Command
     }
 
     public static void sendMessage(String message) {
-        Command.sendSilentMessage(OyVey.commandManager.getClientMessage() + " " + ChatFormatting.GRAY + message);
+        Command.sendSilentMessage(OyVey.commandManager.getClientMessage() + ChatFormatting.GRAY + message);
     }
 
     public static void sendSilentMessage(String message) {
