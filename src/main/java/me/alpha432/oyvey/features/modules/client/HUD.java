@@ -29,7 +29,7 @@ public class HUD extends Module {
     private static final ResourceLocation box = new ResourceLocation("textures/gui/container/shulker_box.png");
     private static final ItemStack totem = new ItemStack(Items.TOTEM_OF_UNDYING);
     private static HUD INSTANCE = new HUD();
-    public Setting<String> gameTitle = register(new Setting("AppTitle", "RenoSense 0.6.4"));
+    public Setting<String> gameTitle = register(new Setting("AppTitle", "RenoSense 0.6.5"));
     public Setting<Boolean> timestamp = register(new Setting("TimeStamps", Boolean.valueOf(true)));
     private final Setting<Boolean> grayNess = register(new Setting("Gray", Boolean.valueOf(true)));
     private final Setting<Boolean> renderingUp = register(new Setting("RenderingUp", Boolean.valueOf(false), "Orientation of the HUD-Elements."));
