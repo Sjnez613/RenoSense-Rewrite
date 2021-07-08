@@ -53,6 +53,9 @@ public class Speedmine
     private BlockPos lastPos = null;
     private EnumFacing lastFacing = null;
 
+    private int oldSlot;
+    private boolean shouldSwap;
+
     public Speedmine() {
         super("Speedmine", "Speeds up mining.", Module.Category.PLAYER, true, false, false);
         this.setInstance();
@@ -70,15 +73,31 @@ public class Speedmine
     }
 
     @Override
+    public void onEnable(){
+        oldSlot = -1;
+        shouldSwap = false;
+    }
+
+    @Override
     public void onTick() {
+        if(nullCheck())return;
         if (this.currentPos != null) {
-            if (Speedmine.mc.player != null && Speedmine.mc.player.getDistanceSq(this.currentPos) > MathUtil.square(this.range.getValue().floatValue())) {
+            if (Speedmine.mc.player.getDistanceSq(this.currentPos) > MathUtil.square(this.range.getValue().floatValue())) {
                 this.currentPos = null;
                 this.currentBlockState = null;
                 return;
             }
-            if (Speedmine.mc.player != null && this.silentSwitch.getValue().booleanValue() && this.timer.passedMs((int) (2000.0f * OyVey.serverManager.getTpsFactor())) && this.getPickSlot() != -1) {
-                Speedmine.mc.player.connection.sendPacket(new CPacketHeldItemChange(this.getPickSlot()));
+            int slot = this.getPickSlot();
+
+            if(this.silentSwitch.getValue().booleanValue() && shouldSwap){
+                shouldSwap = false;
+                mc.player.connection.sendPacket(new CPacketHeldItemChange(oldSlot));
+            }
+
+            if (this.silentSwitch.getValue().booleanValue() && this.timer.passedMs((int) (2000.0f * OyVey.serverManager.getTpsFactor())) && slot != -1) {
+                oldSlot = mc.playerController.currentPlayerItem;
+                mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
+                shouldSwap = true;
             }
             if (!Speedmine.mc.world.getBlockState(this.currentPos).equals(this.currentBlockState) || Speedmine.mc.world.getBlockState(this.currentPos).getBlock() == Blocks.AIR) {
                 this.currentPos = null;
