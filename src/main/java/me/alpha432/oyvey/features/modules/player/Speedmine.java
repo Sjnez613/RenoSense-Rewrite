@@ -38,14 +38,10 @@ public class Speedmine
     public Setting<Boolean> noBreakAnim = this.register(new Setting<Boolean>("NoBreakAnim", false));
     public Setting<Boolean> noDelay = this.register(new Setting<Boolean>("NoDelay", false));
     public Setting<Boolean> noSwing = this.register(new Setting<Boolean>("NoSwing", false));
-    public Setting<Boolean> noTrace = this.register(new Setting<Boolean>("NoTrace", false));
-    public Setting<Boolean> noGapTrace = this.register(new Setting<Object>("NoGapTrace", Boolean.valueOf(false), v -> this.noTrace.getValue()));
     public Setting<Boolean> allow = this.register(new Setting<Boolean>("AllowMultiTask", false));
-    public Setting<Boolean> pickaxe = this.register(new Setting<Object>("Pickaxe", Boolean.valueOf(true), v -> this.noTrace.getValue()));
     public Setting<Boolean> doubleBreak = this.register(new Setting<Boolean>("DoubleBreak", false));
     public Setting<Boolean> webSwitch = this.register(new Setting<Boolean>("WebSwitch", false));
     public Setting<Boolean> silentSwitch = this.register(new Setting<Boolean>("SilentSwitch", false));
-    public Setting<Boolean> illegal = this.register(new Setting<Boolean>("IllegalMine", false));
     public Setting<Boolean> render = this.register(new Setting<Boolean>("Render", false));
     public Setting<Boolean> box = this.register(new Setting<Object>("Box", Boolean.valueOf(false), v -> this.render.getValue()));
     private final Setting<Integer> boxAlpha = this.register(new Setting<Object>("BoxAlpha", Integer.valueOf(85), Integer.valueOf(0), Integer.valueOf(255), v -> this.box.getValue() != false && this.render.getValue() != false));
