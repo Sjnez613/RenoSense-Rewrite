@@ -51,7 +51,7 @@ public class TextManager
     public void drawRainbowString(String text, float x, float y, int startColor, float factor, boolean shadow) {
         Color currentColor = new Color(startColor);
         float hueIncrement = 1.0f / factor;
-        String[] rainbowStrings = text.split("\u00a7+");
+        String[] rainbowStrings = text.split("\u00a7.");
         float currentHue = Color.RGBtoHSB(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), null)[0];
         float saturation = Color.RGBtoHSB(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), null)[1];
         float brightness = Color.RGBtoHSB(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), null)[2];

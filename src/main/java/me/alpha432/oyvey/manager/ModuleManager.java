@@ -10,10 +10,7 @@ import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.modules.client.*;
 import me.alpha432.oyvey.features.modules.combat.*;
 import me.alpha432.oyvey.features.modules.misc.*;
-import me.alpha432.oyvey.features.modules.movement.AntiWeb;
-import me.alpha432.oyvey.features.modules.movement.AntiVoid;
-import me.alpha432.oyvey.features.modules.movement.ReverseStep;
-import me.alpha432.oyvey.features.modules.movement.Speed;
+import me.alpha432.oyvey.features.modules.movement.*;
 import me.alpha432.oyvey.features.modules.player.*;
 import me.alpha432.oyvey.features.modules.render.*;
 import me.alpha432.oyvey.util.Util;
@@ -38,6 +35,8 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new GodModule());
+        this.modules.add(new Nametags());
         this.modules.add(new ChatModifier());
         this.modules.add(new Speed());
         this.modules.add(new NoRender());
@@ -47,9 +46,6 @@ public class ModuleManager
         this.modules.add(new ViewModel());
         this.modules.add(new Aspect());
         this.modules.add(new Burrow());
-        this.modules.add(new GodModule());
-        this.modules.add(new WurstHoleFill());
-        this.modules.add(new AutoCrystal());
         this.modules.add(new QueueSkip());
         this.modules.add(new RPC());
         this.modules.add(new AntiWeb());

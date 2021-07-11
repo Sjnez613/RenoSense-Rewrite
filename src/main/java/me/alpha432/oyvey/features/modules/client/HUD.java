@@ -22,19 +22,21 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.Display;
 
+import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.*;
 
 public class HUD extends Module {
     private static final ResourceLocation box = new ResourceLocation("textures/gui/container/shulker_box.png");
     private static final ItemStack totem = new ItemStack(Items.TOTEM_OF_UNDYING);
     private static HUD INSTANCE = new HUD();
-    public Setting<String> gameTitle = register(new Setting("AppTitle", "RenoSense 0.6.5"));
+    public Setting<String> gameTitle = register(new Setting("AppTitle", "RenoSense 0.6.6"));
     public Setting<Boolean> timestamp = register(new Setting("TimeStamps", Boolean.valueOf(true)));
     private final Setting<Boolean> grayNess = register(new Setting("Gray", Boolean.valueOf(true)));
     private final Setting<Boolean> renderingUp = register(new Setting("RenderingUp", Boolean.valueOf(false), "Orientation of the HUD-Elements."));
     private final Setting<Boolean> waterMark = register(new Setting("Watermark", Boolean.valueOf(false), "displays watermark"));
-    private final Setting<Boolean> v = register(new Setting("Version", Boolean.valueOf(false), v -> this.waterMark.getValue()));
+    private final Setting<String> waterMarkName = register(new Setting("WaterMarkName", "RenoSense"));
     private final Setting<Boolean> arrayList = register(new Setting("ActiveModules", Boolean.valueOf(false), "Lists the active modules."));
     private final Setting<Boolean> coords = register(new Setting("Coords", Boolean.valueOf(false), "Your current coordinates"));
     private final Setting<Boolean> direction = register(new Setting("Direction", Boolean.valueOf(false), "The Direction you are facing."));
@@ -49,6 +51,8 @@ public class HUD extends Module {
     private final Setting<Boolean> lag = register(new Setting("LagNotifier", Boolean.valueOf(false), "The time"));
     public Setting<Boolean> rainbowPrefix = this.register(new Setting<Boolean>("RainbowPrefix", false));
     public Setting<Integer> rainbowSpeed = this.register(new Setting<Object>("PrefixSpeed", Integer.valueOf(20), Integer.valueOf(0), Integer.valueOf(100), v -> this.rainbowPrefix.getValue()));
+    public Setting<Integer> rainbowSaturation = this.register(new Setting<Object>("Saturation", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbowPrefix.getValue()));
+    public Setting<Integer> rainbowBrightness = this.register(new Setting<Object>("Brightness", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbowPrefix.getValue()));
     private final Timer timer = new Timer();
     private final Map<String, Integer> players = new HashMap<>();
     public Setting<Boolean> commandPrefix = register(new Setting("CommandPrefix", true));
@@ -65,6 +69,7 @@ public class HUD extends Module {
     public Setting<Boolean> time = register(new Setting("Time", Boolean.valueOf(false), "The time"));
     public Setting<Integer> lagTime = register(new Setting("LagTime", Integer.valueOf(1000), Integer.valueOf(0), Integer.valueOf(2000)));
     public Setting<Boolean> colorSync = this.register(new Setting("Sync", Boolean.valueOf(false), "Universal colors for hud."));
+    public Map<Integer, Integer> colorHeightMap = new HashMap<Integer, Integer>();
     private int color;
     private boolean shouldIncrement;
     private int hitMarkerTimer;
@@ -98,6 +103,17 @@ public class HUD extends Module {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         Display.setTitle(gameTitle.getValue());
+
+
+            int colorSpeed = 101 - this.rainbowSpeed.getValue();
+            float tempHue = this.hue = (float)(System.currentTimeMillis() % (long)(360 * colorSpeed)) / (360.0f * (float)colorSpeed);
+            for (int i = 0; i <= 510; ++i) {
+                this.colorHeightMap.put(i, Color.HSBtoRGB(tempHue, (float)this.rainbowSaturation.getValue().intValue() / 255.0f, (float)this.rainbowBrightness.getValue().intValue() / 255.0f));
+                tempHue += 0.0013071896f;
+            }
+
+
+
     }
 
     public void onRender2D(Render2DEvent event) {
@@ -108,11 +124,8 @@ public class HUD extends Module {
 
         this.color = ColorUtil.toRGBA((ClickGui.getInstance()).red.getValue().intValue(), (ClickGui.getInstance()).green.getValue().intValue(), (ClickGui.getInstance()).blue.getValue().intValue());
         if (this.waterMark.getValue().booleanValue()) {
-            String string = this.command.getPlannedValue();
-            if (this.v.getValue().booleanValue()){
-                string = this.command.getPlannedValue() + " - " + OyVey.MODVER;
+            String string = this.waterMarkName.getPlannedValue();
 
-            }
             if ((ClickGui.getInstance()).rainbow.getValue().booleanValue()) {
                 if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
                     this.renderer.drawString(string, 2.0F, this.waterMarkY.getValue().intValue(), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
@@ -282,7 +295,7 @@ public class HUD extends Module {
         String coords = this.coords.getValue().booleanValue() ? coordinates : "";
         i += 10;
         if ((ClickGui.getInstance()).rainbow.getValue().booleanValue()) {
-            String rainbowCoords = this.coords.getValue().booleanValue() ? ((inHell ? (posX + " [" + hposX + "], " + posY + " ," + posZ + " [" + hposZ + "]") : (posX + " [" + hposX + "], " + posY + ", " + posZ + " [" + hposZ + "]"))) : "";
+            String rainbowCoords = this.coords.getValue().booleanValue() ? ((inHell ? (posX + " [" + hposX + "], " + posY + " , " + posZ + " [" + hposZ + "]") : (posX + " [" + hposX + "], " + posY + ", " + posZ + " [" + hposZ + "]"))) : "";
             if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
                 this.renderer.drawString(direction, 2.0F, (height - i - 11), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
                 this.renderer.drawString(rainbowCoords, 2.0F, (height - i), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
