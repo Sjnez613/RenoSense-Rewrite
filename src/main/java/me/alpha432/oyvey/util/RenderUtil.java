@@ -1,7 +1,8 @@
 package me.alpha432.oyvey.util;
 
 import me.alpha432.oyvey.OyVey;
-import me.alpha432.oyvey.features.modules.player.Speedmine;
+import me.alpha432.oyvey.features.modules.player.PacketMine;
+import me.alpha432.oyvey.features.modules.player.PacketMine;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -70,8 +71,9 @@ public class RenderUtil
             GL11.glEnable(2848);
             GL11.glHint(3154, 4354);
             GL11.glLineWidth(lineWidth);
+            final double dist = RenderUtil.mc.player.getDistance(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f) * 0.75;
             final double percentage = RenderUtil.mc.playerController.curBlockDamageMP;
-            float speedmineThing = Speedmine.getInstance().timer.getPassedTimeMs() / 1000.0f / (Speedmine.getInstance().breakTime * OyVey.serverManager.getTpsFactor());
+            float speedmineThing = PacketMine.getInstance().timer.getPassedTimeMs() / 1000.0f / (PacketMine.getInstance().breakTime * OyVey.serverManager.getTpsFactor());
             speedmineThing = ((speedmineThing > 1.0f) ? 1.0f : speedmineThing);
             double minX;
             double minY;
@@ -99,7 +101,7 @@ public class RenderUtil
                 drawFilledBox(a, new Color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, boxAlpha / 255.0f).getRGB());
             }
             if (outline) {
-                drawBlockOutline(a, new Color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1.0f), Speedmine.getInstance().lineWidth.getValue());
+                drawBlockOutline(a, new Color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1.0f), PacketMine.getInstance().lineWidth.getValue());
             }
             GL11.glDisable(2848);
             GlStateManager.depthMask(true);

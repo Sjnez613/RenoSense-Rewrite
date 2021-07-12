@@ -58,7 +58,7 @@ public class ModuleManager
         this.modules.add(new HoleESP());
         this.modules.add(new FakePlayer());
         this.modules.add(new MCP());
-        this.modules.add(new Speedmine());
+        this.modules.add(new PacketMine());
         this.modules.add(new ReverseStep());
         this.modules.add(new AntiVoid());
         this.modules.add(new MCF());
