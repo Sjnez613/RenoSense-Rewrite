@@ -53,6 +53,9 @@ public class Speedmine
     public Setting<Integer> red;
     public Setting<Integer> green;
     public Setting<Integer> blue;
+    public Setting<Integer> donered;
+    public Setting<Integer> donegreen;
+    public Setting<Integer> doneblue;
     public Setting<Boolean> box;
     public Setting<Boolean> outline;
     public final Setting<Float> lineWidth;
@@ -68,6 +71,9 @@ public class Speedmine
         this.red = (Setting<Integer>) this.register(new Setting("Red", 125, 0, 255, v -> this.render.getValue()));
         this.green = (Setting<Integer>) this.register(new Setting("Green", 105, 0, 255, v -> this.render.getValue()));
         this.blue = (Setting<Integer>) this.register(new Setting("Blue", 255, 0, 255, v -> this.render.getValue()));
+        this.donered = (Setting<Integer>) this.register(new Setting("DoneRed", 125, 0, 255, v -> this.render.getValue()));
+        this.donegreen = (Setting<Integer>) this.register(new Setting("DoneGreen", 105, 0, 255, v -> this.render.getValue()));
+        this.doneblue = (Setting<Integer>) this.register(new Setting("DoneBlue", 255, 0, 255, v -> this.render.getValue()));
         this.box = (Setting<Boolean>) this.register(new Setting("Box", false, v -> this.render.getValue()));
         this.outline = (Setting<Boolean>) this.register(new Setting("Outline", true, v -> this.render.getValue()));
         this.lineWidth = (Setting<Float>) this.register(new Setting("LineWidth", 1.0f, 0.1f, 5.0f, v -> this.outline.getValue() && this.render.getValue()));
@@ -142,7 +148,7 @@ public class Speedmine
     @Override
     public void onRender3D(final Render3DEvent event) {
         if (this.render.getValue() && this.currentPos != null) {
-            final Color color = new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.boxAlpha.getValue());
+            Color color = new Color(this.timer.passedMs((int) (2000.0f * OyVey.serverManager.getTpsFactor())) ? this.red.getValue() : 255, this.timer.passedMs((int) (2000.0f * OyVey.serverManager.getTpsFactor())) ? 255 : this.green.getValue(), this.blue.getValue(), this.boxAlpha.getValue());
             RenderUtil.gradientBox(this.currentPos, color, this.lineWidth.getValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue());
         }
     }
