@@ -15,6 +15,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSword;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
@@ -91,12 +92,14 @@ public class Speedmine
 
             if(this.silentSwitch.getValue().booleanValue() && shouldSwap){
                 shouldSwap = false;
-                mc.player.connection.sendPacket(new CPacketHeldItemChange(oldSlot));
+                InventoryUtil.mc.player.connection.sendPacket((Packet)new CPacketHeldItemChange(oldSlot));
+                InventoryUtil.mc.playerController.updateController();
             }
 
             if (this.silentSwitch.getValue().booleanValue() && this.timer.passedMs((int) (2000.0f * OyVey.serverManager.getTpsFactor())) && slot != -1) {
                 oldSlot = mc.playerController.currentPlayerItem;
-                mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
+                InventoryUtil.mc.player.connection.sendPacket((Packet)new CPacketHeldItemChange(slot));
+                InventoryUtil.mc.playerController.updateController();
                 shouldSwap = true;
             }
             if (!Speedmine.mc.world.getBlockState(this.currentPos).equals(this.currentBlockState) || Speedmine.mc.world.getBlockState(this.currentPos).getBlock() == Blocks.AIR) {

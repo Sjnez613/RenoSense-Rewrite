@@ -1,23 +1,28 @@
 package me.alpha432.oyvey.mixin.mixins;
 
+import me.alpha432.oyvey.features.modules.client.ClickGui;
+import me.alpha432.oyvey.features.modules.render.Chams;
+import me.alpha432.oyvey.util.EntityUtil;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.awt.*;
 
 @Mixin({RenderLivingBase.class})
 public abstract class MixinRenderLivingBase<T extends EntityLivingBase> extends Render<T> {
-    @Shadow
-    private static final Logger LOGGER = LogManager.getLogger();
-    @Shadow
-    protected ModelBase mainModel;
-    @Shadow
-    protected boolean renderMarker;
+
 
     float red;
 
@@ -33,42 +38,87 @@ public abstract class MixinRenderLivingBase<T extends EntityLivingBase> extends 
     }
 
 
-    @Shadow
-    protected abstract boolean isVisible(EntityLivingBase paramEntityLivingBase);
+        private static final ResourceLocation glint = new ResourceLocation("textures/shinechams.png");
 
-    @Shadow
-    protected abstract float getSwingProgress(T paramT, float paramFloat);
+        public MixinRenderLivingBase(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+            super(renderManagerIn);
+        }
 
-    @Shadow
-    protected abstract float interpolateRotation(float paramFloat1, float paramFloat2, float paramFloat3);
 
-    @Shadow
-    protected abstract float handleRotationFloat(T paramT, float paramFloat);
 
-    @Shadow
-    protected abstract void applyRotations(T paramT, float paramFloat1, float paramFloat2, float paramFloat3);
+        @Redirect(method={"renderModel"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/model/ModelBase;render(Lnet/minecraft/entity/Entity;FFFFFF)V"))
+        private void renderModelHook(ModelBase modelBase, Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+            Color visibleColor;
+            boolean cancel = false;
+            if (Chams.getInstance().isEnabled() && entityIn instanceof EntityPlayer && Chams.getInstance().colored.getValue().booleanValue() && !Chams.getInstance().textured.getValue().booleanValue()) {
+                if (!Chams.getInstance().textured.getValue().booleanValue()) {
+                    GL11.glPushAttrib((int)1048575);
+                    GL11.glDisable((int)3008);
+                    GL11.glDisable((int)3553);
+                    GL11.glDisable((int)2896);
+                    GL11.glEnable((int)3042);
+                    GL11.glBlendFunc((int)770, (int)771);
+                    GL11.glLineWidth((float)1.5f);
+                    GL11.glEnable((int)2960);
 
-    @Shadow
-    public abstract float prepareScale(T paramT, float paramFloat);
+                    if (Chams.getInstance().xqz.getValue().booleanValue()) {
+                        Color hiddenColor = Chams.getInstance().colorSync.getValue() != false ? EntityUtil.getColor(entityIn, Chams.getInstance().hiddenRed.getValue(), Chams.getInstance().hiddenGreen.getValue(), Chams.getInstance().hiddenBlue.getValue(), Chams.getInstance().hiddenAlpha.getValue(), true) : EntityUtil.getColor(entityIn, Chams.getInstance().hiddenRed.getValue(), Chams.getInstance().hiddenGreen.getValue(), Chams.getInstance().hiddenBlue.getValue(), Chams.getInstance().hiddenAlpha.getValue(), true);
+                        Color visibleColor2 = Chams.getInstance().colorSync.getValue() != false ? EntityUtil.getColor(entityIn, Chams.getInstance().red.getValue(), Chams.getInstance().green.getValue(), Chams.getInstance().blue.getValue(), Chams.getInstance().alpha.getValue(), true) : EntityUtil.getColor(entityIn, Chams.getInstance().red.getValue(), Chams.getInstance().green.getValue(), Chams.getInstance().blue.getValue(), Chams.getInstance().alpha.getValue(), true);
+                        GL11.glDisable((int)2929);
+                        GL11.glDepthMask((boolean)false);
+                        GL11.glEnable((int)10754);
+                        GL11.glColor4f((float)((float)hiddenColor.getRed() / 255.0f), (float)((float)hiddenColor.getGreen() / 255.0f), (float)((float)hiddenColor.getBlue() / 255.0f), (float)((float)Chams.getInstance().alpha.getValue().intValue() / 255.0f));
+                        modelBase.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                        GL11.glEnable((int)2929);
 
-    @Shadow
-    protected abstract void unsetScoreTeamColor();
+                        GL11.glDepthMask((boolean)true);
+                        GL11.glColor4f((float)((float)visibleColor2.getRed() / 255.0f), (float)((float)visibleColor2.getGreen() / 255.0f), (float)((float)visibleColor2.getBlue() / 255.0f), (float)((float)Chams.getInstance().alpha.getValue().intValue() / 255.0f));
+                        modelBase.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                    } else {
+                        visibleColor = Chams.getInstance().colorSync.getValue() != false ? ClickGui.getInstance().getCurrentColor() : EntityUtil.getColor(entityIn, Chams.getInstance().red.getValue(), Chams.getInstance().green.getValue(), Chams.getInstance().blue.getValue(), Chams.getInstance().alpha.getValue(), true);
+                        GL11.glDisable((int)2929);
+                        GL11.glDepthMask((boolean)false);
+                        GL11.glEnable((int)10754);
+                        GL11.glColor4f((float)((float)visibleColor.getRed() / 255.0f), (float)((float)visibleColor.getGreen() / 255.0f), (float)((float)visibleColor.getBlue() / 255.0f), (float)((float)Chams.getInstance().alpha.getValue().intValue() / 255.0f));
+                        modelBase.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                        GL11.glEnable((int)2929);
+                        GL11.glDepthMask((boolean)true);
+                    }
+                    GL11.glEnable((int)3042);
+                    GL11.glEnable((int)2896);
+                    GL11.glEnable((int)3553);
+                    GL11.glEnable((int)3008);
+                    GL11.glPopAttrib();
+                }
+            } else if (Chams.getInstance().textured.getValue().booleanValue()) {
+                GL11.glDisable((int)2929);
+                GL11.glDepthMask((boolean)false);
+                visibleColor = Chams.getInstance().colorSync.getValue() != false ? ClickGui.getInstance().getCurrentColor() : EntityUtil.getColor(entityIn, Chams.getInstance().red.getValue(), Chams.getInstance().green.getValue(), Chams.getInstance().blue.getValue(), Chams.getInstance().alpha.getValue(), true);
+                GL11.glColor4f((float)((float)visibleColor.getRed() / 255.0f), (float)((float)visibleColor.getGreen() / 255.0f), (float)((float)visibleColor.getBlue() / 255.0f), (float)((float)Chams.getInstance().alpha.getValue().intValue() / 255.0f));
+                modelBase.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+                GL11.glEnable((int)2929);
+                GL11.glDepthMask((boolean)true);
+            } else if (!cancel) {
+                modelBase.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
-    @Shadow
-    protected abstract boolean setScoreTeamColor(T paramT);
+            }
+        }
 
-    @Shadow
-    protected abstract void renderLivingAt(T paramT, double paramDouble1, double paramDouble2, double paramDouble3);
+        @Inject(method={"doRender"}, at={@At(value="HEAD")})
+        public void doRenderPre(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo info) {
+            if (Chams.getInstance().isEnabled() && !Chams.getInstance().colored.getValue().booleanValue() && entity != null) {
+                GL11.glEnable((int)32823);
+                GL11.glPolygonOffset((float)1.0f, (float)-1100000.0f);
+            }
+        }
 
-    @Shadow
-    protected abstract void unsetBrightness();
+        @Inject(method={"doRender"}, at={@At(value="RETURN")})
+        public void doRenderPost(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo info) {
+            if (Chams.getInstance().isEnabled() && !Chams.getInstance().colored.getValue().booleanValue() && entity != null) {
+                GL11.glPolygonOffset((float)1.0f, (float)1000000.0f);
+                GL11.glDisable((int)32823);
+            }
+        }
+    }
 
-    @Shadow
-    protected abstract void renderModel(T paramT, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, float paramFloat5, float paramFloat6);
 
-    @Shadow
-    protected abstract void renderLayers(T paramT, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, float paramFloat5, float paramFloat6, float paramFloat7);
-
-    @Shadow
-    protected abstract boolean setDoRenderBrightness(T paramT, float paramFloat);
-}

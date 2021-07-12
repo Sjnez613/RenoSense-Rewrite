@@ -7,8 +7,11 @@ import me.alpha432.oyvey.features.command.Command;
 import me.alpha432.oyvey.features.gui.OyVeyGui;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.setting.Setting;
+import me.alpha432.oyvey.util.ColorUtil;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.awt.*;
 
 public class ClickGui
         extends Module {
@@ -35,6 +38,7 @@ public class ClickGui
     public Setting<Float> rainbowBrightness = this.register(new Setting<Object>("Brightness ", Float.valueOf(150.0f), Float.valueOf(1.0f), Float.valueOf(255.0f), v -> this.rainbow.getValue()));
     public Setting<Float> rainbowSaturation = this.register(new Setting<Object>("Saturation", Float.valueOf(150.0f), Float.valueOf(1.0f), Float.valueOf(255.0f), v -> this.rainbow.getValue()));
 
+    public float hue;
 
 
     private OyVeyGui click;
@@ -61,6 +65,20 @@ public class ClickGui
             ClickGui.mc.gameSettings.setOptionFloatValue(GameSettings.Options.FOV, this.fov.getValue().floatValue());
         }
     }
+
+    public int getCurrentColorHex() {
+        if (this.rainbow.getValue().booleanValue()) {
+            return Color.HSBtoRGB(this.hue, (float)this.rainbowSaturation.getValue().intValue() / 255.0f, (float)this.rainbowBrightness.getValue().intValue() / 255.0f);
+        }
+        return ColorUtil.toARGB(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue());
+    }
+    public Color getCurrentColor() {
+        if (this.rainbow.getValue().booleanValue()) {
+            return Color.getHSBColor(this.hue, (float)this.rainbowSaturation.getValue().intValue() / 255.0f, (float)this.rainbowBrightness.getValue().intValue() / 255.0f);
+        }
+        return new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue());
+    }
+
 
     @SubscribeEvent
     public void onSettingChange(ClientEvent event) {
@@ -89,6 +107,8 @@ public class ClickGui
         if (!(ClickGui.mc.currentScreen instanceof OyVeyGui)) {
             this.disable();
         }
+
+
     }
 
     public enum rainbowModeArray {

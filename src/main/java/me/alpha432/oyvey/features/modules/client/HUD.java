@@ -117,6 +117,8 @@ public class HUD extends Module {
 
     }
 
+
+
     public void onRender2D(Render2DEvent event) {
         if (fullNullCheck())
             return;

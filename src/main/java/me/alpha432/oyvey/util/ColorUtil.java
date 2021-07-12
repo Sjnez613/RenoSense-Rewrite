@@ -26,6 +26,8 @@ public class ColorUtil {
         return Color.getHSBColor((float) ((rainbowState %= 360.0) / 360.0), ClickGui.getInstance().rainbowSaturation.getValue().floatValue() / 255.0f, ClickGui.getInstance().rainbowBrightness.getValue().floatValue() / 255.0f);
     }
 
+
+
     public static int toRGBA(float[] colors) {
         if (colors.length != 4) {
             throw new IllegalArgumentException("colors[] must have a length of 4!");
