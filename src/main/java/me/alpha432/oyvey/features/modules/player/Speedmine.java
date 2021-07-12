@@ -143,7 +143,7 @@ public class Speedmine
     public void onRender3D(final Render3DEvent event) {
         if (this.render.getValue() && this.currentPos != null) {
             final Color color = new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.boxAlpha.getValue());
-            RenderUtil.boxESP(this.currentPos, color, this.lineWidth.getValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue());
+            RenderUtil.gradientBox(this.currentPos, color, this.lineWidth.getValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue());
         }
     }
 
