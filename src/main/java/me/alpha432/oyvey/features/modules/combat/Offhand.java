@@ -37,7 +37,8 @@ public class Offhand
     public Setting<Boolean> gapple = this.register(new Setting<Boolean>("Gapple", true));
     public Setting<Boolean> armorCheck = this.register(new Setting<Boolean>("ArmorCheck", true));
     public Setting<Integer> actions = this.register(new Setting<Integer>("Packets", 4, 1, 4));
-    public Setting<Integer> fallDistance = this.register(new Setting<Integer>("FallDistance", 0, 0, 100));
+    public Setting<Boolean> fallDistance = this.register(new Setting<Boolean>("FallDistance", false));
+    public Setting<Float> Height = this.register(new Setting<Float>("Height", 0F, 0F, 30F, v -> this.fallDistance.getValue()));
     public Mode2 currentMode = Mode2.TOTEMS;
     public int totems = 0;
     public int crystals = 0;
@@ -169,6 +170,9 @@ public class Offhand
             this.switchedForHealthReason = false;
         }
         if (this.currentMode == Mode2.CRYSTALS && this.armorCheck.getValue().booleanValue() && (Offhand.mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.AIR || Offhand.mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == Items.AIR || Offhand.mc.player.getItemStackFromSlot(EntityEquipmentSlot.LEGS).getItem() == Items.AIR || Offhand.mc.player.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == Items.AIR)) {
+            this.setMode(Mode2.TOTEMS);
+        }
+        if ((this.currentMode == Mode2.CRYSTALS || this.currentMode == Mode2.GAPPLES) && Offhand.mc.player.fallDistance > this.Height.getValue().floatValue() && this.fallDistance.getValue()){
             this.setMode(Mode2.TOTEMS);
         }
         if (Offhand.mc.currentScreen instanceof GuiContainer && !(Offhand.mc.currentScreen instanceof GuiInventory)) {
