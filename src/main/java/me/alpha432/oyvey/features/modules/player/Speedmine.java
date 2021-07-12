@@ -43,16 +43,20 @@ public class Speedmine
     public Setting<Boolean> doubleBreak = this.register(new Setting<Boolean>("DoubleBreak", false));
     public Setting<Boolean> webSwitch = this.register(new Setting<Boolean>("WebSwitch", false));
     public Setting<Boolean> silentSwitch = this.register(new Setting<Boolean>("SilentSwitch", false));
-    public Setting<Boolean> render = this.register(new Setting<Boolean>("Render", false));
-    public Setting<Boolean> box = this.register(new Setting<Object>("Box", Boolean.valueOf(false), v -> this.render.getValue()));
-    private final Setting<Integer> boxAlpha = this.register(new Setting<Object>("BoxAlpha", Integer.valueOf(85), Integer.valueOf(0), Integer.valueOf(255), v -> this.box.getValue() != false && this.render.getValue() != false));
-    public Setting<Boolean> outline = this.register(new Setting<Object>("Outline", Boolean.valueOf(true), v -> this.render.getValue()));
-    private final Setting<Float> lineWidth = this.register(new Setting<Object>("LineWidth", Float.valueOf(1.0f), Float.valueOf(0.1f), Float.valueOf(5.0f), v -> this.outline.getValue() != false && this.render.getValue() != false));
     public BlockPos currentPos;
     public IBlockState currentBlockState;
     private boolean isMining = false;
     private BlockPos lastPos = null;
     private EnumFacing lastFacing = null;
+
+    public Setting<Boolean> render;
+    public Setting<Integer> red;
+    public Setting<Integer> green;
+    public Setting<Integer> blue;
+    public Setting<Boolean> box;
+    public Setting<Boolean> outline;
+    public final Setting<Float> lineWidth;
+    public final Setting<Integer> boxAlpha;
 
     private int oldSlot;
     private boolean shouldSwap;
@@ -60,6 +64,14 @@ public class Speedmine
     public Speedmine() {
         super("Speedmine", "Speeds up mining.", Module.Category.PLAYER, true, false, false);
         this.setInstance();
+        this.render = (Setting<Boolean>) this.register(new Setting("Render", false));
+        this.red = (Setting<Integer>) this.register(new Setting("Red", 125, 0, 255, v -> this.render.getValue()));
+        this.green = (Setting<Integer>) this.register(new Setting("Green", 105, 0, 255, v -> this.render.getValue()));
+        this.blue = (Setting<Integer>) this.register(new Setting("Blue", 255, 0, 255, v -> this.render.getValue()));
+        this.box = (Setting<Boolean>) this.register(new Setting("Box", false, v -> this.render.getValue()));
+        this.outline = (Setting<Boolean>) this.register(new Setting("Outline", true, v -> this.render.getValue()));
+        this.lineWidth = (Setting<Float>) this.register(new Setting("LineWidth", 1.0f, 0.1f, 5.0f, v -> this.outline.getValue() && this.render.getValue()));
+        this.boxAlpha = (Setting<Integer>) this.register(new Setting("BoxAlpha", 85, 0, 255, v -> this.box.getValue() && this.render.getValue()));
     }
 
     public static Speedmine getInstance() {
@@ -128,10 +140,10 @@ public class Speedmine
     }
 
     @Override
-    public void onRender3D(Render3DEvent event) {
-        if (this.render.getValue().booleanValue() && this.currentPos != null) {
-            Color color = new Color(this.timer.passedMs((int) (2000.0f * OyVey.serverManager.getTpsFactor())) ? 0 : 255, this.timer.passedMs((int) (2000.0f * OyVey.serverManager.getTpsFactor())) ? 255 : 0, 0, 255);
-            RenderUtil.drawBoxESP(this.currentPos, color, false, color, this.lineWidth.getValue().floatValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), false);
+    public void onRender3D(final Render3DEvent event) {
+        if (this.render.getValue() && this.currentPos != null) {
+            final Color color = new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.boxAlpha.getValue());
+            RenderUtil.boxESP(this.currentPos, color, this.lineWidth.getValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue());
         }
     }
 
