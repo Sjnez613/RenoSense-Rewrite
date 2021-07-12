@@ -35,6 +35,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new AutoCrystal());
         this.modules.add(new GodModule());
         this.modules.add(new Nametags());
         this.modules.add(new ChatModifier());
