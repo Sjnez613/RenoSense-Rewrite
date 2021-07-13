@@ -74,7 +74,7 @@ public class CommandManager
 
     public String getClientMessage() {
         if(HUD.getInstance().commandPrefix.getValue()) {
-            return this.clientMessage;
+            return (" " + this.clientMessage);
         }
         return "";
     }

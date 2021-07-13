@@ -43,7 +43,7 @@ public class HUD extends Module {
     private final Setting<Boolean> armor = register(new Setting("Armor", Boolean.valueOf(false), "ArmorHUD"));
     private final Setting<Boolean> totems = register(new Setting("Totems", Boolean.valueOf(false), "TotemHUD"));
     private final Setting<Boolean> greeter = register(new Setting("Welcomer", Boolean.valueOf(false), "The time"));
-    private final Setting<Boolean> speed = register(new Setting("Speed", Boolean.valueOf(false), "Your Speed"));
+    public Setting<Boolean> speed = register(new Setting("Speed", Boolean.valueOf(false), "Your Speed"));
     public Setting<Boolean> potions = this.register(new Setting<Boolean>("Potions", Boolean.valueOf(false), "Active potion effects"));
     public Setting<Boolean> potionSync = this.register(new Setting<Boolean>("PotionSync", Boolean.valueOf(false), v -> this.potions.getValue()));
     private final Setting<Boolean> ping = register(new Setting("Ping", Boolean.valueOf(false), "Your response time to the server."));
