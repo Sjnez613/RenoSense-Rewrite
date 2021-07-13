@@ -17,8 +17,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemEndCrystal;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
@@ -61,6 +63,7 @@ public class OyVeyAutoCrystal
     public Setting<Boolean> opPlace = this.register(new Setting<Boolean>("1.13 Place", true));
     public Setting<Boolean> suicide = this.register(new Setting<Boolean>("AntiSuicide", true));
     public Setting<Boolean> autoswitch = this.register(new Setting<Boolean>("AutoSwitch", true));
+    public Setting<Boolean> silentSwitch = this.register(new Setting<Boolean>("Silent Swithch", true));
     public Setting<Boolean> silent = this.register(new Setting<Boolean>("Silent", false, v -> this.autoswitch.getValue()));
     public Setting<Boolean> ignoreUseAmount = this.register(new Setting<Boolean>("IgnoreUseAmount", true));
     public Setting<Integer> wasteAmount = this.register(new Setting<Integer>("UseAmount", 4, 1, 5));
@@ -213,7 +216,7 @@ public class OyVeyAutoCrystal
         this.hotBarSlot = -1;
         if (OyVeyAutoCrystal.mc.player.getHeldItemOffhand().getItem() != Items.END_CRYSTAL) {
             int crystalSlot;
-            int n = crystalSlot = OyVeyAutoCrystal.mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL ? OyVeyAutoCrystal.mc.player.inventory.currentItem : -1;
+            crystalSlot = OyVeyAutoCrystal.mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL ? OyVeyAutoCrystal.mc.player.inventory.currentItem : -1;
             if (crystalSlot == -1) {
                 for (int l = 0; l < 9; ++l) {
                     if (OyVeyAutoCrystal.mc.player.inventory.getStackInSlot(l).getItem() != Items.END_CRYSTAL) continue;
@@ -289,13 +292,20 @@ public class OyVeyAutoCrystal
                 return;
             }
             this.realTarget = this.target;
-            if (this.hotBarSlot != -1 && this.autoswitch.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS) && this.silent.getValue().booleanValue() == false) {
-                OyVeyAutoCrystal.mc.player.inventory.currentItem = this.hotBarSlot;
-            }else if (this.hotBarSlot != -1 && this.silent.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS)) {
-                InventoryUtil.switchToHotbarSlot(this.hotBarSlot, true);
-                InventoryUtil.mc.playerController.updateController();
+
+            int slot = InventoryUtil.getItemHotbar(Items.END_CRYSTAL);
+            int old = mc.player.inventory.currentItem;
+            EnumHand hand = null;
+            if(slot != -1 && this.silentSwitch.getValue() && mc.player.isPotionActive(MobEffects.WEAKNESS)){
+                if(mc.player.isHandActive()) {
+                    hand = mc.player.getActiveHand();
+                }
+                mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
             }
 
+            else if (this.hotBarSlot != -1 && this.autoswitch.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS) && this.silent.getValue().booleanValue() == false) {
+                OyVeyAutoCrystal.mc.player.inventory.currentItem = this.hotBarSlot;
+            }
             if (!this.ignoreUseAmount.getValue().booleanValue()) {
                 int crystalLimit = this.wasteAmount.getValue();
                 if (this.crystalCount >= crystalLimit) {
@@ -311,6 +321,13 @@ public class OyVeyAutoCrystal
             } else if (this.pos != null) {
                 this.rotateToPos(this.pos);
                 OyVeyAutoCrystal.mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(this.pos, EnumFacing.UP, OyVeyAutoCrystal.mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
+            }
+
+            if(slot != -1 && this.silentSwitch.getValue() && mc.player.isPotionActive(MobEffects.WEAKNESS)){
+                mc.player.connection.sendPacket(new CPacketHeldItemChange(old));
+                if(hand != null){
+                    mc.player.setActiveHand(hand);
+                }
             }
         }
     }
