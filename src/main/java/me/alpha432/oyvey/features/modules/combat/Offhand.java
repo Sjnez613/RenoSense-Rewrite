@@ -156,6 +156,10 @@ public class Offhand
         } else if (this.currentMode != Mode2.CRYSTALS && this.crystal.getValue().booleanValue() && (EntityUtil.isSafe(Offhand.mc.player) && EntityUtil.getHealth(Offhand.mc.player, true) > this.crystalHoleHealth.getValue().floatValue() || EntityUtil.getHealth(Offhand.mc.player, true) > this.crystalHealth.getValue().floatValue())) {
             this.currentMode = Mode2.CRYSTALS;
         }
+        if (this.currentMode == Mode2.GAPPLES && EntityUtil.getHealth(mc.player, true) <= this.crystalHealth.getValue() || EntityUtil.getHealth(mc.player, true) <= this.crystalHoleHealth.getValue()) {
+                this.switchedForHealthReason = true;
+                this.setMode(Mode2.TOTEMS);
+        }
         if (this.currentMode == Mode2.CRYSTALS && this.crystals == 0) {
             this.setMode(Mode2.TOTEMS);
         }

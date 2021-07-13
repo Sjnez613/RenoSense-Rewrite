@@ -63,8 +63,8 @@ public class OyVeyAutoCrystal
     public Setting<Boolean> opPlace = this.register(new Setting<Boolean>("1.13 Place", true));
     public Setting<Boolean> suicide = this.register(new Setting<Boolean>("AntiSuicide", true));
     public Setting<Boolean> autoswitch = this.register(new Setting<Boolean>("AutoSwitch", true));
-    public Setting<Boolean> silentSwitch = this.register(new Setting<Boolean>("Silent Swithch", true));
-    public Setting<Boolean> silent = this.register(new Setting<Boolean>("Silent", false, v -> this.autoswitch.getValue()));
+    public Setting<SwitchMode> switchmode = this.register(new Setting<SwitchMode>("SwitchMode", SwitchMode.Normal, v -> this.autoswitch.getValue()));
+    public Setting<Boolean> silentSwitch = this.register(new Setting<Boolean>("SilentSwitchHand", true, v -> this.switchmode.getValue() == SwitchMode.Silent));
     public Setting<Boolean> ignoreUseAmount = this.register(new Setting<Boolean>("IgnoreUseAmount", true));
     public Setting<Integer> wasteAmount = this.register(new Setting<Integer>("UseAmount", 4, 1, 5));
     public Setting<Boolean> facePlaceSword = this.register(new Setting<Boolean>("FacePlaceSword", true));
@@ -293,19 +293,23 @@ public class OyVeyAutoCrystal
             }
             this.realTarget = this.target;
 
-            int slot = InventoryUtil.getItemHotbar(Items.END_CRYSTAL);
-            int old = mc.player.inventory.currentItem;
-            EnumHand hand = null;
-            if(slot != -1 && this.silentSwitch.getValue() && mc.player.isPotionActive(MobEffects.WEAKNESS)){
-                if(mc.player.isHandActive()) {
-                    hand = mc.player.getActiveHand();
-                }
-                mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
-            }
-
-            else if (this.hotBarSlot != -1 && this.autoswitch.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS) && this.silent.getValue().booleanValue() == false) {
+            if (this.hotBarSlot != -1 && this.autoswitch.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS) && this.switchmode.getValue() == SwitchMode.Normal) {
                 OyVeyAutoCrystal.mc.player.inventory.currentItem = this.hotBarSlot;
             }
+
+
+            int slot = InventoryUtil.findHotbarBlock(ItemEndCrystal.class);
+            int old = mc.player.inventory.currentItem;
+            EnumHand hand = null;
+            if (switchmode.getValue() == SwitchMode.Silent) {
+                if (slot != -1) {
+                    if (mc.player.isHandActive() && this.silentSwitch.getValue()) {
+                        hand = mc.player.getActiveHand();
+                    }
+                    mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
+                }
+            }
+
             if (!this.ignoreUseAmount.getValue().booleanValue()) {
                 int crystalLimit = this.wasteAmount.getValue();
                 if (this.crystalCount >= crystalLimit) {
@@ -323,12 +327,15 @@ public class OyVeyAutoCrystal
                 OyVeyAutoCrystal.mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(this.pos, EnumFacing.UP, OyVeyAutoCrystal.mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
             }
 
-            if(slot != -1 && this.silentSwitch.getValue() && mc.player.isPotionActive(MobEffects.WEAKNESS)){
-                mc.player.connection.sendPacket(new CPacketHeldItemChange(old));
-                if(hand != null){
-                    mc.player.setActiveHand(hand);
+            if (switchmode.getValue() == SwitchMode.Silent) {
+                if (slot != -1) {
+                    mc.player.connection.sendPacket(new CPacketHeldItemChange(old));
+                    if (this.silentSwitch.getValue() && hand != null) {
+                        mc.player.setActiveHand(hand);
+                    }
                 }
             }
+
         }
     }
 
@@ -591,5 +598,11 @@ public class OyVeyAutoCrystal
         None
 
     }
+
+    public enum SwitchMode {
+        Normal,
+        Silent;
+    }
+
 }
 

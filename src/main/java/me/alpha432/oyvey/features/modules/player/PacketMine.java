@@ -14,7 +14,6 @@ import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
@@ -49,6 +48,7 @@ public class PacketMine extends Module {
     private boolean isMining;
     private BlockPos lastPos;
     private EnumFacing lastFacing;
+    private boolean shouldSwitch;
 
     public PacketMine() {
         super("PacketMine", "Speeds up mining.", Category.PLAYER, true, false, false);
@@ -72,6 +72,8 @@ public class PacketMine extends Module {
         this.isMining = false;
         this.lastPos = null;
         this.lastFacing = null;
+        this.shouldSwitch = false;
+
         this.setInstance();
     }
 
@@ -87,14 +89,24 @@ public class PacketMine extends Module {
     }
 
     @Override
+    public void onEnable() {
+        shouldSwitch = false;
+    }
+
+    @Override
     public void onTick() {
         if (fullNullCheck()) {
             return;
         }
+
+
         if (this.currentPos != null && (!PacketMine.mc.world.getBlockState(this.currentPos).equals(this.currentBlockState) || PacketMine.mc.world.getBlockState(this.currentPos).getBlock() == Blocks.AIR)) {
             this.currentPos = null;
             this.currentBlockState = null;
+            this.shouldSwitch = true;
         }
+
+
     }
 
     @Override
@@ -126,6 +138,8 @@ public class PacketMine extends Module {
         if (fullNullCheck()) {
             return;
         }
+
+
         if (event.getStage() == 0) {
             if (this.noSwing.getValue() && event.getPacket() instanceof CPacketAnimation) {
                 event.setCanceled(true);
@@ -151,6 +165,7 @@ public class PacketMine extends Module {
                 }
             }
         }
+
     }
 
     @SubscribeEvent
@@ -162,6 +177,9 @@ public class PacketMine extends Module {
             PacketMine.mc.playerController.isHittingBlock = true;
         }
         if (event.getStage() == 4 && this.tweaks.getValue()) {
+
+
+
             if (BlockUtil.canBreak(event.pos)) {
                 if (this.currentPos == null) {
                     this.currentPos = event.pos;
@@ -174,6 +192,8 @@ public class PacketMine extends Module {
                 PacketMine.mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, event.pos, event.facing));
                 PacketMine.mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, event.pos, event.facing));
                 event.setCanceled(true);
+
+
             }
             if (this.doubleBreak.getValue()) {
                 final BlockPos above = event.pos.add(0, 1, 0);
