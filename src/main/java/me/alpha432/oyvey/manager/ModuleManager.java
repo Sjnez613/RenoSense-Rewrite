@@ -37,7 +37,6 @@ public class ModuleManager
     public void init() {
         this.modules.add(new Chams());
         this.modules.add(new AutoCrystal());
-        this.modules.add(new GodModule());
         this.modules.add(new Nametags());
         this.modules.add(new ChatModifier());
         this.modules.add(new Speed());
@@ -59,7 +58,7 @@ public class ModuleManager
         this.modules.add(new HoleESP());
         this.modules.add(new FakePlayer());
         this.modules.add(new MCP());
-        this.modules.add(new Speedmine());
+        this.modules.add(new PacketMine());
         this.modules.add(new ReverseStep());
         this.modules.add(new AntiVoid());
         this.modules.add(new MCF());
@@ -78,6 +77,7 @@ public class ModuleManager
         this.modules.add(new AutoArmor());
         this.modules.add(new FastPlace());
         this.modules.add(new Selftrap());
+        this.modules.add(new NoGlitchBlocks());
     }
 
     public Module getModuleByName(String name) {

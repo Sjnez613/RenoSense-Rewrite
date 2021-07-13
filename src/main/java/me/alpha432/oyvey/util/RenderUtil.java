@@ -1,6 +1,8 @@
 package me.alpha432.oyvey.util;
 
 import me.alpha432.oyvey.OyVey;
+import me.alpha432.oyvey.features.modules.player.PacketMine;
+import me.alpha432.oyvey.features.modules.player.PacketMine;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -54,6 +56,60 @@ public class RenderUtil
         clean = GL11.glIsEnabled(3553);
         bind = GL11.glIsEnabled(2929);
         override = GL11.glIsEnabled(2848);
+    }
+
+    public static void gradientBox(final BlockPos pos, final Color color, final float lineWidth, final boolean outline, final boolean box, final int boxAlpha, final boolean speedmine) {
+        final AxisAlignedBB bb = new AxisAlignedBB(pos.getX() - RenderUtil.mc.getRenderManager().viewerPosX, pos.getY() - RenderUtil.mc.getRenderManager().viewerPosY, pos.getZ() - RenderUtil.mc.getRenderManager().viewerPosZ, pos.getX() + 1 - RenderUtil.mc.getRenderManager().viewerPosX, pos.getY() + 1 - RenderUtil.mc.getRenderManager().viewerPosY, pos.getZ() + 1 - RenderUtil.mc.getRenderManager().viewerPosZ);
+        RenderUtil.camera.setPosition(Objects.requireNonNull(RenderUtil.mc.getRenderViewEntity()).posX, RenderUtil.mc.getRenderViewEntity().posY, RenderUtil.mc.getRenderViewEntity().posZ);
+        if (RenderUtil.camera.isBoundingBoxInFrustum(new AxisAlignedBB(bb.minX + RenderUtil.mc.getRenderManager().viewerPosX, bb.minY + RenderUtil.mc.getRenderManager().viewerPosY, bb.minZ + RenderUtil.mc.getRenderManager().viewerPosZ, bb.maxX + RenderUtil.mc.getRenderManager().viewerPosX, bb.maxY + RenderUtil.mc.getRenderManager().viewerPosY, bb.maxZ + RenderUtil.mc.getRenderManager().viewerPosZ))) {
+            GlStateManager.pushMatrix();
+            GlStateManager.enableBlend();
+            GlStateManager.disableDepth();
+            GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+            GlStateManager.disableTexture2D();
+            GlStateManager.depthMask(false);
+            GL11.glEnable(2848);
+            GL11.glHint(3154, 4354);
+            GL11.glLineWidth(lineWidth);
+            final double dist = RenderUtil.mc.player.getDistance(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f) * 0.75;
+            final double percentage = RenderUtil.mc.playerController.curBlockDamageMP;
+            float speedmineThing = PacketMine.getInstance().timer.getPassedTimeMs() / 1000.0f / (PacketMine.getInstance().breakTime * OyVey.serverManager.getTpsFactor());
+            speedmineThing = ((speedmineThing > 1.0f) ? 1.0f : speedmineThing);
+            double minX;
+            double minY;
+            double minZ;
+            double maxX;
+            double maxY;
+            double maxZ;
+            if (speedmine) {
+                minX = bb.minX + 0.5 - speedmineThing / 2.0f;
+                minY = bb.minY + 0.5 - speedmineThing / 2.0f;
+                minZ = bb.minZ + 0.5 - speedmineThing / 2.0f;
+                maxX = bb.maxX - 0.5 + speedmineThing / 2.0f;
+                maxY = bb.maxY - 0.5 + speedmineThing / 2.0f;
+                maxZ = bb.maxZ - 0.5 + speedmineThing / 2.0f;
+            } else {
+                minX = bb.minX + 0.5 - percentage / 2.0;
+                minY = bb.minY + 0.5 - percentage / 2.0;
+                minZ = bb.minZ + 0.5 - percentage / 2.0;
+                maxX = bb.maxX - 0.5 + percentage / 2.0;
+                maxY = bb.maxY - 0.5 + percentage / 2.0;
+                maxZ = bb.maxZ - 0.5 + percentage / 2.0;
+            }
+            final AxisAlignedBB a = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
+            if (box) {
+                drawFilledBox(a, new Color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, boxAlpha / 255.0f).getRGB());
+            }
+            if (outline) {
+                drawBlockOutline(a, new Color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1.0f), PacketMine.getInstance().lineWidth.getValue());
+            }
+            GL11.glDisable(2848);
+            GlStateManager.depthMask(true);
+            GlStateManager.enableDepth();
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
+        }
     }
 
     public static void drawRectangleCorrectly(int x, int y, int w, int h, int color) {

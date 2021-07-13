@@ -39,7 +39,6 @@ public class ChatModifier
 
     @Override
     public void onUpdate() {
-
         if (this.autoQMain.getValue().booleanValue()) {
             if (!this.shouldSendMessage((EntityPlayer)ChatModifier.mc.player)) {
                 return;
