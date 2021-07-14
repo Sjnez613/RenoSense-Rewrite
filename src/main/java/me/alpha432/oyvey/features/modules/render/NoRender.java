@@ -14,6 +14,9 @@ public class NoRender
     public Setting<Skylight> skylight = this.register(new Setting<Skylight>("Skylight", Skylight.NONE));
     public Setting<Boolean> advancements = this.register(new Setting<Boolean>("Advancements", false));
 
+    public Setting<Boolean> fire = this.register(new Setting<Boolean>("Fire", Boolean.valueOf(false), "Removes the portal overlay."));
+
+
     public NoRender() {
         super("NoRender", "Allows you to stop rendering stuff", Module.Category.RENDER, true, false, false);
         this.setInstance();

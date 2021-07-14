@@ -1,6 +1,7 @@
 package me.alpha432.oyvey.mixin.mixins;
 
 import me.alpha432.oyvey.event.events.RenderItemEvent;
+import me.alpha432.oyvey.features.modules.render.NoRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -34,7 +35,12 @@ public abstract class MixinItemRenderer {
     public void renderItemInFirstPersonHook(AbstractClientPlayer player, float p_1874572, float p_1874573, EnumHand hand, float p_1874575, ItemStack stack, float p_1874577, CallbackInfo info) {
     }
 
-
+    @Inject(method={"renderFireInFirstPerson"}, at={@At(value="HEAD")}, cancellable=true)
+    public void renderFireInFirstPersonHook(CallbackInfo info) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance().fire.getValue().booleanValue()) {
+            info.cancel();
+        }
+    }
 
     @Redirect(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemRenderer;transformSideFirstPerson(Lnet/minecraft/util/EnumHandSide;F)V"))
     public void transformRedirect(ItemRenderer renderer, EnumHandSide hand, float y) {

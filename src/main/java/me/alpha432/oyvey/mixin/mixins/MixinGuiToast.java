@@ -16,4 +16,5 @@ public class MixinGuiToast {
             info.cancel();
         }
     }
+
 }

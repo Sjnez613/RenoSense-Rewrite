@@ -248,9 +248,9 @@ public class OyVeyAutoCrystal
             this.target = null;
         }
         this.crystal = OyVeyAutoCrystal.mc.world.loadedEntityList.stream().filter(this::IsValidCrystal).map(p_Entity -> (EntityEnderCrystal) p_Entity).min(Comparator.comparing(p_Entity -> Float.valueOf(this.target.getDistance((Entity) p_Entity)))).orElse(null);
-        if (this.crystal != null && this.explode.getValue().booleanValue() && this.breakTimer.passedMs(this.breakDelay.getValue().longValue())) {
+        if (this.crystal != null && this.explode.getValue() && this.breakTimer.passedMs(this.breakDelay.getValue().longValue())) {
             this.breakTimer.reset();
-            if (this.packetBreak.getValue().booleanValue()) {
+            if (this.packetBreak.getValue()) {
                 this.rotateTo(this.crystal);
                 OyVeyAutoCrystal.mc.player.connection.sendPacket(new CPacketUseEntity(this.crystal));
             } else {
@@ -263,10 +263,10 @@ public class OyVeyAutoCrystal
                 OyVeyAutoCrystal.mc.player.swingArm(EnumHand.OFF_HAND);
             }
         }
-        if (this.placeTimer.passedMs(this.placeDelay.getValue().longValue()) && this.place.getValue().booleanValue()) {
+        if (this.placeTimer.passedMs(this.placeDelay.getValue().longValue()) && this.place.getValue()) {
             this.placeTimer.reset();
             double damage = 0.5;
-            for (BlockPos blockPos : this.placePostions(this.placeRange.getValue().floatValue())) {
+            for (BlockPos blockPos : this.placePostions(this.placeRange.getValue())) {
                 double selfDmg;
                 double targetRange;
                 if (blockPos == null || this.target == null || !OyVeyAutoCrystal.mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(blockPos)).isEmpty() || (targetRange = this.target.getDistance(blockPos.getX(), blockPos.getY(), blockPos.getZ())) > (double) this.targetRange.getValue().floatValue() || this.target.isDead || this.target.getHealth() + this.target.getAbsorptionAmount() <= 0.0f)
@@ -277,10 +277,10 @@ public class OyVeyAutoCrystal
                     float green = ((float) is.getMaxDamage() - (float) is.getItemDamage()) / (float) is.getMaxDamage();
                     float red = 1.0f - green;
                     int dmg = 100 - (int) (red * 100.0f);
-                    if (!((float) dmg <= this.minArmor.getValue().floatValue())) continue;
+                    if (!((float) dmg <= this.minArmor.getValue())) continue;
                     this.armor = true;
                 }
-                if (targetDmg < (double) this.minDamage.getValue().floatValue() && (this.facePlaceSword.getValue() != false ? this.target.getAbsorptionAmount() + this.target.getHealth() > this.facePlace.getValue().floatValue() : OyVeyAutoCrystal.mc.player.getHeldItemMainhand().getItem() instanceof ItemSword || this.target.getAbsorptionAmount() + this.target.getHealth() > this.facePlace.getValue().floatValue()) && (this.facePlaceSword.getValue() != false ? !this.armor : OyVeyAutoCrystal.mc.player.getHeldItemMainhand().getItem() instanceof ItemSword || !this.armor) || (selfDmg = this.calculateDamage((double) blockPos.getX() + 0.5, (double) blockPos.getY() + 1.0, (double) blockPos.getZ() + 0.5, OyVeyAutoCrystal.mc.player)) + (this.suicide.getValue() != false ? 2.0 : 0.5) >= (double) (OyVeyAutoCrystal.mc.player.getHealth() + OyVeyAutoCrystal.mc.player.getAbsorptionAmount()) && selfDmg >= targetDmg && targetDmg < (double) (this.target.getHealth() + this.target.getAbsorptionAmount()) || !(damage < targetDmg))
+                if (targetDmg < (double) this.minDamage.getValue() && (this.facePlaceSword.getValue() ? this.target.getAbsorptionAmount() + this.target.getHealth() > this.facePlace.getValue().floatValue() : OyVeyAutoCrystal.mc.player.getHeldItemMainhand().getItem() instanceof ItemSword || this.target.getAbsorptionAmount() + this.target.getHealth() > this.facePlace.getValue().floatValue()) && (this.facePlaceSword.getValue() != false ? !this.armor : OyVeyAutoCrystal.mc.player.getHeldItemMainhand().getItem() instanceof ItemSword || !this.armor) || (selfDmg = this.calculateDamage((double) blockPos.getX() + 0.5, (double) blockPos.getY() + 1.0, (double) blockPos.getZ() + 0.5, OyVeyAutoCrystal.mc.player)) + (this.suicide.getValue() != false ? 2.0 : 0.5) >= (double) (OyVeyAutoCrystal.mc.player.getHealth() + OyVeyAutoCrystal.mc.player.getAbsorptionAmount()) && selfDmg >= targetDmg && targetDmg < (double) (this.target.getHealth() + this.target.getAbsorptionAmount()) || !(damage < targetDmg))
                     continue;
                 this.pos = blockPos;
                 damage = targetDmg;
@@ -293,7 +293,7 @@ public class OyVeyAutoCrystal
             }
             this.realTarget = this.target;
 
-            if (this.hotBarSlot != -1 && this.autoswitch.getValue().booleanValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS) && this.switchmode.getValue() == SwitchMode.Normal) {
+            if (this.hotBarSlot != -1 && this.autoswitch.getValue() && !OyVeyAutoCrystal.mc.player.isPotionActive(MobEffects.WEAKNESS) && this.switchmode.getValue() == SwitchMode.Normal && !this.silentSwitch.getValue()) {
                 OyVeyAutoCrystal.mc.player.inventory.currentItem = this.hotBarSlot;
             }
 
@@ -310,12 +310,12 @@ public class OyVeyAutoCrystal
                 }
             }
 
-            if (!this.ignoreUseAmount.getValue().booleanValue()) {
+            if (!this.ignoreUseAmount.getValue()) {
                 int crystalLimit = this.wasteAmount.getValue();
                 if (this.crystalCount >= crystalLimit) {
                     return;
                 }
-                if (damage < (double) this.minDamage.getValue().floatValue()) {
+                if (damage < (double) this.minDamage.getValue()) {
                     crystalLimit = 1;
                 }
                 if (this.crystalCount < crystalLimit && this.pos != null) {
@@ -329,10 +329,11 @@ public class OyVeyAutoCrystal
 
             if (switchmode.getValue() == SwitchMode.Silent) {
                 if (slot != -1) {
-                    mc.player.connection.sendPacket(new CPacketHeldItemChange(old));
                     if (this.silentSwitch.getValue() && hand != null) {
                         mc.player.setActiveHand(hand);
                     }
+                    mc.player.connection.sendPacket(new CPacketHeldItemChange(old));
+
                 }
             }
 

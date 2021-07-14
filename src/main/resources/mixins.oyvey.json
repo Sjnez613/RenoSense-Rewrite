@@ -17,6 +17,8 @@
     "MixinGuiToast",
     "MixinRenderGlobal",
     "MixinLayerArmorBase",
-    "MixinGuiNewChat"
+    "MixinGuiNewChat",
+    "MixinAbstractClientPlayer",
+    "MixinRenderPlayer"
   ]
 }
