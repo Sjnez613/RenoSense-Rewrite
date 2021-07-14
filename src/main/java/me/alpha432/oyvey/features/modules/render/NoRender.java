@@ -1,7 +1,10 @@
 package me.alpha432.oyvey.features.modules.render;
 
+import me.alpha432.oyvey.event.events.PacketEvent;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.setting.Setting;
+import net.minecraft.network.play.server.SPacketExplosion;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class NoRender
         extends Module {
@@ -15,7 +18,7 @@ public class NoRender
     public Setting<Boolean> advancements = this.register(new Setting<Boolean>("Advancements", false));
     public Setting<Boolean> hurtCam = this.register(new Setting<Boolean>("NoHurtCam", false));
     public Setting<Boolean> fire = this.register(new Setting<Boolean>("Fire", Boolean.valueOf(false), "Removes the portal overlay."));
-
+    public Setting<Boolean> explosion = this.register(new Setting<Boolean>("Explosions", false, "Removes explosions"));
 
     public NoRender() {
         super("NoRender", "Allows you to stop rendering stuff", Module.Category.RENDER, true, false, false);
@@ -33,6 +36,12 @@ public class NoRender
         INSTANCE = this;
     }
 
+    @SubscribeEvent
+    public void onPacketReceive(final PacketEvent.Receive event) {
+        if (event.getPacket() instanceof SPacketExplosion && this.explosion.getValue().booleanValue()) {
+            event.setCanceled(true);
+        }
+    }
 
 public enum Skylight {
     NONE,

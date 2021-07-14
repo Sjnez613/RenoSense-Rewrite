@@ -19,6 +19,7 @@
     "MixinLayerArmorBase",
     "MixinGuiNewChat",
     "MixinAbstractClientPlayer",
-    "MixinRenderPlayer"
+    "MixinRenderPlayer",
+    "MixinEntity"
   ]
 }

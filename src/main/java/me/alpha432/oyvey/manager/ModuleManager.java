@@ -35,6 +35,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new Step());
         this.modules.add(new Replenish());
         this.modules.add(new Fullbright());
         this.modules.add(new NoSlow());
@@ -51,7 +52,6 @@ public class ModuleManager
         this.modules.add(new ViewModel());
         this.modules.add(new Aspect());
         this.modules.add(new Burrow());
-        this.modules.add(new QueueSkip());
         this.modules.add(new RPC());
         this.modules.add(new AntiWeb());
         this.modules.add(new Logo());
