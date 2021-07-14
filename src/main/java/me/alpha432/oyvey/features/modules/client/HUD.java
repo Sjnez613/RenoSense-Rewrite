@@ -216,7 +216,7 @@ public class HUD extends Module {
                 counter1[0] = counter1[0] + 1;
             }
             String fpsText = grayString + "FPS " + ChatFormatting.WHITE + Minecraft.debugFPS;
-            String str1 = grayString + "Ping " + ChatFormatting.WHITE + OyVey.serverManager.getPing();
+            String str1 = grayString + "Ping " + ChatFormatting.WHITE + OyVey.serverManager.getPing() + "ms";
             if (this.renderer.getStringWidth(str1) > this.renderer.getStringWidth(fpsText)) {
                 if (this.ping.getValue().booleanValue()) {
                     i += 10;
