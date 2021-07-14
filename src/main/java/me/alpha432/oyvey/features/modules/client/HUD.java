@@ -47,6 +47,7 @@ public class HUD extends Module {
     public Setting<Boolean> potions = this.register(new Setting<Boolean>("Potions", Boolean.valueOf(false), "Active potion effects"));
     public Setting<Boolean> potionSync = this.register(new Setting<Boolean>("PotionSync", Boolean.valueOf(false), v -> this.potions.getValue()));
     private final Setting<Boolean> ping = register(new Setting("Ping", Boolean.valueOf(false), "Your response time to the server."));
+    private final Setting<Boolean> ms = register(new Setting("ms", false, v -> this.ping.getValue()));
     private final Setting<Boolean> tps = register(new Setting("TPS", Boolean.valueOf(false), "Ticks per second of the server."));
     private final Setting<Boolean> fps = register(new Setting("FPS", Boolean.valueOf(false), "Your frames per second."));
     private final Setting<Boolean> lag = register(new Setting("LagNotifier", Boolean.valueOf(false), "The time"));
@@ -216,7 +217,7 @@ public class HUD extends Module {
                 counter1[0] = counter1[0] + 1;
             }
             String fpsText = grayString + "FPS " + ChatFormatting.WHITE + Minecraft.debugFPS;
-            String str1 = grayString + "Ping " + ChatFormatting.WHITE + OyVey.serverManager.getPing() + "ms";
+            String str1 = grayString + "Ping " + ChatFormatting.WHITE + OyVey.serverManager.getPing() + (this.ms.getValue() ? "ms" : "");
             if (this.renderer.getStringWidth(str1) > this.renderer.getStringWidth(fpsText)) {
                 if (this.ping.getValue().booleanValue()) {
                     i += 10;
