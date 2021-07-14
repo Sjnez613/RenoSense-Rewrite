@@ -35,6 +35,8 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new PlayerFinder());
+        this.modules.add(new Replenish());
         this.modules.add(new Fullbright());
         this.modules.add(new NoSlow());
         this.modules.add(new GodModule());

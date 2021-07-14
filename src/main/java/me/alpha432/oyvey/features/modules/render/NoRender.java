@@ -13,7 +13,7 @@ public class NoRender
     public Setting<NoArmor> noArmor = this.register(new Setting<NoArmor>("NoArmor", NoArmor.NONE, "Doesnt Render Armor on players."));
     public Setting<Skylight> skylight = this.register(new Setting<Skylight>("Skylight", Skylight.NONE));
     public Setting<Boolean> advancements = this.register(new Setting<Boolean>("Advancements", false));
-
+    public Setting<Boolean> hurtCam = this.register(new Setting<Boolean>("NoHurtCam", false));
     public Setting<Boolean> fire = this.register(new Setting<Boolean>("Fire", Boolean.valueOf(false), "Removes the portal overlay."));
 
 

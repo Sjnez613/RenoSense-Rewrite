@@ -94,8 +94,12 @@ public class MixinEntityRenderer {
         }
     }
 
-
-
+    @Inject(method={"hurtCameraEffect"}, at={@At(value="HEAD")}, cancellable=true)
+    public void hurtCameraEffect(float ticks, CallbackInfo info) {
+        if (NoRender.getInstance().hurtCam.getValue() && NoRender.getInstance().isOn()) {
+            info.cancel();
+        }
+    }
 
     @Redirect(method = "setupCameraTransform", at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
     private void onSetupCameraTransform(float fovy, float aspect, float zNear, float zFar) {

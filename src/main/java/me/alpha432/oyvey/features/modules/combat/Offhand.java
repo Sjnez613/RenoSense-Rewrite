@@ -35,6 +35,7 @@ public class Offhand
     public Setting<Float> crystalHealth = this.register(new Setting<Float>("CrystalHP", Float.valueOf(13.0f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
     public Setting<Float> crystalHoleHealth = this.register(new Setting<Float>("CrystalHoleHP", Float.valueOf(3.5f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
     public Setting<Boolean> gapple = this.register(new Setting<Boolean>("Gapple", true));
+    public Setting<Boolean> antiGappleFail = this.register(new Setting<Boolean>("AntiGapFail", false));
     public Setting<Boolean> armorCheck = this.register(new Setting<Boolean>("ArmorCheck", true));
     public Setting<Integer> actions = this.register(new Setting<Integer>("Packets", 4, 1, 4));
     public Setting<Boolean> fallDistance = this.register(new Setting<Boolean>("FallDistance", false));
@@ -156,14 +157,16 @@ public class Offhand
         } else if (this.currentMode != Mode2.CRYSTALS && this.crystal.getValue().booleanValue() && (EntityUtil.isSafe(Offhand.mc.player) && EntityUtil.getHealth(Offhand.mc.player, true) > this.crystalHoleHealth.getValue().floatValue() || EntityUtil.getHealth(Offhand.mc.player, true) > this.crystalHealth.getValue().floatValue())) {
             this.currentMode = Mode2.CRYSTALS;
         }
-        if (this.currentMode == Mode2.GAPPLES && EntityUtil.getHealth(mc.player, true) <= this.crystalHealth.getValue() || EntityUtil.getHealth(mc.player, true) <= this.crystalHoleHealth.getValue()) {
+        if(this.antiGappleFail.getValue()) {
+            if (this.currentMode == Mode2.GAPPLES && (!EntityUtil.isSafe(mc.player) && EntityUtil.getHealth(mc.player, true) <= this.crystalHealth.getValue() || EntityUtil.getHealth(mc.player, true) <= this.crystalHoleHealth.getValue())) {
                 this.switchedForHealthReason = true;
                 this.setMode(Mode2.TOTEMS);
+            }
         }
         if (this.currentMode == Mode2.CRYSTALS && this.crystals == 0) {
             this.setMode(Mode2.TOTEMS);
         }
-        if (this.currentMode == Mode2.CRYSTALS && (!EntityUtil.isSafe(Offhand.mc.player) && EntityUtil.getHealth(Offhand.mc.player, true) <= this.crystalHealth.getValue().floatValue() || EntityUtil.getHealth(Offhand.mc.player, true) <= this.crystalHoleHealth.getValue().floatValue())) {
+        if (this.currentMode == Mode2.CRYSTALS && (!EntityUtil.isSafe(Offhand.mc.player) && EntityUtil.getHealth(Offhand.mc.player, true) <= this.crystalHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player, true) <= this.crystalHoleHealth.getValue())) {
             if (this.currentMode == Mode2.CRYSTALS) {
                 this.switchedForHealthReason = true;
             }
