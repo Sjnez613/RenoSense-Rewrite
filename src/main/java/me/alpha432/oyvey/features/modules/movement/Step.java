@@ -4,6 +4,7 @@ import me.alpha432.oyvey.event.events.StepEvent;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.setting.Setting;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -13,6 +14,7 @@ public class Step
     public Setting<Boolean> vanilla = this.register(new Setting<Boolean>("Vanilla", false));
     public Setting<Integer> stepHeight = this.register(new Setting<Integer>("Height", 2, 1, 2));
     public Setting<Boolean> turnOff = this.register(new Setting<Boolean>("Disable", false));
+    public Setting<Boolean> reverse = this.register(new Setting<Boolean>("Reverse", false));
     private static Step instance;
 
     public Step() {
@@ -25,6 +27,19 @@ public class Step
             instance = new Step();
         }
         return instance;
+    }
+
+    @Override
+    public void onUpdate() {
+        if(reverse.getValue()) {
+            if (mc.player == null || mc.player.isInWater() || mc.player.isInLava()) {
+                return;
+            }
+            if (mc.player.onGround) {
+                final EntityPlayerSP player = mc.player;
+                --player.motionY;
+            }
+        }
     }
 
     @SubscribeEvent

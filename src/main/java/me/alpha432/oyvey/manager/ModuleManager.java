@@ -61,11 +61,9 @@ public class ModuleManager
         this.modules.add(new BlockHighlight());
         this.modules.add(new HoleESP());
         this.modules.add(new FakePlayer());
-        this.modules.add(new MCP());
+        this.modules.add(new MiddleClick());
         this.modules.add(new PacketMine());
-        this.modules.add(new ReverseStep());
         this.modules.add(new AntiVoid());
-        this.modules.add(new MCF());
         this.modules.add(new PearlNotify());
         this.modules.add(new ToolTips());
         this.modules.add(new Tracker());
