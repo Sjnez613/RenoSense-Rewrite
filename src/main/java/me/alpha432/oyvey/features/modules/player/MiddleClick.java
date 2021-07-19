@@ -89,13 +89,13 @@ public class MiddleClick extends Module {
                         if (FriendSettings.getInstance().notify.getValue()) {
                             mc.player.connection.sendPacket(new CPacketChatMessage("/w " + entity.getName() + " I just removed you from my friends list on RenoSense!"));
                         }
-                        Command.sendMessage(ChatFormatting.WHITE + entity.getName() + ChatFormatting.WHITE + " has been unfriended.");
+                        Command.sendMessage(ChatFormatting.RED + entity.getName() + ChatFormatting.RED + " has been unfriended.");
                     } else {
                         OyVey.friendManager.addFriend(entity.getName());
                         if (FriendSettings.getInstance().notify.getValue()) {
                             mc.player.connection.sendPacket(new CPacketChatMessage("/w " + entity.getName() + " I just added you to my friends list on RenoSense!"));
                         }
-                        Command.sendMessage(ChatFormatting.WHITE + entity.getName() + ChatFormatting.WHITE + " has been friended.");
+                        Command.sendMessage(ChatFormatting.GREEN + entity.getName() + ChatFormatting.GREEN + " has been friended.");
                     }
                 }
                 this.clicked = true;
