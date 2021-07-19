@@ -27,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.*;
 
+import static me.alpha432.oyvey.OyVey.commandManager;
+
 public class HUD extends Module {
     private static final ResourceLocation box = new ResourceLocation("textures/gui/container/shulker_box.png");
     private static final ItemStack totem = new ItemStack(Items.TOTEM_OF_UNDYING);
@@ -51,18 +53,14 @@ public class HUD extends Module {
     private final Setting<Boolean> tps = register(new Setting("TPS", Boolean.valueOf(false), "Ticks per second of the server."));
     private final Setting<Boolean> fps = register(new Setting("FPS", Boolean.valueOf(false), "Your frames per second."));
     private final Setting<Boolean> lag = register(new Setting("LagNotifier", Boolean.valueOf(false), "The time"));
-    public Setting<Boolean> rainbowPrefix = this.register(new Setting<Boolean>("RainbowPrefix", false));
-    public Setting<Integer> rainbowSpeed = this.register(new Setting<Object>("PrefixSpeed", Integer.valueOf(20), Integer.valueOf(0), Integer.valueOf(100), v -> this.rainbowPrefix.getValue()));
-    public Setting<Integer> rainbowSaturation = this.register(new Setting<Object>("Saturation", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbowPrefix.getValue()));
-    public Setting<Integer> rainbowBrightness = this.register(new Setting<Object>("Brightness", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbowPrefix.getValue()));
+    public Setting<Integer> rainbowSpeed = this.register(new Setting<Object>("PrefixSpeed", Integer.valueOf(20), Integer.valueOf(0), Integer.valueOf(100)));
+    public Setting<Integer> rainbowSaturation = this.register(new Setting<Object>("Saturation", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255)));
+    public Setting<Integer> rainbowBrightness = this.register(new Setting<Object>("Brightness", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255)));
     private final Timer timer = new Timer();
     private final Map<String, Integer> players = new HashMap<>();
     public Setting<Boolean> commandPrefix = register(new Setting("CommandPrefix", true));
     public Setting<String> command = register(new Setting("Command", "RenoSense"));
-    public Setting<TextUtil.Color> bracketColor = register(new Setting("BracketColor", TextUtil.Color.BLUE));
     public Setting<TextUtil.Color> commandColor = register(new Setting("NameColor", TextUtil.Color.BLUE));
-    public Setting<String> commandBracket = register(new Setting("Bracket", "<"));
-    public Setting<String> commandBracket2 = register(new Setting("Bracket2", ">"));
     public Setting<Boolean> notifyToggles = register(new Setting("ChatNotify", Boolean.valueOf(false), "notifys in chat"));
     public Setting<Integer> animationHorizontalTime = register(new Setting("AnimationHTime", Integer.valueOf(500), Integer.valueOf(1), Integer.valueOf(1000), v -> this.arrayList.getValue().booleanValue()));
     public Setting<Integer> animationVerticalTime = register(new Setting("AnimationVTime", Integer.valueOf(50), Integer.valueOf(1), Integer.valueOf(500), v -> this.arrayList.getValue().booleanValue()));
@@ -76,7 +74,6 @@ public class HUD extends Module {
     private boolean shouldIncrement;
     private int hitMarkerTimer;
     public float hue;
-
 
 
     public HUD() {
@@ -102,22 +99,21 @@ public class HUD extends Module {
             this.shouldIncrement = false;
         }
     }
+
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         Display.setTitle(gameTitle.getValue());
 
 
-            int colorSpeed = 101 - this.rainbowSpeed.getValue();
-            float tempHue = this.hue = (float)(System.currentTimeMillis() % (long)(360 * colorSpeed)) / (360.0f * (float)colorSpeed);
-            for (int i = 0; i <= 510; ++i) {
-                this.colorHeightMap.put(i, Color.HSBtoRGB(tempHue, (float)this.rainbowSaturation.getValue().intValue() / 255.0f, (float)this.rainbowBrightness.getValue().intValue() / 255.0f));
-                tempHue += 0.0013071896f;
-            }
-
+        int colorSpeed = 101 - this.rainbowSpeed.getValue();
+        float tempHue = this.hue = (float) (System.currentTimeMillis() % (long) (360 * colorSpeed)) / (360.0f * (float) colorSpeed);
+        for (int i = 0; i <= 510; ++i) {
+            this.colorHeightMap.put(i, Color.HSBtoRGB(tempHue, (float) this.rainbowSaturation.getValue().intValue() / 255.0f, (float) this.rainbowBrightness.getValue().intValue() / 255.0f));
+            tempHue += 0.0013071896f;
+        }
 
 
     }
-
 
 
     public void onRender2D(Render2DEvent event) {
@@ -194,7 +190,7 @@ public class HUD extends Module {
                     String str = OyVey.potionManager.getColoredPotionString(potionEffect);
                     i += 10;
 
-                    renderer.drawString(str, (width - renderer.getStringWidth(str) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : (this.potionSync.getValue() ? this.color : potionEffect.getPotion().getLiquidColor()) , true);
+                    renderer.drawString(str, (width - renderer.getStringWidth(str) - 2), (height - 2 - i), this.potionSync.getValue() ? ((ClickGui.getInstance()).rainbow.getValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue()).getRGB()) : (this.potionSync.getValue() ? this.color : potionEffect.getPotion().getLiquidColor())) : potionEffect.getPotion().getLiquidColor(), true);
                 }
             }
 
@@ -247,7 +243,7 @@ public class HUD extends Module {
                 List<PotionEffect> effects = new ArrayList<>((Minecraft.getMinecraft()).player.getActivePotionEffects());
                 for (PotionEffect potionEffect : effects) {
                     String str = OyVey.potionManager.getColoredPotionString(potionEffect);
-                    renderer.drawString(str, (width - renderer.getStringWidth(str) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : (this.potionSync.getValue() ? this.color : potionEffect.getPotion().getLiquidColor()), true);
+                    renderer.drawString(str, (width - renderer.getStringWidth(str) - 2), (2 + i++ * 10), this.potionSync.getValue() ? ((ClickGui.getInstance()).rainbow.getValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue()).getRGB()) : (this.potionSync.getValue() ? this.color : potionEffect.getPotion().getLiquidColor())) : potionEffect.getPotion().getLiquidColor(), true);
                 }
             }
 
@@ -267,7 +263,7 @@ public class HUD extends Module {
                 counter1[0] = counter1[0] + 1;
             }
             String fpsText = grayString + "FPS " + ChatFormatting.WHITE + Minecraft.debugFPS;
-            String str1 = grayString + "Ping " + ChatFormatting.WHITE + OyVey.serverManager.getPing();
+            String str1 = grayString + "Ping " + ChatFormatting.WHITE + OyVey.serverManager.getPing() + (this.ms.getValue() ? "ms" : "");
             if (this.renderer.getStringWidth(str1) > this.renderer.getStringWidth(fpsText)) {
                 if (this.ping.getValue().booleanValue()) {
                     this.renderer.drawString(str1, (width - this.renderer.getStringWidth(str1) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
@@ -296,12 +292,12 @@ public class HUD extends Module {
         int hposX = (int) (mc.player.posX * nether);
         int hposZ = (int) (mc.player.posZ * nether);
         i = (mc.currentScreen instanceof net.minecraft.client.gui.GuiChat) ? 14 : 0;
-        String coordinates = ChatFormatting.RESET + (inHell ? String.valueOf(ChatFormatting.WHITE) + posX + ChatFormatting.GRAY + " [" + hposX + "], " + ChatFormatting.WHITE + posY + ChatFormatting.GRAY + "," + ChatFormatting.WHITE + posZ + ChatFormatting.GRAY +" [" + hposZ + "]" : (String.valueOf(ChatFormatting.WHITE) + posX + ChatFormatting.GRAY + " [" + hposX + "], " + ChatFormatting.WHITE + posY + ChatFormatting.GRAY + ", " + ChatFormatting.WHITE + posZ + ChatFormatting.GRAY + " [" + hposZ + "]"));
+        String coordinates = ChatFormatting.RESET + (inHell ? String.valueOf(ChatFormatting.WHITE) + posX + ChatFormatting.GRAY + " [" + hposX + "], " + ChatFormatting.WHITE + posY + ChatFormatting.GRAY + ", " + ChatFormatting.WHITE + posZ + ChatFormatting.GRAY + " [" + hposZ + "]" : (String.valueOf(ChatFormatting.WHITE) + posX + ChatFormatting.GRAY + " [" + hposX + "], " + ChatFormatting.WHITE + posY + ChatFormatting.GRAY + ", " + ChatFormatting.WHITE + posZ + ChatFormatting.GRAY + " [" + hposZ + "]"));
         String direction = this.direction.getValue().booleanValue() ? OyVey.rotationManager.getDirection4D(false) : "";
         String coords = this.coords.getValue().booleanValue() ? coordinates : "";
         i += 10;
         if ((ClickGui.getInstance()).rainbow.getValue().booleanValue()) {
-            String rainbowCoords = this.coords.getValue().booleanValue() ? ((inHell ? (posX + " [" + hposX + "], " + posY + " , " + posZ + " [" + hposZ + "]") : (posX + " [" + hposX + "], " + posY + ", " + posZ + " [" + hposZ + "]"))) : "";
+            String rainbowCoords = this.coords.getValue().booleanValue() ? ((inHell ? (posX + " [" + hposX + "], " + posY + ", " + posZ + " [" + hposZ + "]") : (posX + " [" + hposX + "], " + posY + ", " + posZ + " [" + hposZ + "]"))) : "";
             if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
                 this.renderer.drawString(direction, 2.0F, (height - i - 11), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
                 this.renderer.drawString(rainbowCoords, 2.0F, (height - i), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
@@ -422,63 +418,70 @@ public class HUD extends Module {
             if (!percent) continue;
             int dmg = 0;
             int itemDurability = is.getMaxDamage() - is.getItemDamage();
-            float green = ((float)is.getMaxDamage() - (float)is.getItemDamage()) / (float)is.getMaxDamage();
+            float green = ((float) is.getMaxDamage() - (float) is.getItemDamage()) / (float) is.getMaxDamage();
             float red = 1.0f - green;
-            dmg = percent ? 100 - (int)(red * 100.0f) : itemDurability;
-            this.renderer.drawStringWithShadow(dmg + "", x + 8 - this.renderer.getStringWidth(dmg + "") / 2, y - 11, ColorUtil.toRGBA((int)(red * 255.0f), (int)(green * 255.0f), 0));
+            dmg = percent ? 100 - (int) (red * 100.0f) : itemDurability;
+            this.renderer.drawStringWithShadow(dmg + "", x + 8 - this.renderer.getStringWidth(dmg + "") / 2, y - 11, ColorUtil.toRGBA((int) (red * 255.0f), (int) (green * 255.0f), 0));
         }
         GlStateManager.enableDepth();
         GlStateManager.disableLighting();
     }
+
     @SubscribeEvent
     public void onUpdateWalkingPlayer(AttackEntityEvent event) {
         this.shouldIncrement = true;
     }
 
     public void onLoad() {
-        OyVey.commandManager.setClientMessage(getCommandMessage());
+        commandManager.setClientMessage(getCommandMessage());
     }
 
     @SubscribeEvent
     public void onSettingChange(ClientEvent event) {
-        if (event.getStage() == 2 &&
-                equals(event.getSetting().getFeature()))
-            OyVey.commandManager.setClientMessage(getCommandMessage());
+        if (event.getSetting() != null && this.equals(event.getSetting().getFeature()))
+            commandManager.setClientMessage(getCommandMessage());
     }
 
     @SubscribeEvent
     public void onPacketReceive(PacketEvent.Receive event) {
         if (event.getStage() == 0 && event.getPacket() instanceof SPacketChat) {
-            if (!((SPacketChat)event.getPacket()).isSystem()) {
-                return;
+
+            if (timestamp.getValue()) {
+                String originalMessage = ((SPacketChat) event.getPacket()).chatComponent.getFormattedText();
+                String message = this.getTimeString(originalMessage) + originalMessage;
+
+                ((SPacketChat) event.getPacket()).chatComponent = new TextComponentString(message);
             }
-           if(timestamp.getValue()) {
-               String originalMessage = ((SPacketChat) event.getPacket()).chatComponent.getFormattedText();
-               String message = this.getTimeString(originalMessage) + originalMessage;
-               ((SPacketChat) event.getPacket()).chatComponent = new TextComponentString(message);
-           }
         }
+
     }
 
     public String getTimeString(String message) {
         String date = new SimpleDateFormat("h:mm").format(new Date());
-            String timeString = "<" + date + ">" + " ";
-            StringBuilder builder = new StringBuilder(timeString);
-            builder.insert(0, "\u00a7+");
+        String timeString = "<" + date + ">" + " ";
+        StringBuilder builder = new StringBuilder(timeString);
+        builder.insert(0, "\u00a7+");
+        if (!message.contains(HUD.getInstance().getRainbowCommandMessage())) {
             builder.append("\u00a7r");
+        }
+        return builder.toString();
+    }
 
-            return builder.toString();
-
+    public String getTimeString2() {
+        String date = new SimpleDateFormat("h:mm").format(new Date());
+        String timeString = "<" + date + ">";
+        StringBuilder builder = new StringBuilder(timeString);
+        return builder.toString();
     }
 
     public String getCommandMessage() {
-        if (this.rainbowPrefix.getPlannedValue().booleanValue()) {
-            StringBuilder stringBuilder = new StringBuilder(this.getRawCommandMessage());
-            stringBuilder.insert(0, "\u00a7+");
-            stringBuilder.append("\u00a7r");
+        if(commandPrefix.getValue() || timestamp.getValue()){
+            StringBuilder stringBuilder = new StringBuilder((this.timestamp.getValue() ? getTimeString2() : "") + (this.commandPrefix.getValue() ? ("<" + this.getRawCommandMessage() + ">") : ""));
+            stringBuilder.insert(0, this.timestamp.getValue() || this.commandPrefix.getValue() ? ("\u00a7+") : "");
+            stringBuilder.append("\u00a7r ");
             return stringBuilder.toString();
-        }
-        return TextUtil.coloredString(this.commandBracket.getPlannedValue(), this.bracketColor.getPlannedValue()) + TextUtil.coloredString(this.command.getPlannedValue(), this.commandColor.getPlannedValue()) + TextUtil.coloredString(this.commandBracket2.getPlannedValue(), this.bracketColor.getPlannedValue());
+    }
+        return "";
     }
 
     public String getRainbowCommandMessage() {
@@ -489,7 +492,7 @@ public class HUD extends Module {
     }
 
     public String getRawCommandMessage() {
-        return this.commandBracket.getValue() + this.command.getValue() + this.commandBracket2.getValue();
+        return this.command.getValue();
     }
 
     public void drawTextRadar(int yOffset) {
@@ -503,7 +506,6 @@ public class HUD extends Module {
             }
         }
     }
-
 
 
     public enum RenderingMode {

@@ -72,10 +72,10 @@ public class TextManager
             }
             if ((String.valueOf(currentChar) + nextChar).equals("\u00a7r")) {
                 String escapeString = text.substring(i);
-                this.drawString(escapeString, x + (float)currentWidth, y, Color.WHITE.getRGB(), shadow);
+                this.drawString(escapeString, x + (float) currentWidth, y, Color.WHITE.getRGB(), shadow);
                 break;
             }
-            this.drawString(String.valueOf(currentChar).equals("\u00a7") ? "" : String.valueOf(currentChar), x + (float)currentWidth, y, shouldRainbow ? currentColor.getRGB() : Color.WHITE.getRGB(), shadow);
+            this.drawString(String.valueOf(currentChar).equals("\u00a7") ? "" : String.valueOf(currentChar), x + (float) currentWidth, y, shouldRainbow ? currentColor.getRGB() : Color.WHITE.getRGB(), shadow);
             if (String.valueOf(currentChar).equals("\u00a7")) {
                 shouldContinue = true;
             }
@@ -85,6 +85,7 @@ public class TextManager
             currentHue += hueIncrement;
         }
     }
+
 
     public int getStringWidth(String text) {
         if (OyVey.moduleManager.isModuleEnabled(FontMod.getInstance().getName())) {

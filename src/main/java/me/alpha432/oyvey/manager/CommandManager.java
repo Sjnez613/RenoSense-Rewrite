@@ -4,7 +4,6 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.command.Command;
 import me.alpha432.oyvey.features.command.commands.*;
-import me.alpha432.oyvey.features.modules.client.HUD;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -73,10 +72,7 @@ public class CommandManager
     }
 
     public String getClientMessage() {
-        if(HUD.getInstance().commandPrefix.getValue()) {
-            return (" " + this.clientMessage);
-        }
-        return "";
+        return this.clientMessage;
     }
 
     public void setClientMessage(String clientMessage) {

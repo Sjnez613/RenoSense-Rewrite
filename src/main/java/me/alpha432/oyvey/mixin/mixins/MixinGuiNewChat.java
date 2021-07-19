@@ -31,7 +31,7 @@ public class MixinGuiNewChat
     }
 
 
-    @Redirect(method={"drawChat"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/gui/FontRenderer;drawStringWithShadow(Ljava/lang/String;FFI)I"))
+    @Redirect(method={"drawChat"}, at=@At(value="INVOKE",  target="Lnet/minecraft/client/gui/FontRenderer;drawStringWithShadow(Ljava/lang/String;FFI)I"))
     private int drawStringWithShadow(FontRenderer fontRenderer, String text, float x, float y, int color) {
         if (text.contains("\u00a7+")) {
             float colorSpeed = 101 - HUD.getInstance().rainbowSpeed.getValue();
