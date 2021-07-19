@@ -52,6 +52,7 @@ public class HUD extends Module {
     private final Setting<Boolean> ms = register(new Setting("ms", false, v -> this.ping.getValue()));
     private final Setting<Boolean> tps = register(new Setting("TPS", Boolean.valueOf(false), "Ticks per second of the server."));
     private final Setting<Boolean> fps = register(new Setting("FPS", Boolean.valueOf(false), "Your frames per second."));
+    private final Setting<Boolean> server = register(new Setting("Server", false, "Shows the server"));
     private final Setting<Boolean> lag = register(new Setting("LagNotifier", Boolean.valueOf(false), "The time"));
     public Setting<Integer> rainbowSpeed = this.register(new Setting<Object>("PrefixSpeed", Integer.valueOf(20), Integer.valueOf(0), Integer.valueOf(100)));
     public Setting<Integer> rainbowSaturation = this.register(new Setting<Object>("Saturation", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255)));
@@ -194,6 +195,13 @@ public class HUD extends Module {
                 }
             }
 
+            if(this.server.getValue()) {
+                String sText = grayString + "Server " + ChatFormatting.WHITE + mc.getCurrentServerData().serverIP;
+                i += 10;
+                this.renderer.drawString(sText, (width - this.renderer.getStringWidth(sText) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
+                counter1[0] = counter1[0] + 1;
+            }
+
             if (this.speed.getValue().booleanValue()) {
                 String str = grayString + "Speed " + ChatFormatting.WHITE + OyVey.speedManager.getSpeedKpH() + " km/h";
                 i += 10;
@@ -213,6 +221,7 @@ public class HUD extends Module {
                 counter1[0] = counter1[0] + 1;
             }
             String fpsText = grayString + "FPS " + ChatFormatting.WHITE + Minecraft.debugFPS;
+            String sText = grayString + "Server " + ChatFormatting.WHITE + mc.getCurrentServerData().serverIP;
             String str1 = grayString + "Ping " + ChatFormatting.WHITE + OyVey.serverManager.getPing() + (this.ms.getValue() ? "ms" : "");
             if (this.renderer.getStringWidth(str1) > this.renderer.getStringWidth(fpsText)) {
                 if (this.ping.getValue().booleanValue()) {
@@ -223,6 +232,11 @@ public class HUD extends Module {
                 if (this.fps.getValue().booleanValue()) {
                     i += 10;
                     this.renderer.drawString(fpsText, (width - this.renderer.getStringWidth(fpsText) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
+                    counter1[0] = counter1[0] + 1;
+                }
+                if(this.server.getValue()) {
+                    i += 10;
+                    this.renderer.drawString(sText, (width - this.renderer.getStringWidth(sText) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
                     counter1[0] = counter1[0] + 1;
                 }
             } else {
@@ -246,7 +260,11 @@ public class HUD extends Module {
                     renderer.drawString(str, (width - renderer.getStringWidth(str) - 2), (2 + i++ * 10), this.potionSync.getValue() ? ((ClickGui.getInstance()).rainbow.getValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue()).getRGB()) : (this.potionSync.getValue() ? this.color : potionEffect.getPotion().getLiquidColor())) : potionEffect.getPotion().getLiquidColor(), true);
                 }
             }
-
+            if(this.server.getValue()) {
+                String sText = grayString + "Server " + ChatFormatting.WHITE + mc.getCurrentServerData().serverIP;
+                this.renderer.drawString(sText, (width - this.renderer.getStringWidth(sText) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
+                counter1[0] = counter1[0] + 1;
+            }
             if (this.speed.getValue().booleanValue()) {
                 String str = grayString + "Speed " + ChatFormatting.WHITE + OyVey.speedManager.getSpeedKpH() + " km/h";
                 this.renderer.drawString(str, (width - this.renderer.getStringWidth(str) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
