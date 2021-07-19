@@ -7,9 +7,12 @@ package me.alpha432.oyvey.util;
 public class Timer
 {
     private long time;
-    
+    private long current;
+
+
     public Timer() {
         this.time = -1L;
+        this.current = System.currentTimeMillis();
     }
     
     public boolean passedS(final double s) {
@@ -44,7 +47,11 @@ public class Timer
         this.time = System.nanoTime();
         return this;
     }
-    
+
+    public void reset2() {
+        this.current = System.currentTimeMillis();
+    }
+
     public long getMs(final long time) {
         return time / 1000000L;
     }
@@ -52,4 +59,9 @@ public class Timer
     public long convertToNS(final long time) {
         return time * 1000000L;
     }
+
+    public boolean passed(final long delay) {
+        return System.currentTimeMillis() - this.current >= delay;
+    }
+
 }

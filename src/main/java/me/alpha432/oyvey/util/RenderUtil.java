@@ -2,7 +2,6 @@ package me.alpha432.oyvey.util;
 
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.modules.player.PacketMine;
-import me.alpha432.oyvey.features.modules.player.PacketMine;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -56,6 +55,36 @@ public class RenderUtil
         clean = GL11.glIsEnabled(3553);
         bind = GL11.glIsEnabled(2929);
         override = GL11.glIsEnabled(2848);
+    }
+
+    public static void enableGL3D() {
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.disableDepth();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(false);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+        GlStateManager.glLineWidth(1F);
+    }
+
+    public static void disableGL3D() {
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
+    }
+    public static void renderBox2(BlockPos pos, Color color, boolean outline, int alpha) {
+        enableGL3D();
+        final AxisAlignedBB bb = new AxisAlignedBB(pos.getX() - mc.getRenderManager().viewerPosX, pos.getY() - mc.getRenderManager().viewerPosY, pos.getZ() - mc.getRenderManager().viewerPosZ, pos.getX() + 1 - mc.getRenderManager().viewerPosX, pos.getY() + 1 - mc.getRenderManager().viewerPosY, pos.getZ() + 1 - mc.getRenderManager().viewerPosZ);
+        RenderGlobal.renderFilledBox(bb, color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, alpha / 255F);
+        if (outline) {
+            RenderGlobal.drawBoundingBox(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ, color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1);
+        }
+        disableGL3D();
     }
 
     public static void gradientBox(final BlockPos pos, final Color color, final float lineWidth, final boolean outline, final boolean box, final int boxAlpha, final boolean speedmine) {
