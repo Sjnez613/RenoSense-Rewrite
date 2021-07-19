@@ -121,8 +121,6 @@ public class Module
         if (HUD.getInstance().notifyToggles.getValue().booleanValue()) {
                 TextComponentString text = new TextComponentString((HUD.getInstance().getCommandMessage()) + ChatFormatting.BOLD + this.getDisplayName() + ChatFormatting.RESET + ChatFormatting.RED + " disabled.");
                 Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 1);
-
-
         }
 
         this.onToggle();

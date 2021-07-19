@@ -1,85 +1,87 @@
 package me.alpha432.oyvey.features.modules.player;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
-import me.alpha432.oyvey.features.command.Command;
 import me.alpha432.oyvey.features.modules.Module;
+import me.alpha432.oyvey.features.setting.Setting;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
-import org.apache.commons.io.IOUtils;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.MoverType;
 
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import java.util.UUID;
 
-public class FakePlayer
-        extends Module {
-    private final String name = "Scott";
-    private EntityOtherPlayerMP _fakePlayer;
+public class FakePlayer extends Module {
+    public Setting<Boolean> hollow = this.register(new Setting("DotGod", false));
 
     public FakePlayer() {
-        super("FakePlayer", "Spawns a FakePlayer for testing", Module.Category.PLAYER, false, false, false);
+        super("FakePlayer", "Spawns fake player", Category.PLAYER, false, false, false);
     }
 
-    public static String getUuid(String name) {
-        JsonParser parser = new JsonParser();
-        String url = "https://api.mojang.com/users/profiles/minecraft/" + name;
-        try {
-            String UUIDJson = IOUtils.toString(new URL(url), StandardCharsets.UTF_8);
-            if (UUIDJson.isEmpty()) {
-                return "invalid name";
-            }
-            JsonObject UUIDObject = (JsonObject) parser.parse(UUIDJson);
-            return FakePlayer.reformatUuid(UUIDObject.get("id").toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error";
+    private EntityOtherPlayerMP otherPlayer;
+
+    public void onTick() {
+        if (otherPlayer != null) {
+            Random random = new Random();
+            otherPlayer.moveForward = mc.player.moveForward + (random.nextInt(5) / 10F);
+            otherPlayer.moveStrafing = mc.player.moveStrafing + (random.nextInt(5) / 10F);
+            if (hollow.getValue()) travel(otherPlayer.moveStrafing, otherPlayer.moveVertical, otherPlayer.moveForward);
         }
     }
 
-    private static String reformatUuid(String uuid) {
-        String longUuid = "";
-        longUuid = longUuid + uuid.substring(1, 9) + "-";
-        longUuid = longUuid + uuid.substring(9, 13) + "-";
-        longUuid = longUuid + uuid.substring(13, 17) + "-";
-        longUuid = longUuid + uuid.substring(17, 21) + "-";
-        longUuid = longUuid + uuid.substring(21, 33);
-        return longUuid;
+    public void travel(float strafe, float vertical, float forward) {
+        double d0 = otherPlayer.posY;
+        float f1 = 0.8F;
+        float f2 = 0.02F;
+        float f3 = (float) EnchantmentHelper.getDepthStriderModifier(otherPlayer);
+
+        if (f3 > 3.0F) {
+            f3 = 3.0F;
+        }
+
+        if (!otherPlayer.onGround) {
+            f3 *= 0.5F;
+        }
+
+        if (f3 > 0.0F) {
+            f1 += (0.54600006F - f1) * f3 / 3.0F;
+            f2 += (otherPlayer.getAIMoveSpeed() - f2) * f3 / 4.0F;
+        }
+
+        otherPlayer.moveRelative(strafe, vertical, forward, f2);
+        otherPlayer.move(MoverType.SELF, otherPlayer.motionX, otherPlayer.motionY, otherPlayer.motionZ);
+        otherPlayer.motionX *= (double) f1;
+        otherPlayer.motionY *= 0.800000011920929D;
+        otherPlayer.motionZ *= (double) f1;
+
+        if (!otherPlayer.hasNoGravity()) {
+            otherPlayer.motionY -= 0.02D;
+        }
+
+        if (otherPlayer.collidedHorizontally && otherPlayer.isOffsetPositionInLiquid(otherPlayer.motionX, otherPlayer.motionY + 0.6000000238418579D - otherPlayer.posY + d0, otherPlayer.motionZ)) {
+            otherPlayer.motionY = 0.30000001192092896D;
+        }
     }
 
     @Override
     public void onEnable() {
-        if (FakePlayer.fullNullCheck()) {
-            this.disable();
+        if (mc.world == null || mc.player == null) {
+            toggle();
             return;
         }
-        this._fakePlayer = null;
-        if (FakePlayer.mc.player != null) {
-            try {
-                this._fakePlayer = new EntityOtherPlayerMP(FakePlayer.mc.world, new GameProfile(UUID.fromString(FakePlayer.getUuid(this.name)), this.name));
-            } catch (Exception e) {
-                this._fakePlayer = new EntityOtherPlayerMP(FakePlayer.mc.world, new GameProfile(UUID.fromString("991e28a2-c216-43aa-a7a5-0f7492bd1b78"), this.name));
-                Command.sendMessage("Failed to load uuid, setting another one.");
-            }
-            Command.sendMessage(String.format("%s has been spawned.", this.name));
-            this._fakePlayer.copyLocationAndAnglesFrom(FakePlayer.mc.player);
-            this._fakePlayer.rotationYawHead = FakePlayer.mc.player.rotationYawHead;
-            FakePlayer.mc.world.addEntityToWorld(-100, this._fakePlayer);
+        if (otherPlayer == null) {
+            otherPlayer = new EntityOtherPlayerMP(mc.world, new GameProfile(UUID.randomUUID(), "Alpha432"));
+            otherPlayer.copyLocationAndAnglesFrom(mc.player);
+            otherPlayer.inventory.copyInventory(mc.player.inventory);
         }
+        mc.world.spawnEntity(otherPlayer);
+
     }
 
     @Override
     public void onDisable() {
-        if (FakePlayer.mc.world != null && FakePlayer.mc.player != null) {
-            super.onDisable();
-            FakePlayer.mc.world.removeEntity(this._fakePlayer);
-        }
-    }
-
-    @Override
-    public void onLogout() {
-        if (this.isOn()) {
-            this.disable();
+        if (otherPlayer != null) {
+            mc.world.removeEntity(otherPlayer);
+            otherPlayer = null;
         }
     }
 }
