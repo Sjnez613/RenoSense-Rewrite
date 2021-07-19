@@ -4,12 +4,14 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.command.Command;
 import me.alpha432.oyvey.features.modules.Module;
+import me.alpha432.oyvey.features.modules.misc.FriendSettings;
 import me.alpha432.oyvey.features.setting.Setting;
 import me.alpha432.oyvey.util.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemEnderPearl;
+import net.minecraft.network.play.client.CPacketChatMessage;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import org.lwjgl.input.Mouse;
@@ -84,10 +86,16 @@ public class MiddleClick extends Module {
                 if (result != null && result.typeOfHit == RayTraceResult.Type.ENTITY && (entity = result.entityHit) instanceof EntityPlayer) {
                     if (OyVey.friendManager.isFriend(entity.getName())) {
                         OyVey.friendManager.removeFriend(entity.getName());
-                        Command.sendMessage(ChatFormatting.RED + entity.getName() + ChatFormatting.RED + " has been unfriended.");
+                        if (FriendSettings.getInstance().notify.getValue()) {
+                            mc.player.connection.sendPacket(new CPacketChatMessage("/w " + entity.getName() + " I just removed you from my friends list on RenoSense!"));
+                        }
+                        Command.sendMessage(ChatFormatting.WHITE + entity.getName() + ChatFormatting.WHITE + " has been unfriended.");
                     } else {
                         OyVey.friendManager.addFriend(entity.getName());
-                        Command.sendMessage(ChatFormatting.AQUA + entity.getName() + ChatFormatting.AQUA + " has been friended.");
+                        if (FriendSettings.getInstance().notify.getValue()) {
+                            mc.player.connection.sendPacket(new CPacketChatMessage("/w " + entity.getName() + " I just added you to my friends list on RenoSense!"));
+                        }
+                        Command.sendMessage(ChatFormatting.WHITE + entity.getName() + ChatFormatting.WHITE + " has been friended.");
                     }
                 }
                 this.clicked = true;

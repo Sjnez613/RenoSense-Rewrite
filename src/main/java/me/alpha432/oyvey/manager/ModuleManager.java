@@ -35,6 +35,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new FriendSettings());
         this.modules.add(new Step());
         this.modules.add(new Replenish());
         this.modules.add(new Fullbright());

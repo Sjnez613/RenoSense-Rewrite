@@ -3,7 +3,9 @@ package me.alpha432.oyvey.features.command.commands;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.command.Command;
+import me.alpha432.oyvey.features.modules.misc.FriendSettings;
 import me.alpha432.oyvey.manager.FriendManager;
+import net.minecraft.network.play.client.CPacketChatMessage;
 
 public class FriendCommand
         extends Command {
@@ -44,10 +46,16 @@ public class FriendCommand
                 case "add": {
                     OyVey.friendManager.addFriend(commands[1]);
                     FriendCommand.sendMessage(ChatFormatting.GREEN + commands[1] + " has been friended");
+                    if (FriendSettings.getInstance().notify.getValue()) {
+                        mc.player.connection.sendPacket(new CPacketChatMessage("/w " + commands[1] + " I just added you to my friends list on RenoSense!"));
+                    }
                     return;
                 }
                 case "del": {
                     OyVey.friendManager.removeFriend(commands[1]);
+                    if (FriendSettings.getInstance().notify.getValue()) {
+                        mc.player.connection.sendPacket(new CPacketChatMessage("/w " + commands[1] + " I just removed you from my friends list on RenoSense!"));
+                    }
                     FriendCommand.sendMessage(ChatFormatting.RED + commands[1] + " has been unfriended");
                     return;
                 }
