@@ -1,13 +1,12 @@
 package me.alpha432.oyvey.features.modules.player;
 
-import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.events.BlockEvent;
 import me.alpha432.oyvey.event.events.PacketEvent;
 import me.alpha432.oyvey.event.events.Render3DEvent;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.setting.Setting;
 import me.alpha432.oyvey.util.BlockUtil;
-import me.alpha432.oyvey.util.InventoryUtil;
+import me.alpha432.oyvey.util.MathUtil;
 import me.alpha432.oyvey.util.RenderUtil;
 import me.alpha432.oyvey.util.Timer;
 import net.minecraft.block.state.IBlockState;
@@ -15,10 +14,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -31,6 +28,8 @@ import java.awt.*;
 public class PacketMine extends Module {
     public Setting<Boolean> tweaks;
     public Setting<Boolean> reset;
+    public Setting<Float> range;
+
     public Setting<Boolean> silent;
     public Setting<Boolean> noBreakAnim;
     public Setting<Boolean> noDelay;
@@ -59,6 +58,7 @@ public class PacketMine extends Module {
         super("PacketMine", "Speeds up mining.", Category.PLAYER, true, false, false);
         this.tweaks = (Setting<Boolean>) this.register(new Setting("Tweaks", true));
         this.reset = (Setting<Boolean>) this.register(new Setting("Reset", true));
+        this.range = (Setting<Float>) this.register(new Setting("Range", 10.0f, 0.0f, 50.0f));
         this.silent = (Setting<Boolean>) this.register(new Setting("Silent", true));
         this.noBreakAnim = (Setting<Boolean>) this.register(new Setting("NoBreakAnim", false));
         this.noDelay = (Setting<Boolean>) this.register(new Setting("NoDelay", false));
@@ -104,55 +104,25 @@ public class PacketMine extends Module {
         if (fullNullCheck()) {
             return;
         }
-
-        if (mc.player != null && this.silent.getValue() && this.timer.passedMs((int) (2000.0f * OyVey.serverManager.getTpsFactor())) && this.getPickSlot() != -1) {
-
-
-            int slot = InventoryUtil.findHotbarBlock(ItemPickaxe.class);
-            int old = mc.player.inventory.currentItem;
-            EnumHand hand = null;
-                if (slot != -1) {
-                    if (mc.player.isHandActive()) {
-                        hand = mc.player.getActiveHand();
-                    }
-                    mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
-                }
-
-
-
-                if (slot != -1) {
-                    if (hand != null) {
-                        mc.player.setActiveHand(hand);
-                    }
-                    mc.player.connection.sendPacket(new CPacketHeldItemChange(old));
-
-                }
-
-
+        if (this.currentPos != null) {
+            if (mc.player != null && mc.player.getDistanceSq(this.currentPos) > MathUtil.square(this.range.getValue())) {
+                this.currentPos = null;
+                this.currentBlockState = null;
+                PacketMine.mc.playerController.isHittingBlock = false;
+                return;
+            }
         }
 
-            this.onMine();
-
+        this.onMine();
     }
 
     public void onMine() {
-
-
         if (this.currentPos != null && (!PacketMine.mc.world.getBlockState(this.currentPos).equals(this.currentBlockState) || PacketMine.mc.world.getBlockState(this.currentPos).getBlock() == Blocks.AIR)) {
             this.currentPos = null;
             this.currentBlockState = null;
             this.shouldSwitch = true;
         }
     }
-
-
-        private int getPickSlot() {
-            for (int i = 0; i < 9; ++i) {
-                if (mc.player.inventory.getStackInSlot(i).getItem() != Items.DIAMOND_PICKAXE) continue;
-                return i;
-            }
-            return -1;
-        }
 
     @Override
     public void onUpdate() {
@@ -177,7 +147,6 @@ public class PacketMine extends Module {
             RenderUtil.gradientBox(this.currentPos, color, this.lineWidth.getValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), true);
         }
     }
-
 
 
     @SubscribeEvent
@@ -224,7 +193,6 @@ public class PacketMine extends Module {
             PacketMine.mc.playerController.isHittingBlock = true;
         }
         if (event.getStage() == 4 && this.tweaks.getValue()) {
-
 
 
             if (BlockUtil.canBreak(event.pos)) {
