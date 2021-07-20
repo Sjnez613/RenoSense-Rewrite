@@ -1,6 +1,7 @@
 package me.alpha432.oyvey.util;
 
 import me.alpha432.oyvey.OyVey;
+import me.alpha432.oyvey.features.gui.font.CustomFont;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -51,6 +52,8 @@ public class RenderUtill implements Util
     private static final IntBuffer viewport;
     private static final FloatBuffer modelView;
     private static final FloatBuffer projection;
+    private CustomFont customFont = new CustomFont(new Font("Verdana", 3, 23), true, false);
+
 
     public static void updateModelViewProjectionMatrix() {
         GL11.glGetFloat(2982, RenderUtill.modelView);
@@ -1093,7 +1096,7 @@ public class RenderUtill implements Util
         }
     }
 
-    public static void drawText(final BlockPos pos, final String text) {
+    public void drawText(final BlockPos pos, final String text, final Color color) {
         if (pos == null || text == null) {
             return;
         }
@@ -1101,9 +1104,10 @@ public class RenderUtill implements Util
         glBillboardDistanceScaled(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, (EntityPlayer)RenderUtill.mc.player, 1.0f);
         GlStateManager.disableDepth();
         GlStateManager.translate(-(OyVey.textManager.getStringWidth(text) / 2.0), 0.0, 0.0);
-        OyVey.textManager.drawStringWithShadow(text, 0.0f, 0.0f, -5592406);
+        this.customFont.drawString(text, 0.0f, 0.0f, ColorUtil.toRGBA(color), true);
         GlStateManager.popMatrix();
     }
+
 
     public static void drawOutlinedBlockESP(final BlockPos pos, final Color color, final float linewidth) {
         final IBlockState iblockstate = RenderUtill.mc.world.getBlockState(pos);
