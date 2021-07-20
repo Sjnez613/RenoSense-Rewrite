@@ -2,6 +2,7 @@ package me.alpha432.oyvey.util;
 
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.gui.font.CustomFont;
+import me.alpha432.oyvey.features.modules.render.BurrowESP;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -52,7 +53,7 @@ public class RenderUtill implements Util
     private static final IntBuffer viewport;
     private static final FloatBuffer modelView;
     private static final FloatBuffer projection;
-    private CustomFont customFont = new CustomFont(new Font("Verdana", 3, 23), true, false);
+    private CustomFont customFont = new CustomFont(new Font("Arial", 3, 23), true, false);
 
 
     public static void updateModelViewProjectionMatrix() {

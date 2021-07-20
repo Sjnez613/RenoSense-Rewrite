@@ -17,7 +17,7 @@ import java.util.List;
 
 public class BurrowESP extends Module{
 
-    private static BurrowESP instance;
+    private static BurrowESP INSTANCE = new BurrowESP();
 
     public Setting<Boolean> text = register(new Setting("Text", true));
     public Setting<String> textString = register(new Setting("TextString", "BURROW", v -> this.text.getValue()));
@@ -34,14 +34,18 @@ public class BurrowESP extends Module{
 
     public BurrowESP(){
         super("BurrowESP", "BURROWESP", Category.RENDER, true, false, false);
-        instance = this;
+        this.setInstance();
     }
 
     public static BurrowESP getInstance(){
-        if (instance == null) {
-            instance = new BurrowESP();
+        if (INSTANCE == null) {
+            INSTANCE = new BurrowESP();
         }
-        return instance;
+        return INSTANCE;
+    }
+
+    private void setInstance() {
+        INSTANCE = this;
     }
 
     public void onTick(){
@@ -54,11 +58,8 @@ public class BurrowESP extends Module{
         }
     }
 
-
-
     @Override
     public void onRender3D(Render3DEvent event){
-
         for (BlockPos blockPos : posList){
             String s = textString.getValue().toUpperCase();
             if (this.text.getValue()) {
@@ -66,8 +67,5 @@ public class BurrowESP extends Module{
             }
             RenderUtil.drawBoxESP(blockPos, rainbow.getValue() ? ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()) : new Color(red.getValue(), green.getValue(), blue.getValue(), outlineAlpha.getValue()), 1.5F, true, true, alpha.getValue());
         }
-
     }
-
-
 }
