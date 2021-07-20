@@ -196,7 +196,7 @@ public class HUD extends Module {
             }
 
             if(this.server.getValue()) {
-                String sText = grayString + "Server " + ChatFormatting.WHITE + mc.getCurrentServerData().serverIP;
+                String sText = grayString + "Server " + ChatFormatting.WHITE + (mc.isSingleplayer() ? "SinglePlayer" :mc.getCurrentServerData().serverIP);
                 i += 10;
                 this.renderer.drawString(sText, (width - this.renderer.getStringWidth(sText) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
                 counter1[0] = counter1[0] + 1;
