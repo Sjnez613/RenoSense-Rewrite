@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemEndCrystal;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -24,6 +25,7 @@ import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.network.play.server.SPacketSpawnObject;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
@@ -49,10 +51,11 @@ public class OyVeyAutoCrystal
     private final Setting<Integer> blue = this.register(new Setting<Integer>("Blue", 0, 0, 255));
     private final Setting<Integer> alpha = this.register(new Setting<Integer>("Alpha", 255, 0, 255));
     private final Setting<Integer> boxAlpha = this.register(new Setting<Integer>("BoxAlpha", 125, 0, 255));
-    private final Setting<Float> lineWidth = this.register(new Setting<Float>("LineWidth", Float.valueOf(1.0f), Float.valueOf(0.1f), Float.valueOf(5.0f)));
+    private final Setting<Float> lineWidth = this.register(new Setting<Float>("LineWidth", 1.0f, 0.1f, 5.0f));
+    public Setting<Boolean> sound = this.register(new Setting<Boolean>("Sequential", true));
     public Setting<Boolean> place = this.register(new Setting<Boolean>("Place", true));
-    public Setting<Float> placeDelay = this.register(new Setting<Float>("PlaceDelay", Float.valueOf(4.0f), Float.valueOf(0.0f), Float.valueOf(300.0f)));
-    public Setting<Float> placeRange = this.register(new Setting<Float>("PlaceRange", Float.valueOf(4.0f), Float.valueOf(0.1f), Float.valueOf(7.0f)));
+    public Setting<Float> placeDelay = this.register(new Setting<Float>("PlaceDelay", 4.0f, 0.0f, 300.0f));
+    public Setting<Float> placeRange = this.register(new Setting<Float>("PlaceRange", 4.0f, 0.1f, 7.0f));
     public Setting<Boolean> explode = this.register(new Setting<Boolean>("Break", true));
     public Setting<Boolean> packetBreak = this.register(new Setting<Boolean>("PacketBreak", true));
     public Setting<Boolean> predicts = this.register(new Setting<Boolean>("Predict", true));
@@ -138,6 +141,25 @@ public class OyVeyAutoCrystal
             packet.yaw = this.yaw;
             packet.pitch = this.pitch;
             this.rotating = false;
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH, receiveCanceled = true)
+    public void onSoundPacket (PacketEvent.Receive event){
+        if (AutoCrystal.fullNullCheck()) {
+            return;
+        }
+        if (event.getPacket() instanceof SPacketSoundEffect && this.sound.getValue()) {
+            final SPacketSoundEffect packet2 = event.getPacket();
+            if (packet2.getCategory() == SoundCategory.BLOCKS && packet2.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
+                final List<Entity> entities = new ArrayList<Entity>(this.mc.world.loadedEntityList);
+                for (int size = entities.size(), i = 0; i < size; ++i) {
+                    final Entity entity = entities.get(i);
+                    if (entity instanceof EntityEnderCrystal && entity.getDistanceSq(packet2.getX(), packet2.getY(), packet2.getZ()) < 36.0) {
+                        entity.setDead();
+                    }
+                }
+            }
         }
     }
 

@@ -45,6 +45,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Queue;
 import java.util.*;
 import java.util.concurrent.*;
@@ -132,6 +133,7 @@ public class AutoCrystal
     public Setting<Boolean> slowFaceBreak = this.register(new Setting<Object>("SlowFaceBreak", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.MISC));
     public Setting<Boolean> actualSlowBreak = this.register(new Setting<Object>("ActuallySlow", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.MISC));
     public Setting<Integer> facePlaceSpeed = this.register(new Setting<Object>("FaceSpeed", Integer.valueOf(500), Integer.valueOf(0), Integer.valueOf(500), v -> this.setting.getValue() == Settings.MISC));
+    public Setting<Boolean> sequential = this.register(new Setting<Object>("Sequential", true, v -> this.setting.getValue() == Settings.MISC));
     public Setting<Boolean> antiNaked = this.register(new Setting<Object>("AntiNaked", Boolean.valueOf(true), v -> this.setting.getValue() == Settings.MISC));
     public Setting<Float> range = this.register(new Setting<Object>("Range", Float.valueOf(12.0f), Float.valueOf(0.1f), Float.valueOf(20.0f), v -> this.setting.getValue() == Settings.MISC));
     public Setting<Target> targetMode = this.register(new Setting<Object>("Target", Target.CLOSEST, v -> this.setting.getValue() == Settings.MISC));
@@ -324,6 +326,25 @@ public class AutoCrystal
             if (this.antiBlock.getValue().booleanValue() && EntityUtill.isCrystalAtFeet(crystal, this.range.getValue().floatValue()) && pos != null) {
                 this.rotateToPos(pos);
                 BlockUtill.placeCrystalOnBlock(this.placePos, this.offHand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, this.placeSwing.getValue(), this.exactHand.getValue());
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH, receiveCanceled = true)
+    public void onSoundPacket (PacketEvent.Receive event){
+        if (AutoCrystal.fullNullCheck()) {
+            return;
+        }
+        if (event.getPacket() instanceof SPacketSoundEffect && this.sequential.getValue()) {
+            final SPacketSoundEffect packet2 = event.getPacket();
+            if (packet2.getCategory() == SoundCategory.BLOCKS && packet2.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
+                final List<Entity> entities = new ArrayList<Entity>(this.mc.world.loadedEntityList);
+                for (int size = entities.size(), i = 0; i < size; ++i) {
+                    final Entity entity = entities.get(i);
+                    if (entity instanceof EntityEnderCrystal && entity.getDistanceSq(packet2.getX(), packet2.getY(), packet2.getZ()) < 36.0) {
+                        entity.setDead();
+                    }
+                }
             }
         }
     }
