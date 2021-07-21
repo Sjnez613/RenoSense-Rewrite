@@ -35,6 +35,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new ModuleTools());
         this.modules.add(new BurrowESP());
         this.modules.add(new ChorusPredict());
         this.modules.add(new FriendSettings());
