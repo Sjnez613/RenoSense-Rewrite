@@ -6,6 +6,7 @@ import me.alpha432.oyvey.event.events.ClientEvent;
 import me.alpha432.oyvey.event.events.PacketEvent;
 import me.alpha432.oyvey.event.events.Render2DEvent;
 import me.alpha432.oyvey.features.modules.Module;
+import me.alpha432.oyvey.features.modules.misc.ToolTips;
 import me.alpha432.oyvey.features.setting.Setting;
 import me.alpha432.oyvey.util.Timer;
 import me.alpha432.oyvey.util.*;
@@ -58,8 +59,9 @@ public class HUD extends Module {
     public Setting<Integer> rainbowSaturation = this.register(new Setting<Object>("Saturation", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255)));
     public Setting<Integer> rainbowBrightness = this.register(new Setting<Object>("Brightness", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255)));
     private final Timer timer = new Timer();
-    private final Map<String, Integer> players = new HashMap<>();
+    private Map<String, Integer> players = new HashMap<>();
     public Setting<Boolean> commandPrefix = register(new Setting("CommandPrefix", true));
+    public Setting<Boolean> rainbowPrefix = register(new Setting("RainbowPrefix", true));
     public Setting<String> command = register(new Setting("Command", "RenoSense"));
     public Setting<TextUtil.Color> commandColor = register(new Setting("NameColor", TextUtil.Color.BLUE));
     public Setting<Boolean> notifyToggles = register(new Setting("ChatNotify", Boolean.valueOf(false), "notifys in chat"));
@@ -67,6 +69,8 @@ public class HUD extends Module {
     public Setting<Integer> animationVerticalTime = register(new Setting("AnimationVTime", Integer.valueOf(50), Integer.valueOf(1), Integer.valueOf(500), v -> this.arrayList.getValue().booleanValue()));
     public Setting<RenderingMode> renderingMode = register(new Setting("Ordering", RenderingMode.ABC));
     public Setting<Integer> waterMarkY = register(new Setting("WatermarkPosY", Integer.valueOf(2), Integer.valueOf(0), Integer.valueOf(20), v -> this.waterMark.getValue().booleanValue()));
+    public Setting<Boolean> textRadar = this.register(new Setting<Boolean>("TextRadar", Boolean.valueOf(false), "A TextRadar"));
+    public Setting<Integer> textRadarUpdates = this.register(new Setting<Integer>("TRUpdates", 500, 0, 1000));
     public Setting<Boolean> time = register(new Setting("Time", Boolean.valueOf(false), "The time"));
     public Setting<Integer> lagTime = register(new Setting("LagTime", Integer.valueOf(1000), Integer.valueOf(0), Integer.valueOf(2000)));
     public Setting<Boolean> colorSync = this.register(new Setting("Sync", Boolean.valueOf(false), "Universal colors for hud."));
@@ -99,6 +103,10 @@ public class HUD extends Module {
             this.hitMarkerTimer = 0;
             this.shouldIncrement = false;
         }
+        if (this.timer.passedMs(HUD.getInstance().textRadarUpdates.getValue())) {
+            this.players = this.getTextRadarPlayers();
+            this.timer.reset();
+        }
     }
 
     @SubscribeEvent
@@ -122,7 +130,9 @@ public class HUD extends Module {
             return;
         int width = this.renderer.scaledWidth;
         int height = this.renderer.scaledHeight;
-
+        if (this.textRadar.getValue()) {
+            this.drawTextRadar((ToolTips.getInstance().isOff() || !ToolTips.getInstance().shulkerSpy.getValue() || !ToolTips.getInstance().render.getValue()) ? 0 : ToolTips.getInstance().getTextRadarY());
+        }
         this.color = ColorUtil.toRGBA((ClickGui.getInstance()).red.getValue().intValue(), (ClickGui.getInstance()).green.getValue().intValue(), (ClickGui.getInstance()).blue.getValue().intValue());
         if (this.waterMark.getValue().booleanValue()) {
             String string = this.waterMarkName.getPlannedValue();
@@ -473,7 +483,7 @@ public class HUD extends Module {
         String date = new SimpleDateFormat("h:mm").format(new Date());
         String timeString = "<" + date + ">" + " ";
         StringBuilder builder = new StringBuilder(timeString);
-        builder.insert(0, "\u00a7+");
+        builder.insert(0, this.rainbowPrefix.getValue() ? "\u00a7+" : "");
         if (!message.contains(HUD.getInstance().getRainbowCommandMessage())) {
             builder.append("\u00a7r");
         }
@@ -490,7 +500,7 @@ public class HUD extends Module {
     public String getCommandMessage() {
         if(commandPrefix.getValue() || timestamp.getValue()){
             StringBuilder stringBuilder = new StringBuilder((this.timestamp.getValue() ? getTimeString2() : "") + (this.commandPrefix.getValue() ? ("<" + this.getRawCommandMessage() + ">") : ""));
-            stringBuilder.insert(0, this.timestamp.getValue() || this.commandPrefix.getValue() ? ("\u00a7+") : "");
+            stringBuilder.insert(0, this.timestamp.getValue() || this.commandPrefix.getValue() && this.rainbowPrefix.getValue() ? ("\u00a7+") : "");
             stringBuilder.append("\u00a7r ");
             return stringBuilder.toString();
     }
@@ -508,13 +518,13 @@ public class HUD extends Module {
         return this.command.getValue();
     }
 
-    public void drawTextRadar(int yOffset) {
+    public void drawTextRadar(final int yOffset) {
         if (!this.players.isEmpty()) {
             int y = this.renderer.getFontHeight() + 7 + yOffset;
-            for (Map.Entry<String, Integer> player : this.players.entrySet()) {
-                String text = player.getKey() + " ";
-                int textheight = this.renderer.getFontHeight() + 1;
-                this.renderer.drawString(text, 2.0F, y, this.color, true);
+            for (final Map.Entry<String, Integer> player : this.players.entrySet()) {
+                final String text = player.getKey() + " ";
+                final int textheight = this.renderer.getFontHeight() + 1;
+                this.renderer.drawString(text, 2.0f, (float)y, this.color, true);
                 y += textheight;
             }
         }

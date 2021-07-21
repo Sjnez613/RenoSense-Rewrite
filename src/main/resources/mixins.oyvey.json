@@ -15,7 +15,6 @@
     "MixinWorld",
     "MixinFontRenderer",
     "MixinGuiToast",
-    "MixinRenderGlobal",
     "MixinLayerArmorBase",
     "MixinGuiNewChat",
     "MixinAbstractClientPlayer",
