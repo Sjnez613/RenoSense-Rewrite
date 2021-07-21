@@ -42,6 +42,13 @@ public abstract class MixinItemRenderer {
         }
     }
 
+    @Inject(method={"renderSuffocationOverlay"}, at={@At(value="HEAD")}, cancellable=true)
+    public void renderSuffocationOverlay(CallbackInfo ci) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance().blocks.getValue().booleanValue()) {
+            ci.cancel();
+        }
+    }
+
     @Inject(method = "renderItemSide", at = @At("HEAD"))
     public void renderItemSide(EntityLivingBase entitylivingbaseIn, ItemStack heldStack, ItemCameraTransforms.TransformType transform, boolean leftHanded, CallbackInfo ci) {
         if (ViewModel.INSTANCE.isEnabled()) {

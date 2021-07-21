@@ -13,6 +13,7 @@ public class NoRender
     static {
         NoRender.INSTANCE = new NoRender();
     }
+    public Setting<Boolean> blocks = register(new Setting("Blocks", Boolean.valueOf(false), "Blocks"));
     public Setting<NoArmor> noArmor = this.register(new Setting<NoArmor>("NoArmor", NoArmor.NONE, "Doesnt Render Armor on players."));
     public Setting<Skylight> skylight = this.register(new Setting<Skylight>("Skylight", Skylight.NONE));
     public Setting<Boolean> advancements = this.register(new Setting<Boolean>("Advancements", false));
