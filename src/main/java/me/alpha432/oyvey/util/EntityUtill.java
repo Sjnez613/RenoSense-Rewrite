@@ -1,6 +1,5 @@
 package me.alpha432.oyvey.util;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import me.alpha432.oyvey.OyVey;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
@@ -658,11 +657,12 @@ public class EntityUtill
         dfDistance.setRoundingMode(RoundingMode.CEILING);
         StringBuilder healthSB = new StringBuilder();
         StringBuilder distanceSB = new StringBuilder();
-        for (EntityPlayer player : EntityUtill.mc.world.playerEntities) {
-            if (player.isInvisible() || player.getName().equals(EntityUtill.mc.player.getName())) continue;
-            int hpRaw = (int) EntityUtill.getHealth(player);
+        for (EntityPlayer player : EntityUtil.mc.world.playerEntities) {
+            if (player.isInvisible() && player.getName().equals(EntityUtil.mc.player.getName()))
+                continue;
+            int hpRaw = (int) EntityUtil.getHealth(player);
             String hp = dfHealth.format(hpRaw);
-            healthSB.append("\u00c2\u00a7");
+            healthSB.append("\u00a7");
             if (hpRaw >= 20) {
                 healthSB.append("a");
             } else if (hpRaw >= 10) {
@@ -673,18 +673,20 @@ public class EntityUtill
                 healthSB.append("c");
             }
             healthSB.append(hp);
-            int distanceInt = (int) EntityUtill.mc.player.getDistance(player);
+            int distanceInt = (int) EntityUtil.mc.player.getDistance(player);
             String distance = dfDistance.format(distanceInt);
-            distanceSB.append("\u00c2\u00a7");
+            distanceSB.append("\u00a7");
             if (distanceInt >= 25) {
                 distanceSB.append("a");
             } else if (distanceInt > 10) {
                 distanceSB.append("6");
+            } else if (distanceInt >= 50) {
+                distanceSB.append("7");
             } else {
                 distanceSB.append("c");
             }
             distanceSB.append(distance);
-            output.put(healthSB.toString() + " " + (OyVey.friendManager.isFriend(player) ? ChatFormatting.AQUA : ChatFormatting.RED) + player.getName() + " " + distanceSB.toString() + " \u00c2\u00a7f0", (int) EntityUtill.mc.player.getDistance(player));
+            output.put(healthSB.toString() + " " + (OyVey.friendManager.isFriend(player) ? "\u00a7b" : "\u00a7r") + player.getName() + " " + distanceSB.toString() + " " + "\u00a7f" + OyVey.totemPopManager.getTotemPopString(player) + OyVey.potionManager.getTextRadarPotion(player), (int) EntityUtil.mc.player.getDistance(player));
             healthSB.setLength(0);
             distanceSB.setLength(0);
         }

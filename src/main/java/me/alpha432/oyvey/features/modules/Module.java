@@ -124,7 +124,7 @@ public class Module
                 }
             }
         }
-        TextComponentString text = new TextComponentString(HUD.getInstance().getCommandMessage() + " " + ChatFormatting.GREEN + this.getDisplayName() + " toggled on.");
+        TextComponentString text = new TextComponentString(HUD.getInstance().getCommandMessage() + ChatFormatting.GREEN + this.getDisplayName() + " toggled on.");
         return text;
     }
 
@@ -151,7 +151,7 @@ public class Module
                 }
             }
         }
-        TextComponentString text = new TextComponentString(HUD.getInstance().getCommandMessage() + " " + ChatFormatting.RED + this.getDisplayName() + " toggled off.");
+        TextComponentString text = new TextComponentString(HUD.getInstance().getCommandMessage() + ChatFormatting.RED + this.getDisplayName() + " toggled off.");
         return text;
     }
 

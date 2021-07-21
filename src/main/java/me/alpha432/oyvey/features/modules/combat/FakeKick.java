@@ -1,4 +1,4 @@
-package me.alpha432.oyvey.features.modules.misc;
+package me.alpha432.oyvey.features.modules.combat;
 
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.setting.Setting;
@@ -11,7 +11,7 @@ public class FakeKick
     private final Setting<Boolean> healthDisplay = this.register(new Setting<Boolean>("HealthDisplay", false));
 
     public FakeKick() {
-        super("FakeKick", "Log with the press of a button", Category.PLAYER, true, false, false);
+        super("FakeKick", "Log with the press of a button", Category.COMBAT, true, false, false);
     }
 
     public void onEnable(){

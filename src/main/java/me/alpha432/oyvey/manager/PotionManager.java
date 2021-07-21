@@ -57,6 +57,23 @@ public class PotionManager
         return this.getPotionString(effect);
     }
 
+    public String getTextRadarPotionWithDuration(EntityPlayer player) {
+        PotionEffect[] array = this.getImportantPotions(player);
+        PotionEffect strength = array[0];
+        PotionEffect weakness = array[1];
+        PotionEffect speed = array[2];
+        return "" + (strength != null ? "\u00a7c S" + (strength.getAmplifier() + 1) + " " + Potion.getPotionDurationString(strength, 1.0f) : "") + (weakness != null ? "\u00a78 W " + Potion.getPotionDurationString(weakness, 1.0f) : "") + (speed != null ? "\u00a7b S" + (speed.getAmplifier() + 1) + " " + Potion.getPotionDurationString(weakness, 1.0f) : "");
+    }
+
+    public String getTextRadarPotion(EntityPlayer player) {
+        PotionEffect[] array = this.getImportantPotions(player);
+        PotionEffect strength = array[0];
+        PotionEffect weakness = array[1];
+        PotionEffect speed = array[2];
+        return "" + (strength != null ? "\u00a7c S" + (strength.getAmplifier() + 1) + " " : "") + (weakness != null ? "\u00a78 W " : "") + (speed != null ? "\u00a7b S" + (speed.getAmplifier() + 1) + " " : "");
+    }
+
+
     public static class PotionList {
         private final List<PotionEffect> effects = new ArrayList<PotionEffect>();
 

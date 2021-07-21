@@ -6,7 +6,6 @@ import me.alpha432.oyvey.event.events.ClientEvent;
 import me.alpha432.oyvey.event.events.PacketEvent;
 import me.alpha432.oyvey.event.events.Render2DEvent;
 import me.alpha432.oyvey.features.modules.Module;
-import me.alpha432.oyvey.features.modules.misc.ToolTips;
 import me.alpha432.oyvey.features.setting.Setting;
 import me.alpha432.oyvey.util.Timer;
 import me.alpha432.oyvey.util.*;
@@ -131,7 +130,7 @@ public class HUD extends Module {
         int width = this.renderer.scaledWidth;
         int height = this.renderer.scaledHeight;
         if (this.textRadar.getValue()) {
-            this.drawTextRadar((ToolTips.getInstance().isOff() || !ToolTips.getInstance().shulkerSpy.getValue() || !ToolTips.getInstance().render.getValue()) ? 0 : ToolTips.getInstance().getTextRadarY());
+            this.drawTextRadar(0);
         }
         this.color = ColorUtil.toRGBA((ClickGui.getInstance()).red.getValue().intValue(), (ClickGui.getInstance()).green.getValue().intValue(), (ClickGui.getInstance()).blue.getValue().intValue());
         if (this.waterMark.getValue().booleanValue()) {
@@ -357,7 +356,7 @@ public class HUD extends Module {
     }
 
     public Map<String, Integer> getTextRadarPlayers() {
-        return EntityUtil.getTextRadarPlayers();
+        return EntityUtill.getTextRadarPlayers();
     }
 
     public void renderGreeter() {
@@ -483,7 +482,7 @@ public class HUD extends Module {
         String date = new SimpleDateFormat("h:mm").format(new Date());
         String timeString = "<" + date + ">" + " ";
         StringBuilder builder = new StringBuilder(timeString);
-        builder.insert(0, this.rainbowPrefix.getValue() ? "\u00a7+" : "");
+        builder.insert(0, this.rainbowPrefix.getValue() ? "\u00a7+" : ChatFormatting.LIGHT_PURPLE);
         if (!message.contains(HUD.getInstance().getRainbowCommandMessage())) {
             builder.append("\u00a7r");
         }
@@ -500,7 +499,7 @@ public class HUD extends Module {
     public String getCommandMessage() {
         if(commandPrefix.getValue() || timestamp.getValue()){
             StringBuilder stringBuilder = new StringBuilder((this.timestamp.getValue() ? getTimeString2() : "") + (this.commandPrefix.getValue() ? ("<" + this.getRawCommandMessage() + ">") : ""));
-            stringBuilder.insert(0, this.timestamp.getValue() || this.commandPrefix.getValue() && this.rainbowPrefix.getValue() ? ("\u00a7+") : "");
+            stringBuilder.insert(0, (this.timestamp.getValue() || this.commandPrefix.getValue()) && this.rainbowPrefix.getValue() ? "\u00a7+" : ChatFormatting.LIGHT_PURPLE);
             stringBuilder.append("\u00a7r ");
             return stringBuilder.toString();
     }
@@ -509,7 +508,7 @@ public class HUD extends Module {
 
     public String getRainbowCommandMessage() {
         StringBuilder stringBuilder = new StringBuilder(this.getRawCommandMessage());
-        stringBuilder.insert(0, "\u00a7+");
+        stringBuilder.insert(0, this.rainbowPrefix.getValue() ? "\u00a7+" : ChatFormatting.LIGHT_PURPLE);
         stringBuilder.append("\u00a7r");
         return stringBuilder.toString();
     }
