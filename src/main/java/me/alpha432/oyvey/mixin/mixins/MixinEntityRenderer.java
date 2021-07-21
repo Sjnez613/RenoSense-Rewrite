@@ -1,10 +1,15 @@
 package me.alpha432.oyvey.mixin.mixins;
 
 import me.alpha432.oyvey.event.events.PerspectiveEvent;
+import me.alpha432.oyvey.features.modules.player.NoEntityTrace;
 import me.alpha432.oyvey.features.modules.render.NoRender;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemPickaxe;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.util.glu.Project;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,6 +18,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(value = EntityRenderer.class, priority = 1001)
 public class MixinEntityRenderer {
@@ -106,6 +114,14 @@ public class MixinEntityRenderer {
         PerspectiveEvent event = new PerspectiveEvent((float) this.mc.displayWidth / (float) this.mc.displayHeight);
         MinecraftForge.EVENT_BUS.post(event);
         Project.gluPerspective(fovy, event.getAspect(), zNear, zFar);
+    }
+
+    @Redirect(method={"getMouseOver"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/multiplayer/WorldClient;getEntitiesInAABBexcluding(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/AxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List;"))
+    public List<Entity> getEntitiesInAABBexcludingHook(WorldClient worldClient, Entity entityIn, AxisAlignedBB boundingBox, com.google.common.base.Predicate<? super Entity> predicate) {
+        if (NoEntityTrace.getInstance().isOn() && (!NoEntityTrace.getInstance().pickaxe.getValue().booleanValue() || this.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe)) {
+            return new ArrayList<Entity>();
+        }
+        return worldClient.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
     }
 
     @Redirect(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))

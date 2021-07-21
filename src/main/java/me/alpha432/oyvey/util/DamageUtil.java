@@ -96,6 +96,11 @@ public class DamageUtil
         return DamageUtil.calculateDamage((double) pos.getX() + 0.5, pos.getY() + 1, (double) pos.getZ() + 0.5, entity);
     }
 
+    public static boolean hasDurability(ItemStack stack) {
+        Item item = stack.getItem();
+        return item instanceof ItemArmor || item instanceof ItemSword || item instanceof ItemTool || item instanceof ItemShield;
+    }
+
     public static int getCooldownByWeapon(EntityPlayer player) {
         Item item = player.getHeldItemMainhand().getItem();
         if (item instanceof ItemSword) {

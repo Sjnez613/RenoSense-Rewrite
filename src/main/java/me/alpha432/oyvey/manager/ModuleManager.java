@@ -35,6 +35,8 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new NoHandShake());
+        this.modules.add(new NoEntityTrace());
         this.modules.add(new ModuleTools());
         this.modules.add(new BurrowESP());
         this.modules.add(new ChorusPredict());
@@ -64,7 +66,6 @@ public class ModuleManager
         this.modules.add(new HUD());
         this.modules.add(new BlockHighlight());
         this.modules.add(new HoleESP());
-        this.modules.add(new FakePlayer());
         this.modules.add(new MiddleClick());
         this.modules.add(new PacketMine());
         this.modules.add(new AntiVoid());
