@@ -19,6 +19,8 @@ public class BurrowESP extends Module{
 
     private static BurrowESP INSTANCE = new BurrowESP();
 
+    public Setting<Integer> range = register(new Setting("Range", 20, 5, 50));
+    public Setting<Boolean> self = register(new Setting("Self", true));
     public Setting<Boolean> text = register(new Setting("Text", true));
     public Setting<String> textString = register(new Setting("TextString", "BURROW", v -> this.text.getValue()));
     public Setting<Boolean> rainbow = register(new Setting("Rainbow", false));
@@ -52,8 +54,13 @@ public class BurrowESP extends Module{
         posList.clear();
         for (EntityPlayer player : mc.world.playerEntities){
             BlockPos blockPos = new BlockPos(Math.floor(player.posX), Math.floor(player.posY+0.2), Math.floor(player.posZ));
-            if(mc.world.getBlockState(blockPos).getBlock() == Blocks.ENDER_CHEST || mc.world.getBlockState(blockPos).getBlock() == Blocks.OBSIDIAN){
-                posList.add(blockPos);
+            if((mc.world.getBlockState(blockPos).getBlock() == Blocks.ENDER_CHEST || mc.world.getBlockState(blockPos).getBlock() == Blocks.OBSIDIAN) && blockPos.distanceSq(mc.player.posX, mc.player.posY, mc.player.posZ) <= this.range.getValue()){
+
+                if (!(blockPos.distanceSq(mc.player.posX, mc.player.posY, mc.player.posZ) <= 1.5) || this.self.getValue()) {
+                    posList.add(blockPos);
+                }
+
+
             }
         }
     }
