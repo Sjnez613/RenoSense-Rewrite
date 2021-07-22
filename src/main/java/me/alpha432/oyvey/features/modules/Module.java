@@ -105,7 +105,7 @@ public class Module
         if (ModuleTools.getInstance().isEnabled()) {
             switch (ModuleTools.getInstance().notifier.getValue()) {
                 case FUTURE: {
-                    TextComponentString text = new TextComponentString(ChatFormatting.RED + "[RenoSense] " + ChatFormatting.GRAY + this.getDisplayName() + " toggled " + ChatFormatting.GREEN + "on" + ChatFormatting.GRAY + ".");
+                    TextComponentString text = new TextComponentString(ChatFormatting.RED + "[Future] " + ChatFormatting.GRAY + this.getDisplayName() + " toggled " + ChatFormatting.GREEN + "on" + ChatFormatting.GRAY + ".");
                     return text;
                 }
                 case DOTGOD: {
@@ -132,7 +132,7 @@ public class Module
         if (ModuleTools.getInstance().isEnabled()) {
             switch (ModuleTools.getInstance().notifier.getValue()) {
                 case FUTURE: {
-                    TextComponentString text = new TextComponentString(ChatFormatting.RED + "[RenoSense] " + ChatFormatting.GRAY + this.getDisplayName() + " toggled " + ChatFormatting.RED + "off" + ChatFormatting.GRAY + ".");
+                    TextComponentString text = new TextComponentString(ChatFormatting.RED + "[Future] " + ChatFormatting.GRAY + this.getDisplayName() + " toggled " + ChatFormatting.RED + "off" + ChatFormatting.GRAY + ".");
                     return text;
                 }
                 case DOTGOD: {

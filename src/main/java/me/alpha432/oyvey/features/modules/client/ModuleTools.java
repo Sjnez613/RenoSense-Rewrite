@@ -8,6 +8,7 @@ public class ModuleTools extends Module {
     private static ModuleTools INSTANCE;
 
 public Setting<Notifier> notifier = register(new Setting("ModuleNotifier", Notifier.FUTURE));
+public Setting<PopNotifier> popNotifier = register(new Setting("PopNotifier", PopNotifier.FUTURE));
 
     public ModuleTools() {
         super("ModuleTools", "Change settings", Module.Category.CLIENT, true, false, false);
@@ -33,6 +34,13 @@ public Setting<Notifier> notifier = register(new Setting("ModuleNotifier", Notif
         FUTURE,
         DOTGOD;
 }
+
+    public enum PopNotifier{
+        PHOBOS,
+        FUTURE,
+        DOTGOD,
+        NONE
+    }
 
 
 }
