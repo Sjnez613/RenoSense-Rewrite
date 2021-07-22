@@ -99,7 +99,7 @@ public class PlayerUtil implements Util {
                 JsonObject node = e.getAsJsonObject();
                 String name = node.get("name").getAsString();
                 long changedAt = node.has("changedToAt") ? node.get("changedToAt").getAsLong() : 0L;
-                temp.add(name + "Â§8" + (new Date(changedAt)).toString());
+                temp.add(name + " : " + (new Date(changedAt)).toString());
             }
             Collections.sort(temp);
             return temp;

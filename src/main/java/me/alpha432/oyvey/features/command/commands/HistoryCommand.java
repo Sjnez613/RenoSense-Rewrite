@@ -33,7 +33,7 @@ public class HistoryCommand
             return;
         }
         if (names != null) {
-            HistoryCommand.sendMessage(commands[0] + "\u00c2\u00b4s name history:");
+            HistoryCommand.sendMessage(commands[0] + "'s name history:");
             for (String name : names) {
                 HistoryCommand.sendMessage(name);
             }
