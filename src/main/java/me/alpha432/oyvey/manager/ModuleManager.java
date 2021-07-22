@@ -35,6 +35,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new FakePlayer());
         this.modules.add(new NoHandShake());
         this.modules.add(new NoEntityTrace());
         this.modules.add(new ModuleTools());

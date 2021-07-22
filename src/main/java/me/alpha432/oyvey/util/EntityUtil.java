@@ -62,6 +62,7 @@ public class EntityUtil
     }
 
 
+
     public static Vec3d interpolateEntity(Entity entity, float time) {
         return new Vec3d(entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) time, entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) time, entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) time);
     }
