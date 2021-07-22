@@ -14,11 +14,11 @@ import org.lwjgl.opengl.Display;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-@Mod(modid = "renosense", name = "RenoSense", version = "0.6.7")
+@Mod(modid = "renosense", name = "RenoSense", version = "0.6.8")
 public class OyVey {
     public static final String MODID = "renosense";
     public static final String MODNAME = "RenoSense";
-    public static final String MODVER = "0.6.7";
+    public static final String MODVER = "0.6.8";
     public static final Logger LOGGER = LogManager.getLogger("RenoSense");
     public static TotemPopManager totemPopManager;
     public static TimerManager timerManager;

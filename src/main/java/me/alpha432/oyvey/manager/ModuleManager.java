@@ -51,7 +51,6 @@ public class ModuleManager
         this.modules.add(new AutoCrystal());
         this.modules.add(new Nametags());
         this.modules.add(new ChatModifier());
-        this.modules.add(new Strafe());
         this.modules.add(new NoRender());
         this.modules.add(new FakeKick());
         this.modules.add(new NickHider());
