@@ -39,13 +39,14 @@ public class ChorusPredict extends Module {
     public void onPacketReceive(PacketEvent.Receive event) {
         if (event.getPacket() instanceof SPacketSoundEffect) {
             final SPacketSoundEffect packet = event.getPacket();
-            if (packet.getSound() == SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT || packet.getSound() == SoundEvents.ENTITY_ENDERMEN_TELEPORT) {
-                pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
-                renderTimer.reset2();
-                if (this.debug.getValue()) {
-                    Command.sendMessage("Player chorused to: " + ChatFormatting.AQUA + "X: " + pos.getX() + ", Y: " + pos.getY() + ", Z: " + pos.getZ());
+                if (packet.getSound() == SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT || packet.getSound() == SoundEvents.ENTITY_ENDERMEN_TELEPORT) {
+                    renderTimer.reset2();
+                    pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
+                    if (this.debug.getValue()) {
+                        Command.sendMessage("A player chorused to: " + ChatFormatting.AQUA + "X: " + pos.getX() + ", Y: " + pos.getY() + ", Z: " + pos.getZ());
+                    }
                 }
-            }
+
         }
     }
     public void onRender3D(Render3DEvent event) {
