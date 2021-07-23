@@ -297,7 +297,7 @@ public class HUD extends Module {
                 }
             } else {
                 if (this.fps.getValue().booleanValue()) {
-                    this.renderer.drawString(fpsText, (width - this.renderer.getStringWidth(fpsText) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
+                    this.renderer.drawString(fpsText, (width - this.renderer.getStringWidth(fpsText) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue()).getRGB()) : this.color, true);
                     counter1[0] = counter1[0] + 1;
                 }
                 if (this.ping.getValue().booleanValue()) {
@@ -523,7 +523,7 @@ public class HUD extends Module {
             for (final Map.Entry<String, Integer> player : this.players.entrySet()) {
                 final String text = player.getKey() + " ";
                 final int textheight = this.renderer.getFontHeight() + 1;
-                this.renderer.drawString(text, 2.0f, (float)y, this.color, true);
+                this.renderer.drawString(text, 2.0f, (float)y, (ClickGui.getInstance()).rainbow.getValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue()).getRGB()) : this.color, true);
                 y += textheight;
             }
         }

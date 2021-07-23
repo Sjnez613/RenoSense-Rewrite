@@ -1,18 +1,12 @@
 package me.alpha432.oyvey;
 
 import me.alpha432.oyvey.manager.*;
-import me.alpha432.oyvey.util.IconUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.Util;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
-
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 
 @Mod(modid = "renosense", name = "RenoSense", version = "0.6.8")
 public class OyVey {
@@ -118,7 +112,7 @@ public class OyVey {
         if (!unloaded) {
             eventManager.onUnload();
             moduleManager.onUnload();
-            configManager.saveConfig(OyVey.configManager.config.replaceFirst("oyvey/", ""));
+            configManager.saveConfig(OyVey.configManager.config.replaceFirst("renosense/", ""));
             moduleManager.onUnloadPost();
             unloaded = true;
         }
@@ -129,26 +123,12 @@ public class OyVey {
         LOGGER.info("deez nuts");
     }
 
-    public static void setWindowIcon() {
-        if (Util.getOSType() != Util.EnumOS.OSX) {
-            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/renosense/icons/icon-16x.png");
-                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/renosense/icons/icon-32x.png")) {
-                ByteBuffer[] icons = new ByteBuffer[]{IconUtil.INSTANCE.readImageToBuffer(inputStream16x), IconUtil.INSTANCE.readImageToBuffer(inputStream32x)};
-                Display.setIcon(icons);
-            } catch (Exception e) {
-                OyVey.LOGGER.error("Couldn't set Windows Icon", e);
-            }
-        }
-    }
 
-    private void setWindowsIcon() {
-        OyVey.setWindowIcon();
-    }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         Display.setTitle("RenoSense " + MODVER);
-        setWindowsIcon();
+
         OyVey.load();
     }
 

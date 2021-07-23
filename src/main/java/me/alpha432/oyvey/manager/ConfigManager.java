@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class ConfigManager implements Util {
     public ArrayList<Feature> features = new ArrayList<>();
 
-    public String config = "oyvey/config/";
+    public String config = "renosense/config/";
 
     public static void setValueFromJson(Feature feature, Setting setting, JsonElement element) {
         String str;
@@ -83,11 +83,11 @@ public class ConfigManager implements Util {
     }
 
     public void loadConfig(String name) {
-        final List<File> files = Arrays.stream(Objects.requireNonNull(new File("oyvey").listFiles())).filter(File::isDirectory).collect(Collectors.toList());
-        if (files.contains(new File("oyvey/" + name + "/"))) {
-            this.config = "oyvey/" + name + "/";
+        final List<File> files = Arrays.stream(Objects.requireNonNull(new File("renosense").listFiles())).filter(File::isDirectory).collect(Collectors.toList());
+        if (files.contains(new File("renosense/" + name + "/"))) {
+            this.config = "renosense/" + name + "/";
         } else {
-            this.config = "oyvey/config/";
+            this.config = "renosense/config/";
         }
         OyVey.friendManager.onLoad();
         for (Feature feature : this.features) {
@@ -101,12 +101,12 @@ public class ConfigManager implements Util {
     }
 
     public boolean configExists(String name) {
-        final List<File> files = Arrays.stream(Objects.requireNonNull(new File("oyvey").listFiles())).filter(File::isDirectory).collect(Collectors.toList());
-        return files.contains(new File("oyvey/" + name + "/"));
+        final List<File> files = Arrays.stream(Objects.requireNonNull(new File("renosense").listFiles())).filter(File::isDirectory).collect(Collectors.toList());
+        return files.contains(new File("renosense/" + name + "/"));
     }
 
     public void saveConfig(String name) {
-        this.config = "oyvey/" + name + "/";
+        this.config = "renosense/" + name + "/";
         File path = new File(this.config);
         if (!path.exists())
             path.mkdir();
@@ -122,18 +122,18 @@ public class ConfigManager implements Util {
     }
 
     public void saveCurrentConfig() {
-        File currentConfig = new File("oyvey/currentconfig.txt");
+        File currentConfig = new File("renosense/currentconfig.txt");
         try {
             if (currentConfig.exists()) {
                 FileWriter writer = new FileWriter(currentConfig);
                 String tempConfig = this.config.replaceAll("/", "");
-                writer.write(tempConfig.replaceAll("oyvey", ""));
+                writer.write(tempConfig.replaceAll("renosense", ""));
                 writer.close();
             } else {
                 currentConfig.createNewFile();
                 FileWriter writer = new FileWriter(currentConfig);
                 String tempConfig = this.config.replaceAll("/", "");
-                writer.write(tempConfig.replaceAll("oyvey", ""));
+                writer.write(tempConfig.replaceAll("renosense", ""));
                 writer.close();
             }
         } catch (Exception e) {
@@ -142,7 +142,7 @@ public class ConfigManager implements Util {
     }
 
     public String loadCurrentConfig() {
-        File currentConfig = new File("oyvey/currentconfig.txt");
+        File currentConfig = new File("renosense/currentconfig.txt");
         String name = "config";
         try {
             if (currentConfig.exists()) {

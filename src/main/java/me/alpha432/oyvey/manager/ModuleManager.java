@@ -10,7 +10,10 @@ import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.modules.client.*;
 import me.alpha432.oyvey.features.modules.combat.*;
 import me.alpha432.oyvey.features.modules.misc.*;
-import me.alpha432.oyvey.features.modules.movement.*;
+import me.alpha432.oyvey.features.modules.movement.AntiVoid;
+import me.alpha432.oyvey.features.modules.movement.AntiWeb;
+import me.alpha432.oyvey.features.modules.movement.NoSlow;
+import me.alpha432.oyvey.features.modules.movement.Step;
 import me.alpha432.oyvey.features.modules.player.*;
 import me.alpha432.oyvey.features.modules.render.*;
 import me.alpha432.oyvey.util.Util;
@@ -35,6 +38,9 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new Wireframe());
+        this.modules.add(new Icon());
+        this.modules.add(new CancelSwing());
         this.modules.add(new FakePlayer());
         this.modules.add(new NoHandShake());
         this.modules.add(new NoEntityTrace());

@@ -17,8 +17,8 @@
     "MixinGuiToast",
     "MixinLayerArmorBase",
     "MixinGuiNewChat",
-    "MixinAbstractClientPlayer",
     "MixinRenderPlayer",
-    "MixinEntity"
+    "MixinEntity",
+    "MixinRenderEnderCrystal"
   ]
 }
