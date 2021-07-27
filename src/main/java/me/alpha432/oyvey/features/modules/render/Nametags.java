@@ -19,6 +19,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.opengl.GL11;
 
@@ -193,20 +194,19 @@ public class Nametags
         NBTTagList enchants = stack.getEnchantmentTagList();
         for (int index = 0; index < enchants.tagCount(); ++index) {
             short id = enchants.getCompoundTagAt(index).getShort("id");
-            short level = enchants.getCompoundTagAt(index).getShort("lvl");
+            int level = enchants.getCompoundTagAt(index).getShort("lvl");
             Enchantment enc = Enchantment.getEnchantmentByID(id);
             if (enc == null) continue;
-            String encName = enc.isCurse() ? TextFormatting.RED + enc.getTranslatedName(level).substring(11).substring(0, 1).toLowerCase() : enc.getTranslatedName(level).substring(0, 1).toLowerCase();
-            encName = encName + level;
+            String encName = findStringForEnchants(enc, level);
             this.renderer.drawStringWithShadow(encName, x * 2, enchantmentY, -1);
             enchantmentY -= 8;
         }
-        if (DamageUtil.hasDurability(stack)) {
-            int percent = DamageUtil.getRoundedDamage(stack);
+            float percent = (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage();
             String color = percent >= 60 ? "\u00a7a" : (percent >= 25 ? "\u00a7e" : "\u00a7c");
             this.renderer.drawStringWithShadow(color + percent + "%", x * 2, enchantmentY, -1);
         }
-    }
+
+
 
     private float getBiggestArmorTag(EntityPlayer player) {
         ItemStack renderOffHand;
@@ -315,4 +315,23 @@ public class Nametags
     private double interpolate(double previous, double current, float delta) {
         return previous + (current - previous) * (double) delta;
     }
+
+    private String findStringForEnchants(Enchantment enchantment, int level) {
+
+            ResourceLocation resourceLocation = Enchantment.REGISTRY.getNameForObject(enchantment);
+
+            String string = resourceLocation == null ? enchantment.getName() : resourceLocation.toString();
+
+            int charCount = (level > 1) ? 12 : 13;
+
+            if (string.length() > charCount) {
+                string = string.substring(10, charCount);
+            }
+
+            return string.substring(0, 1).toUpperCase() + string.substring(1) + TextFormatting.WHITE + ((level > 1) ? level : "");
+
+
+        }
+
+
 }
