@@ -1,6 +1,6 @@
-# RenoSense Rewrite
-Renosense Rewrite By Sjnez and F-00 and Tvffty
-- OyVey skid without the useless placeholder modules and added stuff
+# PhOyVey
+PhOyVey by F-00
+- RenoSense continuation
 
 How to build/run:
 
