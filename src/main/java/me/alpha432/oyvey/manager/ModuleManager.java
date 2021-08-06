@@ -58,7 +58,7 @@ public class ModuleManager
         this.modules.add(new Nametags());
         this.modules.add(new ChatModifier());
         this.modules.add(new NoRender());
-        this.modules.add(new FakeKick());
+        this.modules.add(new Log());
         this.modules.add(new NickHider());
         this.modules.add(new SkyColor());
         this.modules.add(new ViewModel());
