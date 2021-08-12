@@ -1,9 +1,0 @@
-{
-  "Enabled": false,
-  "Drawn": true,
-  "Bind": "None",
-  "DisplayName": "ArmorMessage",
-  "Armor%": 20,
-  "NotifySelf": true,
-  "Notification": true
-}
