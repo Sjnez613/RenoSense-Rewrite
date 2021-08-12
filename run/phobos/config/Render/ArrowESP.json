@@ -1,0 +1,17 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "ArrowESP",
+  "Sync": false,
+  "Invisibles": false,
+  "Offscreen-Only": true,
+  "Outline": true,
+  "Outline-Width": 1.0,
+  "Fade-Distance": 100,
+  "Radius": 45,
+  "Size": 10.0,
+  "Red": 255,
+  "Green": 0,
+  "Blue": 255
+}

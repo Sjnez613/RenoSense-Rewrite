@@ -1,0 +1,10 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "AutoLog",
+  "Health": 16.0,
+  "Beds": true,
+  "BedRange": 6.0,
+  "LogoutOff": true
+}

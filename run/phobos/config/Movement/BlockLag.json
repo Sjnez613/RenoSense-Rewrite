@@ -1,0 +1,10 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "BlockLag",
+  "Packet": true,
+  "InvalidPacket": false,
+  "Rotations": 5,
+  "TimeOut": 194
+}

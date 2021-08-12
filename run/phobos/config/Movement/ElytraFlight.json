@@ -1,0 +1,19 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "ElytraFlight",
+  "Mode": "FLY",
+  "Type": 2,
+  "Speed": 1.0,
+  "VSpeed": 0.3,
+  "HSpeed": 1.0,
+  "Glide": 1.0E-4,
+  "TooBeeSpeed": 1.8000001,
+  "AutoStart": true,
+  "NoLiquid": true,
+  "InfiniteDura": false,
+  "NoKick": false,
+  "AllowUp": true,
+  "LockPitch": false
+}

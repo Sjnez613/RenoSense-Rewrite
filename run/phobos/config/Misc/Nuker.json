@@ -1,0 +1,15 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Nuker",
+  "Rotate": false,
+  "Range": 6.0,
+  "Blocks/Attack": 50,
+  "Delay/Attack": 50,
+  "Nuke": false,
+  "Mode": "NUKE",
+  "AntiRegear": false,
+  "HopperAura": false,
+  "AutoSwitch": false
+}

@@ -1,0 +1,10 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Jesus",
+  "Mode": "NORMAL",
+  "NoVehicle": false,
+  "Jump": "PRE",
+  "NoFall": false
+}

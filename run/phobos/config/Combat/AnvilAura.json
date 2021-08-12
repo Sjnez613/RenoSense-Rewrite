@@ -1,0 +1,13 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "AnvilAura",
+  "Range": 6.0,
+  "WallsRange": 3.5,
+  "PlaceDelay": 0,
+  "Rotate": true,
+  "Packet": true,
+  "Switch": true,
+  "Spoofs": 1
+}

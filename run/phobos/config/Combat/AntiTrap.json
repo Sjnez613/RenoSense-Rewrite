@@ -1,0 +1,10 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "AntiTrap",
+  "CoolDown": 400,
+  "Switch": "NORMAL",
+  "Rotate": "NORMAL",
+  "SortY": true
+}

@@ -1,0 +1,11 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Static",
+  "Mode": "ROOF",
+  "Disable": true,
+  "YSpeed": false,
+  "Speed": 0.1,
+  "Height": 3.0
+}

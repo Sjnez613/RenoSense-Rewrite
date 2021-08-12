@@ -1,0 +1,12 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "CrystalCrash",
+  "1.15": false,
+  "PlaceRange": 6.0,
+  "Packets": 25,
+  "CoolDown": 400,
+  "Switch": "NORMAL",
+  "Sort": 0
+}

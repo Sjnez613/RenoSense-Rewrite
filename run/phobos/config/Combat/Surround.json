@@ -1,0 +1,11 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Surround",
+  "BlocksPerTick": 12,
+  "Delay": 0,
+  "PacketPlace": false,
+  "TPCenter": false,
+  "Rotate": true
+}

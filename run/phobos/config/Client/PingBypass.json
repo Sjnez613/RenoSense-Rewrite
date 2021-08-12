@@ -1,0 +1,15 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "PingBypass",
+  "PhobosIP": "0.0.0.0.0",
+  "Port": 0,
+  "ServerIP": "AnarchyHvH.eu",
+  "RemoveFML": false,
+  "GetName": false,
+  "Average": false,
+  "ClearPings": false,
+  "OneWay": false,
+  "KeepAlives": 10
+}

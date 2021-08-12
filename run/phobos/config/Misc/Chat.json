@@ -1,0 +1,19 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Chat",
+  "Suffix": "NONE",
+  "CleanChat": false,
+  "Infinite": false,
+  "AutoQMain": false,
+  "QNotification": false,
+  "QDelay": 9,
+  "Time": "NONE",
+  "RainbowTimeStamps": false,
+  "Bracket": "WHITE",
+  "Space": true,
+  "All": false,
+  "Shrug": false,
+  "Disability": false
+}

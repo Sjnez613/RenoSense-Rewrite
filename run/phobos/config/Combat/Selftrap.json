@@ -1,0 +1,23 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Selftrap",
+  "Smart": false,
+  "SmartRange": 6.0,
+  "Delay/Place": 50,
+  "Block/Place": 8,
+  "Rotate": true,
+  "Disable": true,
+  "Ms/Disable": 200,
+  "OffHand": true,
+  "Switch": "NORMAL",
+  "OnlySafe": true,
+  "HighWeb": false,
+  "Freecam": false,
+  "Packet": false,
+  "Mode": "OBSIDIAN",
+  "PlaceMode": "NORMAL",
+  "Obsidian": "None",
+  "Webs": "None"
+}

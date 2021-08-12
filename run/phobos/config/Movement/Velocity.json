@@ -1,0 +1,15 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Velocity",
+  "KnockBack": true,
+  "NoPush": true,
+  "Horizontal": 0.0,
+  "Vertical": 0.0,
+  "Explosions": true,
+  "Bobbers": true,
+  "Water": false,
+  "Blocks": false,
+  "Ice": false
+}

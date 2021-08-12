@@ -1,0 +1,14 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Speed",
+  "Mode": "INSTANT",
+  "Jump": false,
+  "NoShake": true,
+  "UseTimer": false,
+  "0-Speed": 0.0,
+  "Speed": 10.0,
+  "Blocked": 10.0,
+  "Unblocked": 10.0
+}

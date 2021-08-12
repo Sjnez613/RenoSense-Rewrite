@@ -1,0 +1,22 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Chams",
+  "Sync": false,
+  "Colored": false,
+  "Textured": false,
+  "Rainbow": false,
+  "Saturation": 50,
+  "Brightness": 100,
+  "Speed": 40,
+  "XQZ": false,
+  "Red": 0,
+  "Green": 255,
+  "Blue": 0,
+  "Alpha": 255,
+  "Hidden Red": 255,
+  "Hidden Green": 0,
+  "Hidden Blue": 255,
+  "Hidden Alpha": 255
+}

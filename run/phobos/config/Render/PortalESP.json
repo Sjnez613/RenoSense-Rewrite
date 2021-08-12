@@ -1,0 +1,11 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "PortalESP",
+  "Distance": 60,
+  "Box": false,
+  "BoxAlpha": 125,
+  "Outline": true,
+  "LineWidth": 1.0
+}

@@ -1,0 +1,18 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "AntiCrystal",
+  "Range": 6.0,
+  "WallsRange": 3.5,
+  "MinDmg": 6.0,
+  "SelfDmg": 2.0,
+  "PlaceDelay": 0,
+  "BreakDelay": 0,
+  "CheckDelay": 0,
+  "WasteAmount": 1,
+  "Switch": true,
+  "Rotate": true,
+  "Packet": true,
+  "Spoofs": 1
+}

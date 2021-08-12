@@ -1,0 +1,23 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "ClickGui",
+  "Sync": false,
+  "Outline": false,
+  "RollingRainbow": false,
+  "Prefix": ".",
+  "Red": 255,
+  "Green": 0,
+  "Blue": 0,
+  "Alpha": 180,
+  "HoverAlpha": 240,
+  "CustomFov": false,
+  "Fov": 150.0,
+  "Open/Close": false,
+  "DevSettings": false,
+  "TopRed": 255,
+  "TopGreen": 0,
+  "TopBlue": 0,
+  "TopAlpha": 255
+}

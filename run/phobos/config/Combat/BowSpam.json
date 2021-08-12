@@ -1,0 +1,18 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "BowSpam",
+  "Mode": "FAST",
+  "BowBomb": false,
+  "Offhand": true,
+  "Ticks": 3,
+  "Delay": 50,
+  "TpsSync": true,
+  "AutoSwitch": false,
+  "OnlyWhenSave": true,
+  "Target": "LOWEST",
+  "Range": 3.0,
+  "Lethal": 6.0,
+  "OwnHealth": 20.0
+}

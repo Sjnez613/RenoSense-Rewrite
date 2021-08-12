@@ -1,0 +1,12 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Replenish",
+  "Threshold": 0,
+  "RUpdates": 0,
+  "HBUpdates": 100,
+  "Actions": 2,
+  "PauseInv": true,
+  "PutBack": true
+}

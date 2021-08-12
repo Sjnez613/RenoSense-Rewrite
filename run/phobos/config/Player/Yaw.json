@@ -1,0 +1,12 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Yaw",
+  "LockYaw": false,
+  "ByDirection": false,
+  "Direction": "NORTH",
+  "Yaw": 0,
+  "LockPitch": false,
+  "Pitch": 0
+}

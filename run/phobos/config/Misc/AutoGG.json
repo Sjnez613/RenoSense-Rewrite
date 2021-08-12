@@ -1,0 +1,12 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "AutoGG",
+  "OwnDeath": false,
+  "Greentext": false,
+  "LoadFiles": false,
+  "Reset": 30,
+  "Delay": 10,
+  "Test": false
+}

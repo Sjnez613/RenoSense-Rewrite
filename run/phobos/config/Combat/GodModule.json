@@ -1,0 +1,15 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "GodModule",
+  "Spoofs": 1,
+  "Rotate": false,
+  "Render": false,
+  "AntiIllegal": true,
+  "CheckPos": true,
+  "1.15": false,
+  "EntityCheck": false,
+  "Attacks": 1,
+  "Delay": 0
+}

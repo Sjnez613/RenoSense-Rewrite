@@ -1,0 +1,10 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Logger",
+  "Packets": "OUTGOING",
+  "Chat": false,
+  "FullInfo": false,
+  "NoPing": false
+}

@@ -1,0 +1,11 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Blink",
+  "CPacketPlayer": true,
+  "AutoOff": "MANUAL",
+  "Time": 20,
+  "Packets": 20,
+  "Distance": 10.0
+}

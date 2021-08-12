@@ -1,0 +1,9 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "AntiDDoS",
+  "Full": false,
+  "NewServer": "Add_Server...",
+  "ShowServers": false
+}

@@ -1,0 +1,14 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Tracers",
+  "Players": true,
+  "Mobs": false,
+  "Animals": false,
+  "Invisibles": false,
+  "DrawFromSky": false,
+  "Width": 1.0,
+  "Radius": 300,
+  "CrystalCheck": false
+}

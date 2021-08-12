@@ -1,0 +1,19 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "AutoArmor",
+  "Delay": 50,
+  "AutoMend": false,
+  "Enemy": 8,
+  "Helmet%": 80,
+  "Chest%": 80,
+  "Legs%": 80,
+  "Boots%": 80,
+  "CurseOfBinding": false,
+  "Actions": 3,
+  "Elytra": "None",
+  "TpsSync": true,
+  "Update": true,
+  "ShiftClick": false
+}

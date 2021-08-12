@@ -1,0 +1,17 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "XCarry",
+  "Simple": false,
+  "AutoDuel": "None",
+  "ObbySlot": 2,
+  "Slot1": 22,
+  "Slot2": 23,
+  "Slot3": 24,
+  "Actions": 3,
+  "Store": false,
+  "ShiftClick": false,
+  "WithShift": true,
+  "ShiftBind": "None"
+}

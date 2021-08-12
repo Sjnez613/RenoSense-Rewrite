@@ -1,0 +1,15 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Spammer",
+  "Mode": "PWORD",
+  "Pword": "CHAT",
+  "DelayType": "S",
+  "DelayS": 10,
+  "DelayDS": 10,
+  "MsgTarget": "Target...",
+  "Greentext": false,
+  "Random": false,
+  "LoadFile": false
+}

@@ -3,21 +3,21 @@ buildscript {
         mavenCentral()
         jcenter()
         maven {
-            name = "lukflug"
-            url = "https://lukflug.github.io/maven/"
+            name = 'forge'
+            url = 'http://files.minecraftforge.net/maven'
         }
         maven {
             name = 'SpongePowered'
-            url = 'https://repo.spongepowered.org/maven'
+            url = 'https://repo.spongepowered.org/repository/maven-public'
         }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
         classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
+
     }
 }
-
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
@@ -35,7 +35,7 @@ minecraft {
     version = project.forgeVersion
     runDir = 'run'
     mappings = project.mcpVersion
-    coreMod = 'me.alpha432.oyvey.mixin.OyVeyLoader'
+    coreMod = 'me.sjnez.renosense.mixin.PhobosMixinLoader'
     makeObfSourceJar = false
 }
 
@@ -43,7 +43,7 @@ repositories {
     mavenCentral()
     maven {
         name = 'spongepowered-repo'
-        url = 'https://repo.spongepowered.org/maven/'
+        url = 'https://repo.spongepowered.org/repository/maven-public/'
     }
     jcenter()
 }
@@ -56,10 +56,10 @@ dependencies {
         exclude module: 'gson'
         exclude module: 'commons-io'
     }
-
+    
     compile 'club.minnced:java-discord-rpc:2.0.2'
     //compile 'com.googlecode.json-simple:json-simple:1.1.1'
-
+    
 }
 
 
@@ -84,7 +84,7 @@ processResources {
 
 shadowJar {
     dependencies {
-        include(dependency('club.minnced:java-discord-rpc'))
+		include(dependency('club.minnced:java-discord-rpc'))
         include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
         include(dependency('org.spongepowered:mixin'))
     }
@@ -95,8 +95,8 @@ shadowJar {
 
 mixin {
     defaultObfuscationEnv searge
-    add sourceSets.main, 'mixins.oyvey.refmap.json'
-
+    add sourceSets.main, 'mixins.phobos.refmap.json'
+    
 }
 
 reobf {
@@ -109,13 +109,13 @@ reobf {
 jar {
     manifest {
         attributes(
-                'MixinConfigs': 'mixins.oyvey.json',
+                'MixinConfigs': 'mixins.phobos.json',
                 'tweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
                 'TweakOrder': 0,
                 'FMLCorePluginContainsFMLMod': 'true',
-                'FMLCorePlugin': 'me.alpha432.oyvey.mixin.OyVeyLoader',
+                'FMLCorePlugin': 'me.sjnez.renosense.mixin.PhobosMixinLoader',
                 'ForceLoadAsMod': 'true',
-                'FMLAT': 'oyvey_at.cfg'
+                'FMLAT': 'phobos_at.cfg'
         )
     }
 }

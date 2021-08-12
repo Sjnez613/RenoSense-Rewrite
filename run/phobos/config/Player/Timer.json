@@ -1,0 +1,14 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Timer",
+  "AutoOff": false,
+  "Limit": 250,
+  "Mode": "NORMAL",
+  "Speed": 4.0,
+  "Fast": 10.0,
+  "FastTime": 20,
+  "SlowTime": 20,
+  "StartFast": false
+}

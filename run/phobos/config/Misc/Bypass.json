@@ -1,0 +1,20 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Bypass",
+  "Illegals": false,
+  "SecretClose": false,
+  "Rotation": false,
+  "Elytra": false,
+  "Reopen": false,
+  "ReopenDelay": 1000,
+  "Delay": 0,
+  "Ghost": true,
+  "Cancel": true,
+  "Secret": true,
+  "Packets": false,
+  "LimitSwing": false,
+  "SwingPackets": 1,
+  "NoCompression": false
+}

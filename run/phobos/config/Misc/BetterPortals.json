@@ -1,0 +1,11 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "BetterPortals",
+  "Chat": true,
+  "Godmode": false,
+  "FastPortal": false,
+  "Cooldown": 5,
+  "Time": 5
+}

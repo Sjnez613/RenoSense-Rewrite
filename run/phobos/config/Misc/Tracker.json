@@ -1,0 +1,9 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Tracker",
+  "Color": "RED",
+  "AutoEnable": false,
+  "AutoDisable": true
+}

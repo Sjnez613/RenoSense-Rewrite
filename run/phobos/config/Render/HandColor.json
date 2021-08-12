@@ -1,0 +1,15 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "HandColor",
+  "Sync": false,
+  "Rainbow": false,
+  "Saturation": 50,
+  "Brightness": 100,
+  "Speed": 40,
+  "Red": 0,
+  "Green": 255,
+  "Blue": 0,
+  "Alpha": 255
+}

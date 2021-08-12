@@ -1,0 +1,11 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "TpSpeed",
+  "Mode": "NORMAL",
+  "Speed": 0.25,
+  "FallSpeed": 0.25,
+  "Off": false,
+  "Limit": 2
+}

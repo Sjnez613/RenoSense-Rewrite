@@ -1,0 +1,9 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "NoSoundLag",
+  "Crystals": true,
+  "Armor": true,
+  "SoundRange": 12.0
+}

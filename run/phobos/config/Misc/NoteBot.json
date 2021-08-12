@@ -1,0 +1,10 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "NoteBot",
+  "Tune": false,
+  "Active": false,
+  "DownloadSongs": false,
+  "Load": "Load_File..."
+}

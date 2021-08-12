@@ -1,0 +1,12 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "BoatFly",
+  "Speed": 3.0,
+  "VerticalSpeed": 3.0,
+  "No-Kick": true,
+  "Packet": true,
+  "Packets": 3,
+  "Delay": 2
+}

@@ -1,0 +1,20 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "StorageESP",
+  "Range": 50.0,
+  "Sync": false,
+  "Chest": true,
+  "Dispenser": false,
+  "Shulker": true,
+  "Ender Chest": true,
+  "Furnace": false,
+  "Hopper": false,
+  "Minecart": false,
+  "Item Frame": false,
+  "Box": false,
+  "BoxAlpha": 125,
+  "Outline": true,
+  "LineWidth": 1.0
+}

@@ -1,0 +1,8 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "Companion",
+  "PopMessage": "\u003cplayer\u003e_watch_out_you\u0027re_popping!",
+  "DeathMessage": "\u003cplayer\u003e_you_retard_you_just_fucking_died!"
+}

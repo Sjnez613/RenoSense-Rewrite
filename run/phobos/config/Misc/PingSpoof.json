@@ -1,0 +1,10 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "PingSpoof",
+  "Seconds": false,
+  "DelayMS": 20,
+  "DelayS": 5,
+  "Logout": false
+}

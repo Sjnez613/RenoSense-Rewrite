@@ -1,0 +1,14 @@
+{
+  "Enabled": false,
+  "Drawn": true,
+  "Bind": "None",
+  "DisplayName": "StepOld",
+  "Vanilla": false,
+  "VHeight": 2.0,
+  "Height": 2,
+  "Spoof": true,
+  "Delay": 3,
+  "Disable": false,
+  "Check": true,
+  "Offset": false
+}

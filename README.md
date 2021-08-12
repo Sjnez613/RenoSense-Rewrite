@@ -1,10 +1,20 @@
-# RenoSense Rewrite
-Renosense Rewrite By Sjnez and F-00 and Tvffty
-- OyVey skid without the useless placeholder modules and added stuff
+# RenoSense
 
-How to build/run:
+GANG
 
-IntelliJ: `gradlew setupDecompWorkspace idea genIntellijRuns build`
+How to build:
 
-Eclipse: `gradlew setupDecompWorkspace eclipse build`
+
+Macos: 
+
+./gradlew setupDecompWorkspace
+
+./gradlew build
+
+
+Windows: 
+
+gradlew setupDecompWorkspace
+
+gradlew build
 
