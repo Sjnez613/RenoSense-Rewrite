@@ -3,7 +3,6 @@ package me.sjnez.renosense.util;
 import me.sjnez.renosense.RenoSense;
 import me.sjnez.renosense.features.modules.client.Managers;
 import me.sjnez.renosense.features.modules.combat.Killaura;
-import me.sjnez.renosense.features.modules.player.Blink;
 import me.sjnez.renosense.features.modules.player.FakePlayer;
 import me.sjnez.renosense.features.modules.player.Freecam;
 import me.sjnez.renosense.mixin.mixins.accessors.IEntityLivingBase;
@@ -638,7 +637,6 @@ public class EntityUtil implements Util {
     public static boolean isFakePlayer(final EntityPlayer player) {
         final Freecam freecam = Freecam.getInstance();
         final FakePlayer fakePlayer = FakePlayer.getInstance();
-        final Blink blink = Blink.getInstance();
         final int playerID = player.getEntityId();
         if (freecam.isOn() && playerID == 69420) {
             return true;
@@ -650,7 +648,7 @@ public class EntityUtil implements Util {
                 }
             }
         }
-        return blink.isOn() && playerID == 6942069;
+        return playerID == 6942069;
     }
 
     public static boolean isMoving() {

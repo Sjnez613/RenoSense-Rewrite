@@ -13,11 +13,11 @@ import org.lwjgl.opengl.Display;
 
 import java.io.IOException;
 
-@Mod(modid = "renosense", name = "RenoSense", version = "0.1")
+@Mod(modid = "renosense", name = "RenoSense", version = "0.0.2")
 public class RenoSense {
     public static final String MODID = "renosense";
     public static final String MODNAME = "RenoSense";
-    public static final String MODVER = "0.1";
+    public static final String MODVER = "0.0.2";
     public static final Logger LOGGER = LogManager.getLogger("renosense");
     public static ModuleManager moduleManager;
     public static SpeedManager speedManager;
@@ -53,7 +53,7 @@ public class RenoSense {
     }
 
     public static void load() {
-        LOGGER.info("\n\nLoading RenoSense 0.1");
+        LOGGER.info("\n\nLoading RenoSense");
         unloaded = false;
         if (reloadManager != null) {
             reloadManager.unload();
@@ -99,7 +99,7 @@ public class RenoSense {
     }
 
     public static void unload(boolean unload) {
-        LOGGER.info("\n\nUnloading renosense 0.1");
+        LOGGER.info("\n\nUnloading renosense");
         if (unload) {
             reloadManager = new ReloadManager();
             reloadManager.init(commandManager != null ? commandManager.getPrefix() : ".");

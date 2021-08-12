@@ -15,13 +15,12 @@ public class DiscordPresence
 
     public static void start() {
         final DiscordEventHandlers handlers = new DiscordEventHandlers();
-        DiscordPresence.rpc.Discord_Initialize("873426871122026546", handlers, true, "");
+        DiscordPresence.rpc.Discord_Initialize("875212904897585153", handlers, true, "");
         DiscordPresence.presence.startTimestamp = System.currentTimeMillis() / 1000L;
         DiscordPresence.presence.details = ((Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu) ? "In the main menu." : ("Playing " + ((Minecraft.getMinecraft().getCurrentServerData() != null) ? (RPC.INSTANCE.showIP.getValue() ? ("on " + Minecraft.getMinecraft().getCurrentServerData().serverIP + ".") : " multiplayer.") : " singleplayer.")));
         DiscordPresence.presence.state = RPC.INSTANCE.state.getValue();
         DiscordPresence.presence.largeImageText = RPC.INSTANCE.largeImageText.getValue();
-        DiscordPresence.presence.smallImageKey = RPC.INSTANCE.smallImage.getValue().toString();
-        DiscordPresence.presence.largeImageKey = RPC.INSTANCE.largeImage.getValue().toString();
+        DiscordPresence.presence.largeImageKey = "renosense";
         DiscordPresence.presence.smallImageText = RPC.INSTANCE.smallImageText.getValue();
         DiscordPresence.presence.partyId = "ae488379-351d-4a4f-ad32-2b9b01c91658";
         DiscordPresence.presence.partyMax = 50;

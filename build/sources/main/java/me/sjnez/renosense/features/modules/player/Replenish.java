@@ -1,7 +1,6 @@
 package me.sjnez.renosense.features.modules.player;
 
 import me.sjnez.renosense.features.modules.Module;
-import me.sjnez.renosense.features.modules.combat.Auto32k;
 import me.sjnez.renosense.features.setting.Setting;
 import me.sjnez.renosense.util.InventoryUtil;
 import me.sjnez.renosense.util.Timer;
@@ -35,9 +34,6 @@ public class Replenish
 
     @Override
     public void onUpdate() {
-        if (Auto32k.getInstance().isOn() && (!Auto32k.getInstance().autoSwitch.getValue().booleanValue() || Auto32k.getInstance().switching)) {
-            return;
-        }
         if (Replenish.mc.currentScreen instanceof GuiContainer && (!(Replenish.mc.currentScreen instanceof GuiInventory) || this.pauseInv.getValue().booleanValue())) {
             return;
         }

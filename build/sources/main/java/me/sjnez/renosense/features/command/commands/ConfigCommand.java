@@ -17,7 +17,7 @@ public class ConfigCommand
     @Override
     public void execute(String[] commands) {
         if (commands.length == 1) {
-            ConfigCommand.sendMessage("You`ll find the config files in your gameProfile directory under phobos/config");
+            ConfigCommand.sendMessage("You`ll find the config files in your gameProfile directory under renosense/config");
             return;
         }
         if (commands.length == 2) {

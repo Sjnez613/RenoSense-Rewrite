@@ -3,7 +3,6 @@ package me.sjnez.renosense.features.modules.combat;
 import me.sjnez.renosense.RenoSense;
 import me.sjnez.renosense.event.events.UpdateWalkingPlayerEvent;
 import me.sjnez.renosense.features.modules.Module;
-import me.sjnez.renosense.features.modules.player.BlockTweaks;
 import me.sjnez.renosense.features.modules.player.Freecam;
 import me.sjnez.renosense.features.setting.Bind;
 import me.sjnez.renosense.features.setting.Setting;
@@ -155,7 +154,7 @@ public class Selftrap
                         break;
                     }
                     case OBSIDIAN: {
-                        if (this.switchMode.getValue() != InventoryUtil.Switch.SILENT && (!BlockTweaks.getINSTANCE().isOn() || !BlockTweaks.getINSTANCE().noBlock.getValue().booleanValue()) || this.retries.get(position) != null && this.retries.get(position) >= 4)
+                        if (this.switchMode.getValue() != InventoryUtil.Switch.SILENT || this.retries.get(position) != null && this.retries.get(position) >= 4)
                             break;
                         this.placeBlock(position);
                         this.retries.put(position, this.retries.get(position) == null ? 1 : this.retries.get(position) + 1);

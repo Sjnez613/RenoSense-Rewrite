@@ -260,7 +260,7 @@ public class Strafe
     }
 
     private boolean shouldReturn() {
-        return RenoSense.moduleManager.isModuleEnabled(Freecam.class) || RenoSense.moduleManager.isModuleEnabled(Phase.class) || RenoSense.moduleManager.isModuleEnabled(ElytraFlight.class) || RenoSense.moduleManager.isModuleEnabled(Flight.class);
+        return RenoSense.moduleManager.isModuleEnabled(Freecam.class) || RenoSense.moduleManager.isModuleEnabled(ElytraFlight.class);
     }
 
     @SubscribeEvent

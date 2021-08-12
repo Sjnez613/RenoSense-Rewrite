@@ -1,11 +1,7 @@
 package me.sjnez.renosense.mixin.mixins;
 
-import java.awt.Color;
-import me.sjnez.renosense.event.events.RenderEntityModelEvent;
 import me.sjnez.renosense.features.modules.client.Colors;
 import me.sjnez.renosense.features.modules.render.Chams;
-import me.sjnez.renosense.features.modules.render.ESP;
-import me.sjnez.renosense.features.modules.render.Skeleton;
 import me.sjnez.renosense.util.EntityUtil;
 import me.sjnez.renosense.util.RenderUtil;
 import net.minecraft.client.model.ModelBase;
@@ -23,6 +19,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.awt.*;
+
 @Mixin(value={RenderLivingBase.class})
 public abstract class MixinRenderLivingBase<T extends EntityLivingBase>
 extends Render<T> {
@@ -36,18 +34,6 @@ extends Render<T> {
     private void renderModelHook(ModelBase modelBase, Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         Color visibleColor;
         boolean cancel = false;
-        if (Skeleton.getInstance().isEnabled() || ESP.getInstance().isEnabled()) {
-            RenderEntityModelEvent event = new RenderEntityModelEvent(0, modelBase, entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-            if (Skeleton.getInstance().isEnabled()) {
-                Skeleton.getInstance().onRenderModel(event);
-            }
-            if (ESP.getInstance().isEnabled()) {
-                ESP.getInstance().onRenderModel(event);
-                if (event.isCanceled()) {
-                    cancel = true;
-                }
-            }
-        }
         if (Chams.getInstance().isEnabled() && entityIn instanceof EntityPlayer && Chams.getInstance().colored.getValue().booleanValue() && !Chams.getInstance().textured.getValue().booleanValue()) {
             if (!Chams.getInstance().textured.getValue().booleanValue()) {
                 GL11.glPushAttrib((int)1048575);

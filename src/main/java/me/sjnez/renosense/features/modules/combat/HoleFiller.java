@@ -5,7 +5,6 @@ import me.sjnez.renosense.event.events.UpdateWalkingPlayerEvent;
 import me.sjnez.renosense.features.modules.Module;
 import me.sjnez.renosense.features.modules.client.ClickGui;
 import me.sjnez.renosense.features.modules.client.ServerModule;
-import me.sjnez.renosense.features.modules.player.BlockTweaks;
 import me.sjnez.renosense.features.modules.player.Freecam;
 import me.sjnez.renosense.features.setting.Bind;
 import me.sjnez.renosense.features.setting.Setting;
@@ -207,7 +206,7 @@ public class HoleFiller
                     this.placeHighWeb = true;
                 }
             }
-            if ((placeability = BlockUtil.isPositionPlaceable(position, this.raytrace.getValue())) == 1 && (this.currentMode == Mode.WEBS || this.switchMode.getValue() == InventoryUtil.Switch.SILENT || BlockTweaks.getINSTANCE().isOn() && BlockTweaks.getINSTANCE().noBlock.getValue().booleanValue()) && (this.currentMode == Mode.WEBS || this.retries.get(position) == null || this.retries.get(position) < 4)) {
+            if ((placeability = BlockUtil.isPositionPlaceable(position, this.raytrace.getValue())) == 1 && (this.currentMode == Mode.WEBS || this.switchMode.getValue() == InventoryUtil.Switch.SILENT && (this.currentMode == Mode.WEBS || this.retries.get(position) == null || this.retries.get(position) < 4))) {
                 this.placeBlock(position);
                 if (this.currentMode == Mode.WEBS) continue;
                 this.retries.put(position, this.retries.get(position) == null ? 1 : this.retries.get(position) + 1);

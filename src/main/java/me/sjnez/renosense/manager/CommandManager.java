@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class CommandManager
         extends Feature {
-    private String clientMessage = "<RenoSense.eu>";
+    private String clientMessage = "<RenoSense>";
     private String prefix = ".";
     private final ArrayList<Command> commands = new ArrayList();
 

@@ -1,12 +1,8 @@
 package me.sjnez.renosense.mixin.mixins;
 
-import me.sjnez.renosense.RenoSense;
 import me.sjnez.renosense.event.events.BlockEvent;
 import me.sjnez.renosense.event.events.ProcessRightClickBlockEvent;
-import me.sjnez.renosense.features.modules.player.BlockTweaks;
-import me.sjnez.renosense.features.modules.player.Reach;
 import me.sjnez.renosense.features.modules.player.Speedmine;
-import me.sjnez.renosense.features.modules.player.TpsSync;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -37,10 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value={PlayerControllerMP.class})
 public class MixinPlayerControllerMP {
-    @Redirect(method={"onPlayerDamageBlock"}, at=@At(value="INVOKE", target="Lnet/minecraft/block/state/IBlockState;getPlayerRelativeBlockHardness(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)F"))
-    public float getPlayerRelativeBlockHardnessHook(IBlockState state, EntityPlayer player, World worldIn, BlockPos pos) {
-        return state.getPlayerRelativeBlockHardness(player, worldIn, pos) * (TpsSync.getInstance().isOn() && TpsSync.getInstance().mining.getValue() != false ? 1.0f / RenoSense.serverManager.getTpsFactor() : 1.0f);
-    }
+
 
     @Inject(method={"resetBlockRemoving"}, at={@At(value="HEAD")}, cancellable=true)
     public void resetBlockRemovingHook(CallbackInfo info) {
@@ -61,14 +54,6 @@ public class MixinPlayerControllerMP {
         MinecraftForge.EVENT_BUS.post((Event)event);
     }
 
-    @Inject(method={"getBlockReachDistance"}, at={@At(value="RETURN")}, cancellable=true)
-    private void getReachDistanceHook(CallbackInfoReturnable<Float> distance) {
-        if (Reach.getInstance().isOn()) {
-            float range = distance.getReturnValue().floatValue();
-            distance.setReturnValue(Reach.getInstance().override.getValue() != false ? Reach.getInstance().reach.getValue() : Float.valueOf(range + Reach.getInstance().add.getValue().floatValue()));
-        }
-    }
-
     @Redirect(method={"processRightClickBlock"}, at=@At(value="INVOKE", target="Lnet/minecraft/item/ItemBlock;canPlaceBlockOnSide(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/item/ItemStack;)Z"))
     public boolean canPlaceBlockOnSideHook(ItemBlock itemBlock, World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
         Block block = worldIn.getBlockState(pos).getBlock();
@@ -79,11 +64,7 @@ public class MixinPlayerControllerMP {
         }
         IBlockState iblockstate1 = worldIn.getBlockState(pos);
         AxisAlignedBB axisalignedbb = itemBlock.block.getDefaultState().getCollisionBoundingBox((IBlockAccess)worldIn, pos);
-        if (axisalignedbb != Block.NULL_AABB && !worldIn.checkNoEntityCollision(axisalignedbb.offset(pos), null)) {
-            if (BlockTweaks.getINSTANCE().isOff() || !BlockTweaks.getINSTANCE().noBlock.getValue().booleanValue()) {
-                return false;
-            }
-        } else if (iblockstate1.getMaterial() == Material.CIRCUITS && itemBlock.block == Blocks.ANVIL) {
+        if (iblockstate1.getMaterial() == Material.CIRCUITS && itemBlock.block == Blocks.ANVIL) {
             return true;
         }
         return iblockstate1.getBlock().isReplaceable((IBlockAccess)worldIn, pos) && itemBlock.block.canPlaceBlockOnSide(worldIn, pos, side);

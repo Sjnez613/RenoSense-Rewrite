@@ -16,7 +16,7 @@ public class ReloadManager
         this.prefix = prefix;
         MinecraftForge.EVENT_BUS.register(this);
         if (!ReloadManager.fullNullCheck()) {
-            Command.sendMessage("\u00a7cPhobos has been unloaded. Type " + prefix + "reload to reload.");
+            Command.sendMessage("\u00a7cRenoSense has been unloaded. Type " + prefix + "reload to reload.");
         }
     }
 

@@ -3,7 +3,6 @@ package me.sjnez.renosense.manager;
 import me.sjnez.renosense.features.Feature;
 import me.sjnez.renosense.features.modules.client.Managers;
 import me.sjnez.renosense.features.modules.combat.HoleFiller;
-import me.sjnez.renosense.features.modules.movement.HoleTP;
 import me.sjnez.renosense.features.modules.render.HoleESP;
 import me.sjnez.renosense.util.BlockUtil;
 import me.sjnez.renosense.util.EntityUtil;
@@ -63,7 +62,7 @@ public class HoleManager
                 }
                 this.executorService = this.getExecutor();
             }
-        } else if (this.holeTimer.passedMs(Managers.getInstance().holeUpdates.getValue().intValue()) && !HoleManager.fullNullCheck() && (HoleESP.getInstance().isOn() || HoleFiller.getInstance().isOn() || HoleTP.getInstance().isOn())) {
+        } else if (this.holeTimer.passedMs(Managers.getInstance().holeUpdates.getValue().intValue()) && !HoleManager.fullNullCheck() && (HoleESP.getInstance().isOn() || HoleFiller.getInstance().isOn())) {
             this.holes = this.calcHoles();
             this.holeTimer.reset();
         }
@@ -94,7 +93,7 @@ public class HoleManager
                     Thread.currentThread().interrupt();
                     return;
                 }
-                if (!HoleManager.fullNullCheck() && (HoleESP.getInstance().isOn() || HoleFiller.getInstance().isOn() || HoleTP.getInstance().isOn())) {
+                if (!HoleManager.fullNullCheck() && (HoleESP.getInstance().isOn() || HoleFiller.getInstance().isOn())) {
                     this.holes = this.calcHoles();
                 }
                 try {

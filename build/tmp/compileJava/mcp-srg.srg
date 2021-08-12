@@ -28,7 +28,6 @@ FD: me/sjnez/renosense/mixin/mixins/MixinEntityRenderer/itemActivationItem me/sj
 FD: me/sjnez/renosense/mixin/mixins/MixinEntityRenderer/mc me/sjnez/renosense/mixin/mixins/MixinEntityRenderer/field_78531_r
 FD: me/sjnez/renosense/mixin/mixins/MixinGuiIngame/persistantChatGUI me/sjnez/renosense/mixin/mixins/MixinGuiIngame/field_73840_e
 FD: me/sjnez/renosense/mixin/mixins/MixinGuiNewChat/drawnChatLines me/sjnez/renosense/mixin/mixins/MixinGuiNewChat/field_146253_i
-FD: me/sjnez/renosense/mixin/mixins/MixinItemStack/itemDamage me/sjnez/renosense/mixin/mixins/MixinItemStack/field_77991_e
 FD: me/sjnez/renosense/mixin/mixins/MixinKeyBinding/pressed me/sjnez/renosense/mixin/mixins/MixinKeyBinding/field_74513_e
 FD: me/sjnez/renosense/mixin/mixins/MixinRenderEnderCrystal/ENDER_CRYSTAL_TEXTURES me/sjnez/renosense/mixin/mixins/MixinRenderEnderCrystal/field_110787_a
 MD: me/sjnez/renosense/mixin/mixins/MixinAbstractClientPlayer/getPlayerInfo ()Lnet/minecraft/client/network/NetworkPlayerInfo; me/sjnez/renosense/mixin/mixins/MixinAbstractClientPlayer/func_175155_b ()Lnet/minecraft/client/network/NetworkPlayerInfo;

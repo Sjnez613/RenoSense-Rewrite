@@ -31,11 +31,6 @@ public class Criticals
     @SubscribeEvent
     public void onPacketSend(PacketEvent.Send event) {
         CPacketUseEntity packet;
-        if (Auto32k.getInstance().isOn() && (Auto32k.getInstance().switching || !Auto32k.getInstance().autoSwitch.getValue().booleanValue() || Auto32k.getInstance().mode.getValue() == Auto32k.Mode.DISPENSER) && this.timer.passedMs(500L) && this.cancelFirst.getValue().booleanValue()) {
-            this.firstCanceled = true;
-        } else if (Auto32k.getInstance().isOff() || !Auto32k.getInstance().switching && Auto32k.getInstance().autoSwitch.getValue().booleanValue() && Auto32k.getInstance().mode.getValue() != Auto32k.Mode.DISPENSER || !this.cancelFirst.getValue().booleanValue()) {
-            this.firstCanceled = false;
-        }
         if (event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK) {
             if (this.firstCanceled) {
                 this.timer32k.reset();

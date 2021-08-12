@@ -6,7 +6,8 @@ import me.sjnez.renosense.features.setting.Setting;
 public class Display extends Module {
 
     private static Display INSTANCE = new Display();
-    public Setting<String> gang = this.register(new Setting("Title", "RenoSense | 0.1"));
+    public Setting<String> gang = this.register(new Setting("Title", "RenoSense"));
+    public Setting<Boolean> version = this.register(new Setting("Version", true));
 
     public Display(){
         super("Display", "Sets the title of your game", Category.MODULE, true, false, false);
@@ -25,9 +26,6 @@ public class Display extends Module {
 
     @Override
     public void onUpdate() {
-        if (fullNullCheck()){
-            return;
-        }
         org.lwjgl.opengl.Display.setTitle(this.gang.getValue());
     }
 }

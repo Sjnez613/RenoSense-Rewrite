@@ -11,7 +11,6 @@ import me.sjnez.renosense.features.command.Command;
 import me.sjnez.renosense.features.gui.PhobosGui;
 import me.sjnez.renosense.features.modules.Module;
 import me.sjnez.renosense.features.modules.client.Colors;
-import me.sjnez.renosense.features.modules.misc.NoSoundLag;
 import me.sjnez.renosense.features.setting.Bind;
 import me.sjnez.renosense.features.setting.Setting;
 import me.sjnez.renosense.util.Timer;
@@ -147,7 +146,6 @@ public class AutoCrystal
     public Setting<Boolean> webAttack = this.register(new Setting<Object>("WebAttack", Boolean.valueOf(true), v -> this.setting.getValue() == Settings.MISC && this.targetMode.getValue() != Target.DAMAGE));
     public Setting<Boolean> fullCalc = this.register(new Setting<Object>("ExtraCalc", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.MISC));
     public Setting<Boolean> sound = this.register(new Setting<Object>("Sound", Boolean.valueOf(true), v -> this.setting.getValue() == Settings.MISC));
-    public Setting<Float> soundRange = this.register(new Setting<Object>("SoundRange", Float.valueOf(12.0f), Float.valueOf(0.0f), Float.valueOf(12.0f), v -> this.setting.getValue() == Settings.MISC));
     public Setting<Float> soundPlayer = this.register(new Setting<Object>("SoundPlayer", Float.valueOf(6.0f), Float.valueOf(0.0f), Float.valueOf(12.0f), v -> this.setting.getValue() == Settings.MISC));
     public Setting<Boolean> soundConfirm = this.register(new Setting<Object>("SoundConfirm", Boolean.valueOf(true), v -> this.setting.getValue() == Settings.MISC));
     public Setting<Boolean> extraSelfCalc = this.register(new Setting<Object>("MinSelfDmg", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.MISC));
@@ -180,7 +178,6 @@ public class AutoCrystal
     public Setting<Boolean> syncThreadBool = this.register(new Setting<Object>("ThreadSync", Boolean.valueOf(true), v -> this.setting.getValue() == Settings.DEV && this.threadMode.getValue() != ThreadMode.NONE));
     public Setting<Integer> syncThreads = this.register(new Setting<Object>("SyncThreads", Integer.valueOf(1000), Integer.valueOf(1), Integer.valueOf(10000), v -> this.setting.getValue() == Settings.DEV && this.threadMode.getValue() != ThreadMode.NONE && this.syncThreadBool.getValue() != false));
     public Setting<Boolean> predictPos = this.register(new Setting<Object>("PredictPos", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.DEV));
-    public Setting<Boolean> renderExtrapolation = this.register(new Setting<Object>("RenderExtrapolation", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.DEV && this.predictPos.getValue() != false));
     public Setting<Integer> predictTicks = this.register(new Setting<Object>("ExtrapolationTicks", Integer.valueOf(2), Integer.valueOf(1), Integer.valueOf(20), v -> this.setting.getValue() == Settings.DEV && this.predictPos.getValue() != false));
     public Setting<Integer> rotations = this.register(new Setting<Object>("Spoofs", Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(20), v -> this.setting.getValue() == Settings.DEV));
     public Setting<Boolean> predictRotate = this.register(new Setting<Object>("PredictRotate", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.DEV));
@@ -393,9 +390,6 @@ public class AutoCrystal
             }
         } else if (event.getPacket() instanceof SPacketSoundEffect && (packet = event.getPacket()).getCategory() == SoundCategory.BLOCKS && packet.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
             BlockPos pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
-            if (this.sound.getValue().booleanValue() || this.threadMode.getValue() == ThreadMode.SOUND) {
-                NoSoundLag.removeEntities(packet, this.soundRange.getValue().floatValue());
-            }
             if (this.soundConfirm.getValue().booleanValue()) {
                 this.removePos(pos);
             }

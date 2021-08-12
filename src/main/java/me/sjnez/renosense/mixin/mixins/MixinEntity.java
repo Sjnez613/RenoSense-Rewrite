@@ -1,11 +1,7 @@
 package me.sjnez.renosense.mixin.mixins;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 import me.sjnez.renosense.event.events.PushEvent;
 import me.sjnez.renosense.event.events.StepEvent;
-import me.sjnez.renosense.features.modules.misc.BetterPortals;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -34,6 +30,10 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 @Mixin(value={Entity.class})
 public abstract class MixinEntity {
@@ -428,15 +428,6 @@ public abstract class MixinEntity {
             }
             this.world.profiler.endSection();
         }
-    }
-
-    @Redirect(method={"onEntityUpdate"}, at=@At(value="INVOKE", target="Lnet/minecraft/entity/Entity;getMaxInPortalTime()I"))
-    private int getMaxInPortalTimeHook(Entity entity) {
-        int time = this.getMaxInPortalTime();
-        if (BetterPortals.getInstance().isOn() && BetterPortals.getInstance().fastPortal.getValue().booleanValue()) {
-            time = BetterPortals.getInstance().time.getValue();
-        }
-        return time;
     }
 
     @Redirect(method={"applyEntityCollision"}, at=@At(value="INVOKE", target="Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))

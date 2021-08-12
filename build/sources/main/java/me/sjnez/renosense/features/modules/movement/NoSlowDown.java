@@ -1,6 +1,5 @@
 package me.sjnez.renosense.features.modules.movement;
 
-import me.sjnez.renosense.RenoSense;
 import me.sjnez.renosense.event.events.KeyEvent;
 import me.sjnez.renosense.event.events.PacketEvent;
 import me.sjnez.renosense.features.modules.Module;
@@ -67,7 +66,7 @@ public class NoSlowDown
                 }
             }
         }
-        if (this.webs.getValue().booleanValue() && RenoSense.moduleManager.getModuleByClass(Flight.class).isDisabled() && RenoSense.moduleManager.getModuleByClass(Phase.class).isDisabled() && NoSlowDown.mc.player.isInWeb) {
+        if (this.webs.getValue() && NoSlowDown.mc.player.isInWeb) {
             NoSlowDown.mc.player.motionX *= this.webHorizontalFactor.getValue().doubleValue();
             NoSlowDown.mc.player.motionZ *= this.webHorizontalFactor.getValue().doubleValue();
             NoSlowDown.mc.player.motionY *= this.webVerticalFactor.getValue().doubleValue();

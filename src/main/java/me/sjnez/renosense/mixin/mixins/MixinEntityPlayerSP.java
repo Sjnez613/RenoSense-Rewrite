@@ -5,14 +5,10 @@ import me.sjnez.renosense.event.events.ChatEvent;
 import me.sjnez.renosense.event.events.MoveEvent;
 import me.sjnez.renosense.event.events.PushEvent;
 import me.sjnez.renosense.event.events.UpdateWalkingPlayerEvent;
-import me.sjnez.renosense.features.modules.misc.BetterPortals;
 import me.sjnez.renosense.features.modules.movement.Speed;
-import me.sjnez.renosense.features.modules.movement.Sprint;
-import me.sjnez.renosense.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.MoverType;
 import net.minecraft.stats.RecipeBook;
@@ -39,29 +35,6 @@ extends AbstractClientPlayer {
     public void sendChatMessage(String message, CallbackInfo callback) {
         ChatEvent chatEvent = new ChatEvent(message);
         MinecraftForge.EVENT_BUS.post((Event)chatEvent);
-    }
-
-    @Redirect(method={"onLivingUpdate"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/entity/EntityPlayerSP;closeScreen()V"))
-    public void closeScreenHook(EntityPlayerSP entityPlayerSP) {
-        if (!BetterPortals.getInstance().isOn() || !BetterPortals.getInstance().portalChat.getValue().booleanValue()) {
-            entityPlayerSP.closeScreen();
-        }
-    }
-
-    @Redirect(method={"onLivingUpdate"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/Minecraft;displayGuiScreen(Lnet/minecraft/client/gui/GuiScreen;)V"))
-    public void displayGuiScreenHook(Minecraft mc, GuiScreen screen) {
-        if (!BetterPortals.getInstance().isOn() || !BetterPortals.getInstance().portalChat.getValue().booleanValue()) {
-            mc.displayGuiScreen(screen);
-        }
-    }
-
-    @Redirect(method={"onLivingUpdate"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/entity/EntityPlayerSP;setSprinting(Z)V", ordinal=2))
-    public void onLivingUpdate(EntityPlayerSP entityPlayerSP, boolean sprinting) {
-        if (Sprint.getInstance().isOn() && Sprint.getInstance().mode.getValue() == Sprint.Mode.RAGE && (Util.mc.player.movementInput.moveForward != 0.0f || Util.mc.player.movementInput.moveStrafe != 0.0f)) {
-            entityPlayerSP.setSprinting(true);
-        } else {
-            entityPlayerSP.setSprinting(sprinting);
-        }
     }
 
     @Inject(method={"pushOutOfBlocks"}, at={@At(value="HEAD")}, cancellable=true)
