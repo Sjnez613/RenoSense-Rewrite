@@ -1,34 +1,26 @@
 package me.sjnez.renosense.features.modules.player;
 
 import com.mojang.authlib.GameProfile;
-import me.sjnez.renosense.RenoSense;
 import me.sjnez.renosense.features.modules.Module;
-import me.sjnez.renosense.features.modules.client.ClickGui;
-import me.sjnez.renosense.features.modules.client.ServerModule;
 import me.sjnez.renosense.features.setting.Setting;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.network.play.client.CPacketChatMessage;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.MoverType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
-public class FakePlayer
-        extends Module {
-    public static final String[][] phobosInfo = new String[][]{{"8af022c8-b926-41a0-8b79-2b544ff00fcf", "3arthqu4ke", "3", "0"}, {"0aa3b04f-786a-49c8-bea9-025ee0dd1e85", "zb0b", "-3", "0"}, {"19bf3f1f-fe06-4c86-bea5-3dad5df89714", "3vt", "0", "-3"}, {"e47d6571-99c2-415b-955e-c4bc7b55941b", "Phobos_eu", "0", "3"}, {"b01f9bc1-cb7c-429a-b178-93d771f00926", "bakpotatisen", "6", "0"}, {"b232930c-c28a-4e10-8c90-f152235a65c5", "948", "-6", "0"}, {"ace08461-3db3-4579-98d3-390a67d5645b", "Browswer", "0", "-6"}, {"5bead5b0-3bab-460d-af1d-7929950f40c2", "fsck", "0", "6"}, {"78ee2bd6-64c4-45f0-96e5-0b6747ba7382", "Fit", "0", "9"}, {"78ee2bd6-64c4-45f0-96e5-0b6747ba7382", "deathcurz0", "0", "-9"}};
-    private static final String[] fitInfo = new String[]{"fdee323e-7f0c-4c15-8d1c-0f277442342a", "Fit"};
+public class FakePlayer extends Module {
+    public Setting<Boolean> dotgod = this.register(new Setting("DotGod", false));
     private static FakePlayer INSTANCE = new FakePlayer();
-    private final List<EntityOtherPlayerMP> fakeEntities = new ArrayList<EntityOtherPlayerMP>();
-    public Setting<Boolean> multi = this.register(new Setting<Boolean>("Multi", false));
-    public List<Integer> fakePlayerIdList = new ArrayList<Integer>();
-    private final Setting<Boolean> copyInv = this.register(new Setting<Boolean>("CopyInv", true));
-    private final Setting<Integer> players = this.register(new Setting<Object>("Players", 1, 1, 9, v -> this.multi.getValue(), "Amount of other players."));
+
 
     public FakePlayer() {
-        super("FakePlayer", "Spawns in a fake player", Module.Category.PLAYER, true, false, false);
+        super("FakePlayer", "Spawns fake player", Category.PLAYER, false, false, false);
         this.setInstance();
     }
+
+    private EntityOtherPlayerMP otherPlayer;
 
     public static FakePlayer getInstance() {
         if (INSTANCE == null) {
@@ -41,74 +33,69 @@ public class FakePlayer
         INSTANCE = this;
     }
 
-    @Override
-    public void onLoad() {
-        this.disable();
+    public void onTick() {
+        if (otherPlayer != null) {
+            Random random = new Random();
+            otherPlayer.moveForward = mc.player.moveForward + (random.nextInt(5) / 10F);
+            otherPlayer.moveStrafing = mc.player.moveStrafing + (random.nextInt(5) / 10F);
+            if (dotgod.getValue()) travel(otherPlayer.moveStrafing, otherPlayer.moveVertical, otherPlayer.moveForward);
+        }
+    }
+
+    public void travel(float strafe, float vertical, float forward) {
+        double d0 = otherPlayer.posY;
+        float f1 = 0.8F;
+        float f2 = 0.02F;
+        float f3 = (float) EnchantmentHelper.getDepthStriderModifier(otherPlayer);
+
+        if (f3 > 3.0F) {
+            f3 = 3.0F;
+        }
+
+        if (!otherPlayer.onGround) {
+            f3 *= 0.5F;
+        }
+
+        if (f3 > 0.0F) {
+            f1 += (0.54600006F - f1) * f3 / 3.0F;
+            f2 += (otherPlayer.getAIMoveSpeed() - f2) * f3 / 4.0F;
+        }
+
+        otherPlayer.moveRelative(strafe, vertical, forward, f2);
+        otherPlayer.move(MoverType.SELF, otherPlayer.motionX, otherPlayer.motionY, otherPlayer.motionZ);
+        otherPlayer.motionX *= (double) f1;
+        otherPlayer.motionY *= 0.800000011920929D;
+        otherPlayer.motionZ *= (double) f1;
+
+        if (!otherPlayer.hasNoGravity()) {
+            otherPlayer.motionY -= 0.02D;
+        }
+
+        if (otherPlayer.collidedHorizontally && otherPlayer.isOffsetPositionInLiquid(otherPlayer.motionX, otherPlayer.motionY + 0.6000000238418579D - otherPlayer.posY + d0, otherPlayer.motionZ)) {
+            otherPlayer.motionY = 0.30000001192092896D;
+        }
     }
 
     @Override
     public void onEnable() {
-        if (FakePlayer.fullNullCheck()) {
-            this.disable();
+        if (mc.world == null || mc.player == null) {
+            toggle();
             return;
         }
-        if (ServerModule.getInstance().isConnected()) {
-            FakePlayer.mc.player.connection.sendPacket(new CPacketChatMessage("@Serverprefix" + ClickGui.getInstance().prefix.getValue()));
-            FakePlayer.mc.player.connection.sendPacket(new CPacketChatMessage("@Server" + ClickGui.getInstance().prefix.getValue() + "module FakePlayer set Enabled true"));
+        if (otherPlayer == null) {
+            otherPlayer = new EntityOtherPlayerMP(mc.world, new GameProfile(UUID.randomUUID(), "Scott"));
+            otherPlayer.copyLocationAndAnglesFrom(mc.player);
+            otherPlayer.inventory.copyInventory(mc.player.inventory);
         }
-        this.fakePlayerIdList = new ArrayList<Integer>();
-        if (this.multi.getValue().booleanValue()) {
-            int amount = 0;
-            int entityId = -101;
-            for (String[] data : phobosInfo) {
-                this.addFakePlayer(data[0], data[1], entityId, Integer.parseInt(data[2]), Integer.parseInt(data[3]));
-                if (++amount >= this.players.getValue()) {
-                    return;
-                }
-                entityId -= amount;
-            }
-        } else {
-            this.addFakePlayer(fitInfo[0], fitInfo[1], -100, 0, 0);
-        }
+        mc.world.spawnEntity(otherPlayer);
+
     }
 
     @Override
     public void onDisable() {
-        if (FakePlayer.fullNullCheck()) {
-            return;
+        if (otherPlayer != null) {
+            mc.world.removeEntity(otherPlayer);
+            otherPlayer = null;
         }
-        if (ServerModule.getInstance().isConnected()) {
-            FakePlayer.mc.player.connection.sendPacket(new CPacketChatMessage("@Serverprefix" + ClickGui.getInstance().prefix.getValue()));
-            FakePlayer.mc.player.connection.sendPacket(new CPacketChatMessage("@Server" + ClickGui.getInstance().prefix.getValue() + "module FakePlayer set Enabled false"));
-        }
-        for (int id : this.fakePlayerIdList) {
-            FakePlayer.mc.world.removeEntityFromWorld(id);
-        }
-    }
-
-    @Override
-    public void onLogout() {
-        if (this.isOn()) {
-            this.disable();
-        }
-    }
-
-    private void addFakePlayer(String uuid, String name, int entityId, int offsetX, int offsetZ) {
-        GameProfile profile = new GameProfile(UUID.fromString(uuid), name);
-        EntityOtherPlayerMP fakePlayer = new EntityOtherPlayerMP(FakePlayer.mc.world, profile);
-        fakePlayer.copyLocationAndAnglesFrom(FakePlayer.mc.player);
-        fakePlayer.posX += offsetX;
-        fakePlayer.posZ += offsetZ;
-        if (this.copyInv.getValue().booleanValue()) {
-            for (PotionEffect potionEffect : RenoSense.potionManager.getOwnPotions()) {
-                fakePlayer.addPotionEffect(potionEffect);
-            }
-            fakePlayer.inventory.copyInventory(FakePlayer.mc.player.inventory);
-        }
-        fakePlayer.setHealth(FakePlayer.mc.player.getHealth() + FakePlayer.mc.player.getAbsorptionAmount());
-        this.fakeEntities.add(fakePlayer);
-        FakePlayer.mc.world.addEntityToWorld(entityId, fakePlayer);
-        this.fakePlayerIdList.add(entityId);
     }
 }
-
