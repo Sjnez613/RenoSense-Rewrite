@@ -80,7 +80,7 @@ public class ModuleButton
         if (!this.items.isEmpty()) {
             if (mouseButton == 1 && this.isHovering(mouseX, mouseY)) {
                 this.subOpen = !this.subOpen;
-                Util.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+                Util.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.BLOCK_NOTE_HARP, 1.0f));
             }
             if (this.subOpen) {
                 for (Item item : this.items) {

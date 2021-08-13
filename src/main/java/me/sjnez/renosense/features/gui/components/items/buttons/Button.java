@@ -43,7 +43,7 @@ public class Button
     public void onMouseClick() {
         this.state = !this.state;
         this.toggle();
-        mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+        mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.BLOCK_NOTE_HARP, 1.0f));
     }
 
     public void toggle() {

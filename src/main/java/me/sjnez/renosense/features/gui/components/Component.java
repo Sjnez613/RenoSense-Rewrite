@@ -152,7 +152,7 @@ public class Component
         }
         if (mouseButton == 1 && this.isHovering(mouseX, mouseY)) {
             this.open = !this.open;
-            Util.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+            Util.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.BLOCK_NOTE_HARP, 1.0f));
             return;
         }
         if (!this.open) {

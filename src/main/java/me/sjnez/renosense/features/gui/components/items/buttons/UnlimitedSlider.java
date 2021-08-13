@@ -38,7 +38,7 @@ public class UnlimitedSlider
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (this.isHovering(mouseX, mouseY)) {
-            Util.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+            Util.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.BLOCK_NOTE_HARP, 1.0f));
             if (this.isRight(mouseX)) {
                 if (this.setting.getValue() instanceof Double) {
                     this.setting.setValue((Double) this.setting.getValue() + 1.0);

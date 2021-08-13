@@ -13,11 +13,11 @@ import org.lwjgl.opengl.Display;
 
 import java.io.IOException;
 
-@Mod(modid = "renosense", name = "RenoSense", version = "0.0.2")
+@Mod(modid = "renosense", name = "RenoSense", version = "0.0.3")
 public class RenoSense {
     public static final String MODID = "renosense";
     public static final String MODNAME = "RenoSense";
-    public static final String MODVER = "0.0.2";
+    public static final String MODVER = "0.0.3";
     public static final Logger LOGGER = LogManager.getLogger("renosense");
     public static ModuleManager moduleManager;
     public static SpeedManager speedManager;
