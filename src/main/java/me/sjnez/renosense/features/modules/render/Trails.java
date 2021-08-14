@@ -20,12 +20,12 @@ import java.util.Map;
 
 public class Trails
         extends Module {
-    private final Setting<Float> lineWidth = this.register(new Setting<Float>("LineWidth", Float.valueOf(1.5f), Float.valueOf(0.1f), Float.valueOf(5.0f)));
-    private final Setting<Integer> red = this.register(new Setting<Integer>("Red", 0, 0, 255));
-    private final Setting<Integer> green = this.register(new Setting<Integer>("Green", 255, 0, 255));
-    private final Setting<Integer> blue = this.register(new Setting<Integer>("Blue", 0, 0, 255));
-    private final Setting<Integer> alpha = this.register(new Setting<Integer>("Alpha", 255, 0, 255));
-    private final Map<Entity, List<Vec3d>> renderMap = new HashMap<Entity, List<Vec3d>>();
+    private final Setting<Float> lineWidth = this.register( new Setting <> ( "LineWidth" , 1.5f , 0.1f , 5.0f ));
+    private final Setting<Integer> red = this.register( new Setting <> ( "Red" , 0 , 0 , 255 ));
+    private final Setting<Integer> green = this.register( new Setting <> ( "Green" , 255 , 0 , 255 ));
+    private final Setting<Integer> blue = this.register( new Setting <> ( "Blue" , 0 , 0 , 255 ));
+    private final Setting<Integer> alpha = this.register( new Setting <> ( "Alpha" , 255 , 0 , 255 ));
+    private final Map<Entity, List<Vec3d>> renderMap = new HashMap <> ( );
 
     public Trails() {
         super("Trails", "Draws trails on projectiles", Module.Category.RENDER, true, false, false);
@@ -35,7 +35,7 @@ public class Trails
     public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
         for (Entity entity : Trails.mc.world.loadedEntityList) {
             if (!(entity instanceof EntityThrowable) && !(entity instanceof EntityArrow)) continue;
-            List<Vec3d> vectors = this.renderMap.get(entity) != null ? this.renderMap.get(entity) : new ArrayList<Vec3d>();
+            List<Vec3d> vectors = this.renderMap.get(entity) != null ? this.renderMap.get(entity) : new ArrayList <> ( );
             vectors.add(new Vec3d(entity.posX, entity.posY, entity.posZ));
             this.renderMap.put(entity, vectors);
         }
@@ -46,14 +46,14 @@ public class Trails
         for (Entity entity : Trails.mc.world.loadedEntityList) {
             if (!this.renderMap.containsKey(entity)) continue;
             GlStateManager.pushMatrix();
-            RenderUtil.GLPre(this.lineWidth.getValue().floatValue());
+            RenderUtil.GLPre( this.lineWidth.getValue ( ) );
             GlStateManager.enableBlend();
             GlStateManager.disableTexture2D();
             GlStateManager.depthMask(false);
             GlStateManager.disableDepth();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            GL11.glColor4f((float) this.red.getValue().intValue() / 255.0f, (float) this.green.getValue().intValue() / 255.0f, (float) this.blue.getValue().intValue() / 255.0f, (float) this.alpha.getValue().intValue() / 255.0f);
-            GL11.glLineWidth(this.lineWidth.getValue().floatValue());
+            GL11.glColor4f((float) this.red.getValue ( ) / 255.0f, (float) this.green.getValue ( ) / 255.0f, (float) this.blue.getValue ( ) / 255.0f, (float) this.alpha.getValue ( ) / 255.0f);
+            GL11.glLineWidth( this.lineWidth.getValue ( ) );
             GL11.glBegin(1);
             for (int i = 0; i < this.renderMap.get(entity).size() - 1; ++i) {
                 GL11.glVertex3d(this.renderMap.get(entity).get(i).x, this.renderMap.get(entity).get(i).y, this.renderMap.get(entity).get(i).z);

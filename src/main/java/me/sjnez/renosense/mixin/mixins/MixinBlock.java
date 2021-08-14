@@ -23,7 +23,7 @@ public abstract class MixinBlock {
     public void isFullCubeHook(IBlockState blockState, CallbackInfoReturnable<Boolean> info) {
         try {
             if (XRay.getInstance().isOn()) {
-                info.setReturnValue(XRay.getInstance().shouldRender((Block)Block.class.cast(this)));
+                info.setReturnValue(XRay.getInstance().shouldRender( Block.class.cast(this) ));
                 info.cancel();
             }
         }

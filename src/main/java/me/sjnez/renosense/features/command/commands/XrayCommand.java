@@ -42,7 +42,7 @@ public class XrayCommand
                 XrayCommand.sendMessage("<XRay>\u00a7c Removed: " + blockName);
             } else if (addRemove.equalsIgnoreCase("add")) {
                 if (!module.shouldRender(blockName)) {
-                    module.register(new Setting<Object>(blockName, Boolean.valueOf(true), v -> module.showBlocks.getValue()));
+                    module.register(new Setting<Object>(blockName, Boolean.TRUE , v -> module.showBlocks.getValue()));
                     XrayCommand.sendMessage("<Xray> Added new Block: " + blockName);
                 }
             } else {

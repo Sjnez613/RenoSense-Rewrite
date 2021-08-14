@@ -23,16 +23,16 @@ public class ServerModule
     private static ServerModule instance;
     private final AtomicBoolean connected = new AtomicBoolean(false);
     private final Timer pingTimer = new Timer();
-    private final List<Long> pingList = new ArrayList<Long>();
-    public Setting<String> ip = this.register(new Setting<String>("PhobosIP", "0.0.0.0.0"));
-    public Setting<String> port = this.register(new Setting<String>("Port", "0").setRenderName(true));
-    public Setting<String> serverIP = this.register(new Setting<String>("ServerIP", "AnarchyHvH.eu"));
-    public Setting<Boolean> noFML = this.register(new Setting<Boolean>("RemoveFML", false));
-    public Setting<Boolean> getName = this.register(new Setting<Boolean>("GetName", false));
-    public Setting<Boolean> average = this.register(new Setting<Boolean>("Average", false));
-    public Setting<Boolean> clear = this.register(new Setting<Boolean>("ClearPings", false));
-    public Setting<Boolean> oneWay = this.register(new Setting<Boolean>("OneWay", false));
-    public Setting<Integer> delay = this.register(new Setting<Integer>("KeepAlives", 10, 1, 50));
+    private final List<Long> pingList = new ArrayList <> ( );
+    public Setting<String> ip = this.register( new Setting <> ( "PhobosIP" , "0.0.0.0.0" ));
+    public Setting<String> port = this.register( new Setting <> ( "Port" , "0" ).setRenderName(true));
+    public Setting<String> serverIP = this.register( new Setting <> ( "ServerIP" , "AnarchyHvH.eu" ));
+    public Setting<Boolean> noFML = this.register( new Setting <> ( "RemoveFML" , false ));
+    public Setting<Boolean> getName = this.register( new Setting <> ( "GetName" , false ));
+    public Setting<Boolean> average = this.register( new Setting <> ( "Average" , false ));
+    public Setting<Boolean> clear = this.register( new Setting <> ( "ClearPings" , false ));
+    public Setting<Boolean> oneWay = this.register( new Setting <> ( "OneWay" , false ));
+    public Setting<Integer> delay = this.register( new Setting <> ( "KeepAlives" , 10 , 1 , 50 ));
     private long currentPing = 0L;
     private long serverPing = 0L;
     private StringBuffer name = null;
@@ -77,8 +77,7 @@ public class ServerModule
         if (event.getPacket() instanceof SPacketChat) {
             SPacketChat packet = event.getPacket();
             if (packet.chatComponent.getUnformattedText().startsWith("@Clientprefix")) {
-                String prefix;
-                this.serverPrefix = prefix = packet.chatComponent.getFormattedText().replace("@Clientprefix", "");
+                this.serverPrefix = packet.chatComponent.getFormattedText().replace("@Clientprefix", "");
             }
         }
     }
@@ -86,7 +85,7 @@ public class ServerModule
     @Override
     public void onTick() {
         if (Util.mc.getConnection() != null && this.isConnected()) {
-            if (this.getName.getValue().booleanValue()) {
+            if ( this.getName.getValue ( ) ) {
                 Util.mc.getConnection().sendPacket(new CPacketChatMessage("@Servername"));
                 this.getName.setValue(false);
             }
@@ -97,7 +96,7 @@ public class ServerModule
                 Util.mc.getConnection().sendPacket(new CPacketKeepAlive(100L));
                 this.pingTimer.reset();
             }
-            if (this.clear.getValue().booleanValue()) {
+            if ( this.clear.getValue ( ) ) {
                 this.pingList.clear();
             }
         }
@@ -114,7 +113,7 @@ public class ServerModule
             }
         } else if (event.getPacket() instanceof SPacketKeepAlive && (alive = event.getPacket()).getId() > 0L && alive.getId() < 1000L) {
             this.serverPing = alive.getId();
-            this.currentPing = this.oneWay.getValue() != false ? this.pingTimer.getPassedTimeMs() / 2L : this.pingTimer.getPassedTimeMs();
+            this.currentPing = this.oneWay.getValue ( ) ? this.pingTimer.getPassedTimeMs() / 2L : this.pingTimer.getPassedTimeMs();
             this.pingList.add(this.currentPing);
             this.averagePing = this.getAveragePing();
         }
@@ -123,8 +122,7 @@ public class ServerModule
     @SubscribeEvent
     public void onPacketSend(PacketEvent.Send event) {
         IC00Handshake packet;
-        String ip;
-        if (event.getPacket() instanceof C00Handshake && (ip = (packet = event.getPacket()).getIp()).equals(this.ip.getValue())) {
+        if (event.getPacket() instanceof C00Handshake && (packet = event.getPacket()).getIp().equals(this.ip.getValue())) {
             packet.setIp(this.serverIP.getValue());
             System.out.println(packet.getIp());
             this.connected.set(true);
@@ -137,7 +135,7 @@ public class ServerModule
     }
 
     private long getAveragePing() {
-        if (!this.average.getValue().booleanValue() || this.pingList.isEmpty()) {
+        if (! this.average.getValue ( ) || this.pingList.isEmpty()) {
             return this.currentPing;
         }
         int full = 0;

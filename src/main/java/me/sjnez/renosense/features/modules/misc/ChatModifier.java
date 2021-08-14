@@ -21,18 +21,18 @@ public class ChatModifier
         extends Module {
     private static ChatModifier INSTANCE = new ChatModifier();
     private final Timer timer = new Timer();
-    public Setting<Suffix> suffix = this.register(new Setting<Suffix>("Suffix", Suffix.NONE, "Your Suffix."));
-    public Setting<Boolean> clean = this.register(new Setting<Boolean>("CleanChat", Boolean.valueOf(false), "Cleans your chat"));
-    public Setting<Boolean> infinite = this.register(new Setting<Boolean>("Infinite", Boolean.valueOf(false), "Makes your chat infinite."));
-    public Setting<Boolean> autoQMain = this.register(new Setting<Boolean>("AutoQMain", Boolean.valueOf(false), "Spams AutoQMain"));
-    public Setting<Boolean> qNotification = this.register(new Setting<Object>("QNotification", Boolean.valueOf(false), v -> this.autoQMain.getValue()));
-    public Setting<Integer> qDelay = this.register(new Setting<Object>("QDelay", Integer.valueOf(9), Integer.valueOf(1), Integer.valueOf(90), v -> this.autoQMain.getValue()));
-    public Setting<TextUtil.Color> timeStamps = this.register(new Setting<TextUtil.Color>("Time", TextUtil.Color.NONE));
-    public Setting<Boolean> rainbowTimeStamps = this.register(new Setting<Object>("RainbowTimeStamps", Boolean.valueOf(false), v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
+    public Setting<Suffix> suffix = this.register( new Setting <> ( "Suffix" , Suffix.NONE , "Your Suffix." ));
+    public Setting<Boolean> clean = this.register( new Setting <> ( "CleanChat" , Boolean.FALSE , "Cleans your chat" ));
+    public Setting<Boolean> infinite = this.register( new Setting <> ( "Infinite" , Boolean.FALSE , "Makes your chat infinite." ));
+    public Setting<Boolean> autoQMain = this.register( new Setting <> ( "AutoQMain" , Boolean.FALSE , "Spams AutoQMain" ));
+    public Setting<Boolean> qNotification = this.register(new Setting<Object>("QNotification", Boolean.FALSE , v -> this.autoQMain.getValue()));
+    public Setting<Integer> qDelay = this.register(new Setting<Object>("QDelay", 9 , 1 , 90 , v -> this.autoQMain.getValue()));
+    public Setting<TextUtil.Color> timeStamps = this.register( new Setting <> ( "Time" , TextUtil.Color.NONE ));
+    public Setting<Boolean> rainbowTimeStamps = this.register(new Setting<Object>("RainbowTimeStamps", Boolean.FALSE , v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
     public Setting<TextUtil.Color> bracket = this.register(new Setting<Object>("Bracket", TextUtil.Color.WHITE, v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
-    public Setting<Boolean> space = this.register(new Setting<Object>("Space", Boolean.valueOf(true), v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
-    public Setting<Boolean> all = this.register(new Setting<Object>("All", Boolean.valueOf(false), v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
-    public Setting<Boolean> shrug = this.register(new Setting<Boolean>("Shrug", false));
+    public Setting<Boolean> space = this.register(new Setting<Object>("Space", Boolean.TRUE , v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
+    public Setting<Boolean> all = this.register(new Setting<Object>("All", Boolean.FALSE , v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
+    public Setting<Boolean> shrug = this.register( new Setting <> ( "Shrug" , false ));
 
     public ChatModifier() {
         super("ChatModifier", "Modifies your chat", Module.Category.MISC, true, false, false);
@@ -52,15 +52,15 @@ public class ChatModifier
 
     @Override
     public void onUpdate() {
-        if (this.shrug.getValue().booleanValue()) {
+        if ( this.shrug.getValue ( ) ) {
             ChatModifier.mc.player.sendChatMessage(TextUtil.shrug);
             this.shrug.setValue(false);
         }
-        if (this.autoQMain.getValue().booleanValue()) {
+        if ( this.autoQMain.getValue ( ) ) {
             if (!this.shouldSendMessage(ChatModifier.mc.player)) {
                 return;
             }
-            if (this.qNotification.getValue().booleanValue()) {
+            if ( this.qNotification.getValue ( ) ) {
                 Command.sendMessage("<AutoQueueMain> Sending message: /queue main");
             }
             ChatModifier.mc.player.sendChatMessage("/queue main");
@@ -111,8 +111,8 @@ public class ChatModifier
 
     public String getTimeString(String message) {
         String date = new SimpleDateFormat("k:mm").format(new Date());
-        if (this.rainbowTimeStamps.getValue().booleanValue()) {
-            String timeString = "<" + date + ">" + (this.space.getValue() != false ? " " : "");
+        if ( this.rainbowTimeStamps.getValue ( ) ) {
+            String timeString = "<" + date + ">" + ( this.space.getValue ( ) ? " " : "");
             StringBuilder builder = new StringBuilder(timeString);
             builder.insert(0, "\u00a7+");
             if (!message.contains(Managers.getInstance().getRainbowCommandMessage())) {
@@ -120,14 +120,14 @@ public class ChatModifier
             }
             return builder.toString();
         }
-        return (this.bracket.getValue() == TextUtil.Color.NONE ? "" : TextUtil.coloredString("<", this.bracket.getValue())) + TextUtil.coloredString(date, this.timeStamps.getValue()) + (this.bracket.getValue() == TextUtil.Color.NONE ? "" : TextUtil.coloredString(">", this.bracket.getValue())) + (this.space.getValue() != false ? " " : "") + "\u00a7r";
+        return (this.bracket.getValue() == TextUtil.Color.NONE ? "" : TextUtil.coloredString("<", this.bracket.getValue())) + TextUtil.coloredString(date, this.timeStamps.getValue()) + (this.bracket.getValue() == TextUtil.Color.NONE ? "" : TextUtil.coloredString(">", this.bracket.getValue())) + ( this.space.getValue ( ) ? " " : "") + "\u00a7r";
     }
 
     private boolean shouldSendMessage(EntityPlayer player) {
         if (player.dimension != 1) {
             return false;
         }
-        if (!this.timer.passedS(this.qDelay.getValue().intValue())) {
+        if (!this.timer.passedS( this.qDelay.getValue ( ) )) {
             return false;
         }
         return player.getPosition().equals(new Vec3i(0, 240, 0));

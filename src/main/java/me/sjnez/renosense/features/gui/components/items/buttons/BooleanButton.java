@@ -24,7 +24,7 @@ public class BooleanButton
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        if (ClickGui.getInstance().rainbowRolling.getValue().booleanValue()) {
+        if ( ClickGui.getInstance ( ).rainbowRolling.getValue ( ) ) {
             int color = ColorUtil.changeAlpha(HUD.getInstance().colorMap.get(MathUtil.clamp((int) this.y, 0, this.renderer.scaledHeight)), RenoSense.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue());
             int color1 = ColorUtil.changeAlpha(HUD.getInstance().colorMap.get(MathUtil.clamp((int) this.y + this.height, 0, this.renderer.scaledHeight)), RenoSense.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue());
             RenderUtil.drawGradientRect(this.x, this.y, (float) this.width + 7.4f, (float) this.height - 0.5f, this.getState() ? (!this.isHovering(mouseX, mouseY) ? HUD.getInstance().colorMap.get(MathUtil.clamp((int) this.y, 0, this.renderer.scaledHeight)) : color) : (!this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515), this.getState() ? (!this.isHovering(mouseX, mouseY) ? HUD.getInstance().colorMap.get(MathUtil.clamp((int) this.y + this.height, 0, this.renderer.scaledHeight)) : color1) : (!this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515));
@@ -54,7 +54,7 @@ public class BooleanButton
 
     @Override
     public void toggle() {
-        this.setting.setValue((Boolean) this.setting.getValue() == false);
+        this.setting.setValue( ! ( (Boolean) this.setting.getValue ( ) ) );
     }
 
     @Override

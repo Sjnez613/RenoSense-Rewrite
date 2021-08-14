@@ -12,7 +12,6 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumFacing;
@@ -180,7 +179,7 @@ public abstract class MixinEntity {
                 }
                 if (x != 0.0) {
                     int j = EnumFacing.Axis.X.ordinal();
-                    double d0 = MathHelper.clamp((double)(x + this.pistonDeltas[j]), (double)-0.51, (double)0.51);
+                    double d0 = MathHelper.clamp( x + this.pistonDeltas[j] , -0.51 , 0.51 );
                     x = d0 - this.pistonDeltas[j];
                     this.pistonDeltas[j] = d0;
                     if (Math.abs(x) <= (double)1.0E-5f) {
@@ -188,7 +187,7 @@ public abstract class MixinEntity {
                     }
                 } else if (y != 0.0) {
                     int l4 = EnumFacing.Axis.Y.ordinal();
-                    double d12 = MathHelper.clamp((double)(y + this.pistonDeltas[l4]), (double)-0.51, (double)0.51);
+                    double d12 = MathHelper.clamp( y + this.pistonDeltas[l4] , -0.51 , 0.51 );
                     y = d12 - this.pistonDeltas[l4];
                     this.pistonDeltas[l4] = d12;
                     if (Math.abs(y) <= (double)1.0E-5f) {
@@ -199,7 +198,7 @@ public abstract class MixinEntity {
                         return;
                     }
                     int i5 = EnumFacing.Axis.Z.ordinal();
-                    double d13 = MathHelper.clamp((double)(z + this.pistonDeltas[i5]), (double)-0.51, (double)0.51);
+                    double d13 = MathHelper.clamp( z + this.pistonDeltas[i5] , -0.51 , 0.51 );
                     z = d13 - this.pistonDeltas[i5];
                     this.pistonDeltas[i5] = d13;
                     if (Math.abs(z) <= (double)1.0E-5f) {
@@ -214,7 +213,7 @@ public abstract class MixinEntity {
             if (this.isInWeb) {
                 this.isInWeb = false;
                 x *= 0.25;
-                y *= (double)0.05f;
+                y *= 0.05f;
                 z *= 0.25;
                 this.motionX = 0.0;
                 this.motionY = 0.0;
@@ -223,22 +222,8 @@ public abstract class MixinEntity {
             double d2 = x;
             double d3 = y;
             double d4 = z;
-            if ((type == MoverType.SELF || type == MoverType.PLAYER) && this.onGround && this.isSneaking() && _this instanceof EntityPlayer) {
-                double d5 = 0.05;
-                while (x != 0.0 && this.world.getCollisionBoxes(_this, this.getEntityBoundingBox().offset(x, (double)(-this.stepHeight), 0.0)).isEmpty()) {
-                    x = x < 0.05 && x >= -0.05 ? 0.0 : (x > 0.0 ? (x -= 0.05) : (x += 0.05));
-                    d2 = x;
-                }
-                while (z != 0.0 && this.world.getCollisionBoxes(_this, this.getEntityBoundingBox().offset(0.0, (double)(-this.stepHeight), z)).isEmpty()) {
-                    z = z < 0.05 && z >= -0.05 ? 0.0 : (z > 0.0 ? (z -= 0.05) : (z += 0.05));
-                    d4 = z;
-                }
-                while (x != 0.0 && z != 0.0 && this.world.getCollisionBoxes(_this, this.getEntityBoundingBox().offset(x, (double)(-this.stepHeight), z)).isEmpty()) {
-                    x = x < 0.05 && x >= -0.05 ? 0.0 : (x > 0.0 ? (x -= 0.05) : (x += 0.05));
-                    d2 = x;
-                    z = z < 0.05 && z >= -0.05 ? 0.0 : (z > 0.0 ? (z -= 0.05) : (z += 0.05));
-                    d4 = z;
-                }
+            if ( ( type == MoverType.SELF || type == MoverType.PLAYER ) && this.onGround ) {
+                this.isSneaking ( );
             }
             List list1 = this.world.getCollisionBoxes(_this, this.getEntityBoundingBox().expand(x, y, z));
             AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
@@ -270,7 +255,7 @@ public abstract class MixinEntity {
             boolean bl = flag = this.onGround || d3 != y && d3 < 0.0;
             if (this.stepHeight > 0.0f && flag && (d2 != x || d4 != z)) {
                 StepEvent preEvent = new StepEvent(0, _this);
-                MinecraftForge.EVENT_BUS.post((Event)preEvent);
+                MinecraftForge.EVENT_BUS.post( preEvent );
                 double d14 = x;
                 double d6 = y;
                 double d7 = z;
@@ -342,7 +327,7 @@ public abstract class MixinEntity {
                     this.setEntityBoundingBox(axisalignedbb1);
                 } else {
                     StepEvent postEvent = new StepEvent(1, _this);
-                    MinecraftForge.EVENT_BUS.post((Event)postEvent);
+                    MinecraftForge.EVENT_BUS.post( postEvent );
                 }
             }
             this.world.profiler.endSection();
@@ -352,9 +337,9 @@ public abstract class MixinEntity {
             this.collidedVertically = d3 != y;
             this.onGround = this.collidedVertically && d3 < 0.0;
             this.collided = this.collidedHorizontally || this.collidedVertically;
-            int j6 = MathHelper.floor((double)this.posX);
-            int i1 = MathHelper.floor((double)(this.posY - (double)0.2f));
-            int k6 = MathHelper.floor((double)this.posZ);
+            int j6 = MathHelper.floor( this.posX );
+            int i1 = MathHelper.floor( this.posY - (double)0.2f );
+            int k6 = MathHelper.floor( this.posZ );
             BlockPos blockpos = new BlockPos(j6, i1, k6);
             IBlockState iblockstate = this.world.getBlockState(blockpos);
             if (iblockstate.getMaterial() == Material.AIR && ((block1 = (iblockstate1 = this.world.getBlockState(blockpos1 = blockpos.down())).getBlock()) instanceof BlockFence || block1 instanceof BlockWall || block1 instanceof BlockFenceGate)) {
@@ -372,24 +357,24 @@ public abstract class MixinEntity {
             if (d3 != y) {
                 block.onLanded(this.world, _this);
             }
-            if (!(!this.canTriggerWalking() || this.onGround && this.isSneaking() && _this instanceof EntityPlayer || this.isRiding())) {
+            if ( !( ! this.canTriggerWalking ( ) || this.isRiding ( ) ) ) {
                 double d15 = this.posX - d10;
                 double d16 = this.posY - d11;
                 double d17 = this.posZ - d1;
                 if (block != Blocks.LADDER) {
                     d16 = 0.0;
                 }
-                if (block != null && this.onGround) {
+                if ( this.onGround ) {
                     block.onEntityWalk(this.world, blockpos, _this);
                 }
-                this.distanceWalkedModified = (float)((double)this.distanceWalkedModified + (double)MathHelper.sqrt((double)(d15 * d15 + d17 * d17)) * 0.6);
-                this.distanceWalkedOnStepModified = (float)((double)this.distanceWalkedOnStepModified + (double)MathHelper.sqrt((double)(d15 * d15 + d16 * d16 + d17 * d17)) * 0.6);
+                this.distanceWalkedModified = (float)((double)this.distanceWalkedModified + (double)MathHelper.sqrt( d15 * d15 + d17 * d17 ) * 0.6);
+                this.distanceWalkedOnStepModified = (float)((double)this.distanceWalkedOnStepModified + (double)MathHelper.sqrt( d15 * d15 + d16 * d16 + d17 * d17 ) * 0.6);
                 if (this.distanceWalkedOnStepModified > (float)this.nextStepDistance && iblockstate.getMaterial() != Material.AIR) {
                     this.nextStepDistance = (int)this.distanceWalkedOnStepModified + 1;
                     if (this.isInWater()) {
                         Entity entity = this.isBeingRidden() && this.getControllingPassenger() != null ? this.getControllingPassenger() : _this;
                         float f = entity == _this ? 0.35f : 0.4f;
-                        float f1 = MathHelper.sqrt((double)(entity.motionX * entity.motionX * (double)0.2f + entity.motionY * entity.motionY + entity.motionZ * entity.motionZ * (double)0.2f)) * f;
+                        float f1 = MathHelper.sqrt( entity.motionX * entity.motionX * (double)0.2f + entity.motionY * entity.motionY + entity.motionZ * entity.motionZ * (double)0.2f ) * f;
                         if (f1 > 1.0f) {
                             f1 = 1.0f;
                         }
@@ -405,7 +390,7 @@ public abstract class MixinEntity {
                 this.doBlockCollisions();
             }
             catch (Throwable throwable) {
-                CrashReport crashreport = CrashReport.makeCrashReport((Throwable)throwable, (String)"Checking entity block collision");
+                CrashReport crashreport = CrashReport.makeCrashReport( throwable , "Checking entity block collision" );
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Entity being checked for collision");
                 this.addEntityCrashInfo(crashreportcategory);
                 throw new ReportedException(crashreport);
@@ -433,7 +418,7 @@ public abstract class MixinEntity {
     @Redirect(method={"applyEntityCollision"}, at=@At(value="INVOKE", target="Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
     public void addVelocityHook(Entity entity, double x, double y, double z) {
         PushEvent event = new PushEvent(entity, x, y, z, true);
-        MinecraftForge.EVENT_BUS.post((Event)event);
+        MinecraftForge.EVENT_BUS.post( event );
         if (!event.isCanceled()) {
             entity.motionX += event.x;
             entity.motionY += event.y;

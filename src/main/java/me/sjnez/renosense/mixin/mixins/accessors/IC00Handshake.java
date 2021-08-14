@@ -7,9 +7,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value={C00Handshake.class})
 public interface IC00Handshake {
     @Accessor(value="ip")
-    public String getIp();
+    String getIp ( );
 
     @Accessor(value="ip")
-    public void setIp(String var1);
+    void setIp ( String var1 );
 }
 

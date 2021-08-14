@@ -27,15 +27,15 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class GodModule
         extends Module {
-    public Setting<Integer> rotations = this.register(new Setting<Integer>("Spoofs", 1, 1, 20));
-    public Setting<Boolean> rotate = this.register(new Setting<Boolean>("Rotate", false));
-    public Setting<Boolean> render = this.register(new Setting<Boolean>("Render", false));
-    public Setting<Boolean> antiIllegal = this.register(new Setting<Boolean>("AntiIllegal", true));
-    public Setting<Boolean> checkPos = this.register(new Setting<Boolean>("CheckPos", true));
-    public Setting<Boolean> oneDot15 = this.register(new Setting<Boolean>("1.15", false));
-    public Setting<Boolean> entitycheck = this.register(new Setting<Boolean>("EntityCheck", false));
-    public Setting<Integer> attacks = this.register(new Setting<Integer>("Attacks", 1, 1, 10));
-    public Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 0, 0, 50));
+    public Setting<Integer> rotations = this.register( new Setting <> ( "Spoofs" , 1 , 1 , 20 ));
+    public Setting<Boolean> rotate = this.register( new Setting <> ( "Rotate" , false ));
+    public Setting<Boolean> render = this.register( new Setting <> ( "Render" , false ));
+    public Setting<Boolean> antiIllegal = this.register( new Setting <> ( "AntiIllegal" , true ));
+    public Setting<Boolean> checkPos = this.register( new Setting <> ( "CheckPos" , true ));
+    public Setting<Boolean> oneDot15 = this.register( new Setting <> ( "1.15" , false ));
+    public Setting<Boolean> entitycheck = this.register( new Setting <> ( "EntityCheck" , false ));
+    public Setting<Integer> attacks = this.register( new Setting <> ( "Attacks" , 1 , 1 , 10 ));
+    public Setting<Integer> delay = this.register( new Setting <> ( "Delay" , 0 , 0 , 50 ));
     private float yaw = 0.0f;
     private float pitch = 0.0f;
     private boolean rotating;
@@ -56,7 +56,7 @@ public class GodModule
 
     @Override
     public void onUpdate() {
-        if (this.render.getValue().booleanValue()) {
+        if ( this.render.getValue ( ) ) {
             for (Entity entity : GodModule.mc.world.loadedEntityList) {
                 if (!(entity instanceof EntityEnderCrystal)) continue;
                 entity.setCustomNameTag(String.valueOf(entity.entityId));
@@ -75,7 +75,7 @@ public class GodModule
         if (event.getStage() == 0 && event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock) {
             CPacketPlayerTryUseItemOnBlock packet = event.getPacket();
             if (GodModule.mc.player.getHeldItem(packet.hand).getItem() instanceof ItemEndCrystal) {
-                if (this.checkPos.getValue().booleanValue() && !BlockUtil.canPlaceCrystal(packet.position, this.entitycheck.getValue(), this.oneDot15.getValue()) || this.checkPlayers()) {
+                if ( this.checkPos.getValue ( ) && !BlockUtil.canPlaceCrystal(packet.position, this.entitycheck.getValue(), this.oneDot15.getValue()) || this.checkPlayers()) {
                     return;
                 }
                 this.updateEntityID();
@@ -84,7 +84,7 @@ public class GodModule
                 }
             }
         }
-        if (event.getStage() == 0 && this.rotating && this.rotate.getValue().booleanValue() && event.getPacket() instanceof CPacketPlayer) {
+        if (event.getStage() == 0 && this.rotating && this.rotate.getValue ( ) && event.getPacket() instanceof CPacketPlayer) {
             CPacketPlayer packet = event.getPacket();
             packet.yaw = this.yaw;
             packet.pitch = this.pitch;
@@ -135,7 +135,7 @@ public class GodModule
     }
 
     private boolean checkPlayers() {
-        if (this.antiIllegal.getValue().booleanValue()) {
+        if ( this.antiIllegal.getValue ( ) ) {
             for (EntityPlayer player : GodModule.mc.world.playerEntities) {
                 if (!this.checkItem(player.getHeldItemMainhand()) && !this.checkItem(player.getHeldItemOffhand()))
                     continue;

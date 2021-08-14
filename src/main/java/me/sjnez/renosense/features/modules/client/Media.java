@@ -7,7 +7,7 @@ import me.sjnez.renosense.util.Util;
 public class Media
         extends Module {
     private static Media instance;
-    public final Setting<Boolean> changeOwn = this.register(new Setting<Boolean>("MyName", true));
+    public final Setting<Boolean> changeOwn = this.register( new Setting <> ( "MyName" , true ));
     public final Setting<String> ownName = this.register(new Setting<Object>("Name", "Name here...", v -> this.changeOwn.getValue()));
 
     public Media() {

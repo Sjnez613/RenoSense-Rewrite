@@ -1,8 +1,8 @@
 package me.sjnez.renosense.features.modules.misc;
 
+import me.sjnez.renosense.features.Feature;
 import me.sjnez.renosense.features.modules.Module;
 import me.sjnez.renosense.util.PlayerUtil;
-import me.sjnez.renosense.features.Feature;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.passive.EntityTameable;
@@ -13,9 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MobOwner
         extends Module {
-    private final Map<Entity, String> owners = new HashMap<Entity, String>();
-    private final Map<Entity, UUID> toLookUp = new ConcurrentHashMap<Entity, UUID>();
-    private final List<Entity> lookedUp = new ArrayList<Entity>();
+    private final Map<Entity, String> owners = new HashMap <> ( );
+    private final Map<Entity, UUID> toLookUp = new ConcurrentHashMap <> ( );
+    private final List<Entity> lookedUp = new ArrayList <> ( );
 
     public MobOwner() {
         super("MobOwner", "Shows you who owns mobs.", Module.Category.MISC, false, false, false);
@@ -102,7 +102,7 @@ public class MobOwner
             }
             try {
                 entity.setAlwaysRenderNameTag(false);
-            } catch (Exception ex) {
+            } catch (Exception ignored ) {
             }
         }
     }

@@ -23,7 +23,7 @@ extends Block {
 
     @Inject(method={"onEntityCollision"}, at={@At(value="HEAD")}, cancellable=true)
     public void onEntityCollisionHook(World worldIn, BlockPos pos, IBlockState state, Entity entityIn, CallbackInfo info) {
-        if (NoSlowDown.getInstance().isOn() && NoSlowDown.getInstance().soulSand.getValue().booleanValue()) {
+        if (NoSlowDown.getInstance().isOn() && NoSlowDown.getInstance ( ).soulSand.getValue ( ) ) {
             info.cancel();
         }
     }

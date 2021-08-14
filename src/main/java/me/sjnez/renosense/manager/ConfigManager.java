@@ -11,7 +11,9 @@ import me.sjnez.renosense.features.setting.Setting;
 import me.sjnez.renosense.util.Util;
 
 import java.io.*;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,7 +35,7 @@ public class ConfigManager
                 break;
             }
             case "Float": {
-                setting.setValue(Float.valueOf(element.getAsFloat()));
+                setting.setValue( element.getAsFloat ( ) );
                 break;
             }
             case "Integer": {
@@ -54,7 +56,7 @@ public class ConfigManager
                     EnumConverter converter = new EnumConverter(((Enum) setting.getValue()).getClass());
                     Enum value = converter.doBackward(element);
                     setting.setValue(value == null ? setting.getDefaultValue() : value);
-                } catch (Exception e) {
+                } catch (Exception ignored ) {
                 }
                 break;
             }
@@ -88,7 +90,7 @@ public class ConfigManager
                 if (settingFound) continue;
             }
             if (feature instanceof XRay) {
-                feature.register(new Setting<Boolean>(settingName, Boolean.valueOf(true), v -> ((XRay) feature).showBlocks.getValue()));
+                feature.register( new Setting <> ( settingName , Boolean.TRUE , v -> ( (XRay) feature ).showBlocks.getValue ( ) ));
                 continue;
             }
         }
@@ -176,14 +178,13 @@ public class ConfigManager
     }
 
     public void saveSettings(Feature feature) throws IOException {
-        String featureName;
         Path outputFile;
         JsonObject object = new JsonObject();
         File directory = new File(this.config + this.getDirectory(feature));
         if (!directory.exists()) {
             directory.mkdir();
         }
-        if (!Files.exists(outputFile = Paths.get(featureName = this.config + this.getDirectory(feature) + feature.getName() + ".json"))) {
+        if (!Files.exists(outputFile = Paths.get( this.config + this.getDirectory(feature) + feature.getName() + ".json" ))) {
             Files.createFile(outputFile);
         }
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

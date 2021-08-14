@@ -21,7 +21,7 @@ public class MixinNetHandlerPlayClient {
         EntityPlayer player;
         Entity entity;
         if (Util.mc.world != null && (entity = Util.mc.world.getEntityByID(packetIn.getEntityId())) instanceof EntityPlayer && (player = (EntityPlayer)entity).getHealth() <= 0.0f) {
-            MinecraftForge.EVENT_BUS.post((Event)new DeathEvent(player));
+            MinecraftForge.EVENT_BUS.post( new DeathEvent(player) );
             if (RenoSense.totemPopManager != null) {
                 RenoSense.totemPopManager.onDeath(player);
             }

@@ -17,16 +17,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Replenish
         extends Module {
-    private final Setting<Integer> threshold = this.register(new Setting<Integer>("Threshold", 0, 0, 63));
-    private final Setting<Integer> replenishments = this.register(new Setting<Integer>("RUpdates", 0, 0, 1000));
-    private final Setting<Integer> updates = this.register(new Setting<Integer>("HBUpdates", 100, 0, 1000));
-    private final Setting<Integer> actions = this.register(new Setting<Integer>("Actions", 2, 1, 30));
-    private final Setting<Boolean> pauseInv = this.register(new Setting<Boolean>("PauseInv", true));
-    private final Setting<Boolean> putBack = this.register(new Setting<Boolean>("PutBack", true));
+    private final Setting<Integer> threshold = this.register( new Setting <> ( "Threshold" , 0 , 0 , 63 ));
+    private final Setting<Integer> replenishments = this.register( new Setting <> ( "RUpdates" , 0 , 0 , 1000 ));
+    private final Setting<Integer> updates = this.register( new Setting <> ( "HBUpdates" , 100 , 0 , 1000 ));
+    private final Setting<Integer> actions = this.register( new Setting <> ( "Actions" , 2 , 1 , 30 ));
+    private final Setting<Boolean> pauseInv = this.register( new Setting <> ( "PauseInv" , true ));
+    private final Setting<Boolean> putBack = this.register( new Setting <> ( "PutBack" , true ));
     private final Timer timer = new Timer();
     private final Timer replenishTimer = new Timer();
-    private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue<InventoryUtil.Task>();
-    private Map<Integer, ItemStack> hotbar = new ConcurrentHashMap<Integer, ItemStack>();
+    private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue <> ( );
+    private Map<Integer, ItemStack> hotbar = new ConcurrentHashMap <> ( );
 
     public Replenish() {
         super("Replenish", "Replenishes your hotbar", Module.Category.PLAYER, false, false, false);
@@ -34,13 +34,13 @@ public class Replenish
 
     @Override
     public void onUpdate() {
-        if (Replenish.mc.currentScreen instanceof GuiContainer && (!(Replenish.mc.currentScreen instanceof GuiInventory) || this.pauseInv.getValue().booleanValue())) {
+        if (Replenish.mc.currentScreen instanceof GuiContainer && (!(Replenish.mc.currentScreen instanceof GuiInventory) || this.pauseInv.getValue ( ) )) {
             return;
         }
-        if (this.timer.passedMs(this.updates.getValue().intValue())) {
+        if (this.timer.passedMs( this.updates.getValue ( ) )) {
             this.mapHotbar();
         }
-        if (this.replenishTimer.passedMs(this.replenishments.getValue().intValue())) {
+        if (this.replenishTimer.passedMs( this.replenishments.getValue ( ) )) {
             for (int i = 0; i < this.actions.getValue(); ++i) {
                 InventoryUtil.Task task = this.taskList.poll();
                 if (task == null) continue;
@@ -61,7 +61,7 @@ public class Replenish
     }
 
     private void mapHotbar() {
-        ConcurrentHashMap<Integer, ItemStack> map = new ConcurrentHashMap<Integer, ItemStack>();
+        ConcurrentHashMap<Integer, ItemStack> map = new ConcurrentHashMap <> ( );
         for (int i = 0; i < 9; ++i) {
             ItemStack stack = Replenish.mc.player.inventory.getStackInSlot(i);
             map.put(i, stack);
@@ -70,7 +70,7 @@ public class Replenish
             this.hotbar = map;
             return;
         }
-        ConcurrentHashMap<Integer, Integer> fromTo = new ConcurrentHashMap<Integer, Integer>();
+        ConcurrentHashMap<Integer, Integer> fromTo = new ConcurrentHashMap <> ( );
         for (Map.Entry hotbarItem : map.entrySet()) {
             int replenishSlot;
             ItemStack stack = (ItemStack) hotbarItem.getValue();

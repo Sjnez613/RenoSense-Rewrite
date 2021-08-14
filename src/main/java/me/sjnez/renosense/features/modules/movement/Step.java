@@ -10,9 +10,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class Step
         extends Module {
     private static Step instance;
-    public Setting<Boolean> vanilla = this.register(new Setting<Boolean>("Vanilla", false));
-    public Setting<Integer> stepHeight = this.register(new Setting<Integer>("Height", 2, 1, 2));
-    public Setting<Boolean> turnOff = this.register(new Setting<Boolean>("Disable", false));
+    public Setting<Boolean> vanilla = this.register( new Setting <> ( "Vanilla" , false ));
+    public Setting<Integer> stepHeight = this.register( new Setting <> ( "Height" , 2 , 1 , 2 ));
+    public Setting<Boolean> turnOff = this.register( new Setting <> ( "Disable" , false ));
 
     public Step() {
         super("Step", "Allows you to step up blocks", Module.Category.MOVEMENT, true, false, false);
@@ -29,13 +29,13 @@ public class Step
     @SubscribeEvent
     public void onStep(StepEvent event) {
         if (Step.mc.player.onGround && !Step.mc.player.isInsideOfMaterial(Material.WATER) && !Step.mc.player.isInsideOfMaterial(Material.LAVA) && Step.mc.player.collidedVertically && Step.mc.player.fallDistance == 0.0f && !Step.mc.gameSettings.keyBindJump.pressed && !Step.mc.player.isOnLadder()) {
-            event.setHeight(this.stepHeight.getValue().intValue());
+            event.setHeight( this.stepHeight.getValue ( ) );
             double rheight = Step.mc.player.getEntityBoundingBox().minY - Step.mc.player.posY;
             if (rheight >= 0.625) {
-                if (!this.vanilla.getValue().booleanValue()) {
+                if (! this.vanilla.getValue ( ) ) {
                     this.ncpStep(rheight);
                 }
-                if (this.turnOff.getValue().booleanValue()) {
+                if ( this.turnOff.getValue ( ) ) {
                     this.disable();
                 }
             }
@@ -77,18 +77,15 @@ public class Step
                 break block12;
             }
             if (height < 1.6) {
-                double[] offset;
-                for (double off : offset = new double[]{0.42, 0.33, 0.24, 0.083, -0.078}) {
+                for (double off : new double[]{0.42, 0.33, 0.24, 0.083, -0.078}) {
                     Step.mc.player.connection.sendPacket(new CPacketPlayer.Position(posX, y += off, posZ, false));
                 }
             } else if (height < 2.1) {
-                double[] heights;
-                for (double off : heights = new double[]{0.425, 0.821, 0.699, 0.599, 1.022, 1.372, 1.652, 1.869}) {
+                for (double off : new double[]{0.425, 0.821, 0.699, 0.599, 1.022, 1.372, 1.652, 1.869}) {
                     Step.mc.player.connection.sendPacket(new CPacketPlayer.Position(posX, y + off, posZ, false));
                 }
             } else {
-                double[] heights;
-                for (double off : heights = new double[]{0.425, 0.821, 0.699, 0.599, 1.022, 1.372, 1.652, 1.869, 2.019, 1.907}) {
+                for (double off : new double[]{0.425, 0.821, 0.699, 0.599, 1.022, 1.372, 1.652, 1.869, 2.019, 1.907}) {
                     Step.mc.player.connection.sendPacket(new CPacketPlayer.Position(posX, y + off, posZ, false));
                 }
             }

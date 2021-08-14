@@ -13,10 +13,10 @@ import java.util.Objects;
 
 public class Criticals
         extends Module {
-    public Setting<Boolean> noDesync = this.register(new Setting<Boolean>("NoDesync", true));
-    public Setting<Boolean> cancelFirst = this.register(new Setting<Boolean>("CancelFirst32k", true));
-    public Setting<Integer> delay32k = this.register(new Setting<Object>("32kDelay", Integer.valueOf(25), Integer.valueOf(0), Integer.valueOf(500), v -> this.cancelFirst.getValue()));
-    private final Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.PACKET));
+    public Setting<Boolean> noDesync = this.register( new Setting <> ( "NoDesync" , true ));
+    public Setting<Boolean> cancelFirst = this.register( new Setting <> ( "CancelFirst32k" , true ));
+    public Setting<Integer> delay32k = this.register(new Setting<Object>("32kDelay", 25 , 0 , 500 , v -> this.cancelFirst.getValue()));
+    private final Setting<Mode> mode = this.register( new Setting <> ( "Mode" , Mode.PACKET ));
     private final Setting<Integer> packets = this.register(new Setting<Object>("Packets", 2, 1, 5, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
     private final Setting<Integer> desyncDelay = this.register(new Setting<Object>("DesyncDelay", 10, 0, 500, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
     private final Timer timer = new Timer();
@@ -39,16 +39,16 @@ public class Criticals
                 this.firstCanceled = false;
                 return;
             }
-            if (this.resetTimer && !this.timer32k.passedMs(this.delay32k.getValue().intValue())) {
+            if (this.resetTimer && !this.timer32k.passedMs( this.delay32k.getValue ( ) )) {
                 return;
             }
-            if (this.resetTimer && this.timer32k.passedMs(this.delay32k.getValue().intValue())) {
+            if (this.resetTimer && this.timer32k.passedMs( this.delay32k.getValue ( ) )) {
                 this.resetTimer = false;
             }
-            if (!this.timer.passedMs(this.desyncDelay.getValue().intValue())) {
+            if (!this.timer.passedMs( this.desyncDelay.getValue ( ) )) {
                 return;
             }
-            if (!(!Criticals.mc.player.onGround || Criticals.mc.gameSettings.keyBindJump.isKeyDown() || !(packet.getEntityFromWorld(Criticals.mc.world) instanceof EntityLivingBase) && this.noDesync.getValue().booleanValue() || Criticals.mc.player.isInWater() || Criticals.mc.player.isInLava())) {
+            if (!(!Criticals.mc.player.onGround || Criticals.mc.gameSettings.keyBindJump.isKeyDown() || !(packet.getEntityFromWorld(Criticals.mc.world) instanceof EntityLivingBase) && this.noDesync.getValue ( ) || Criticals.mc.player.isInWater() || Criticals.mc.player.isInLava())) {
                 if (this.mode.getValue() == Mode.PACKET) {
                     switch (this.packets.getValue()) {
                         case 1: {

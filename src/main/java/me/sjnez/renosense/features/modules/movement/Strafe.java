@@ -20,29 +20,29 @@ import java.util.Objects;
 public class Strafe
         extends Module {
     private static Strafe INSTANCE;
-    private final Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.NCP));
-    private final Setting<Boolean> limiter = this.register(new Setting<Boolean>("SetGround", true));
-    private final Setting<Boolean> bhop2 = this.register(new Setting<Boolean>("Hop", true));
-    private final Setting<Boolean> limiter2 = this.register(new Setting<Boolean>("Bhop", false));
-    private final Setting<Boolean> noLag = this.register(new Setting<Boolean>("NoLag", false));
-    private final Setting<Integer> specialMoveSpeed = this.register(new Setting<Integer>("Speed", 100, 0, 150));
-    private final Setting<Integer> potionSpeed = this.register(new Setting<Integer>("Speed1", 130, 0, 150));
-    private final Setting<Integer> potionSpeed2 = this.register(new Setting<Integer>("Speed2", 125, 0, 150));
-    private final Setting<Integer> dFactor = this.register(new Setting<Integer>("DFactor", 159, 100, 200));
-    private final Setting<Integer> acceleration = this.register(new Setting<Integer>("Accel", 2149, 1000, 2500));
-    private final Setting<Float> speedLimit = this.register(new Setting<Float>("SpeedLimit", Float.valueOf(35.0f), Float.valueOf(20.0f), Float.valueOf(60.0f)));
-    private final Setting<Float> speedLimit2 = this.register(new Setting<Float>("SpeedLimit2", Float.valueOf(60.0f), Float.valueOf(20.0f), Float.valueOf(60.0f)));
-    private final Setting<Integer> yOffset = this.register(new Setting<Integer>("YOffset", 400, 350, 500));
-    private final Setting<Boolean> potion = this.register(new Setting<Boolean>("Potion", false));
-    private final Setting<Boolean> wait = this.register(new Setting<Boolean>("Wait", true));
-    private final Setting<Boolean> hopWait = this.register(new Setting<Boolean>("HopWait", true));
-    private final Setting<Integer> startStage = this.register(new Setting<Integer>("Stage", 2, 0, 4));
-    private final Setting<Boolean> setPos = this.register(new Setting<Boolean>("SetPos", true));
-    private final Setting<Boolean> setNull = this.register(new Setting<Boolean>("SetNull", false));
-    private final Setting<Integer> setGroundLimit = this.register(new Setting<Integer>("GroundLimit", 138, 0, 1000));
-    private final Setting<Integer> groundFactor = this.register(new Setting<Integer>("GroundFactor", 13, 0, 50));
-    private final Setting<Integer> step = this.register(new Setting<Object>("SetStep", Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(2), v -> this.mode.getValue() == Mode.BHOP));
-    private final Setting<Boolean> setGroundNoLag = this.register(new Setting<Boolean>("NoGroundLag", true));
+    private final Setting<Mode> mode = this.register( new Setting <> ( "Mode" , Mode.NCP ));
+    private final Setting<Boolean> limiter = this.register( new Setting <> ( "SetGround" , true ));
+    private final Setting<Boolean> bhop2 = this.register( new Setting <> ( "Hop" , true ));
+    private final Setting<Boolean> limiter2 = this.register( new Setting <> ( "Bhop" , false ));
+    private final Setting<Boolean> noLag = this.register( new Setting <> ( "NoLag" , false ));
+    private final Setting<Integer> specialMoveSpeed = this.register( new Setting <> ( "Speed" , 100 , 0 , 150 ));
+    private final Setting<Integer> potionSpeed = this.register( new Setting <> ( "Speed1" , 130 , 0 , 150 ));
+    private final Setting<Integer> potionSpeed2 = this.register( new Setting <> ( "Speed2" , 125 , 0 , 150 ));
+    private final Setting<Integer> dFactor = this.register( new Setting <> ( "DFactor" , 159 , 100 , 200 ));
+    private final Setting<Integer> acceleration = this.register( new Setting <> ( "Accel" , 2149 , 1000 , 2500 ));
+    private final Setting<Float> speedLimit = this.register( new Setting <> ( "SpeedLimit" , 35.0f , 20.0f , 60.0f ));
+    private final Setting<Float> speedLimit2 = this.register( new Setting <> ( "SpeedLimit2" , 60.0f , 20.0f , 60.0f ));
+    private final Setting<Integer> yOffset = this.register( new Setting <> ( "YOffset" , 400 , 350 , 500 ));
+    private final Setting<Boolean> potion = this.register( new Setting <> ( "Potion" , false ));
+    private final Setting<Boolean> wait = this.register( new Setting <> ( "Wait" , true ));
+    private final Setting<Boolean> hopWait = this.register( new Setting <> ( "HopWait" , true ));
+    private final Setting<Integer> startStage = this.register( new Setting <> ( "Stage" , 2 , 0 , 4 ));
+    private final Setting<Boolean> setPos = this.register( new Setting <> ( "SetPos" , true ));
+    private final Setting<Boolean> setNull = this.register( new Setting <> ( "SetNull" , false ));
+    private final Setting<Integer> setGroundLimit = this.register( new Setting <> ( "GroundLimit" , 138 , 0 , 1000 ));
+    private final Setting<Integer> groundFactor = this.register( new Setting <> ( "GroundFactor" , 13 , 0 , 50 ));
+    private final Setting<Integer> step = this.register(new Setting<Object>("SetStep", 1 , 0 , 2 , v -> this.mode.getValue() == Mode.BHOP));
+    private final Setting<Boolean> setGroundNoLag = this.register( new Setting <> ( "NoGroundLag" , true ));
     private int stage = 1;
     private double moveSpeed;
     private double lastDist;
@@ -110,7 +110,7 @@ public class Strafe
             return;
         }
         if (!Strafe.mc.player.onGround) {
-            if (this.wait.getValue().booleanValue() && this.waitForGround) {
+            if ( this.wait.getValue ( ) && this.waitForGround) {
                 return;
             }
         } else {
@@ -125,17 +125,17 @@ public class Strafe
             if (this.step.getValue() == 1) {
                 Strafe.mc.player.stepHeight = 0.6f;
             }
-            if (this.limiter2.getValue().booleanValue() && Strafe.mc.player.onGround && RenoSense.speedManager.getSpeedKpH() < (double) this.speedLimit2.getValue().floatValue()) {
+            if ( this.limiter2.getValue ( ) && Strafe.mc.player.onGround && RenoSense.speedManager.getSpeedKpH() < (double) this.speedLimit2.getValue ( ) ) {
                 this.stage = 2;
             }
-            if (this.limiter.getValue().booleanValue() && Strafe.round(Strafe.mc.player.posY - (double) ((int) Strafe.mc.player.posY), 3) == Strafe.round((double) this.setGroundLimit.getValue().intValue() / 1000.0, 3) && (!this.setGroundNoLag.getValue().booleanValue() || EntityUtil.isEntityMoving(Strafe.mc.player))) {
-                if (this.setNull.getValue().booleanValue()) {
+            if ( this.limiter.getValue ( ) && Strafe.round(Strafe.mc.player.posY - (double) ((int) Strafe.mc.player.posY), 3) == Strafe.round((double) this.setGroundLimit.getValue ( ) / 1000.0, 3) && (! this.setGroundNoLag.getValue ( ) || EntityUtil.isEntityMoving(Strafe.mc.player))) {
+                if ( this.setNull.getValue ( ) ) {
                     Strafe.mc.player.motionY = 0.0;
                 } else {
-                    Strafe.mc.player.motionY -= (double) this.groundFactor.getValue().intValue() / 100.0;
-                    event.setY(event.getY() - (double) this.groundFactor.getValue().intValue() / 100.0);
-                    if (this.setPos.getValue().booleanValue()) {
-                        Strafe.mc.player.posY -= (double) this.groundFactor.getValue().intValue() / 100.0;
+                    Strafe.mc.player.motionY -= (double) this.groundFactor.getValue ( ) / 100.0;
+                    event.setY(event.getY() - (double) this.groundFactor.getValue ( ) / 100.0);
+                    if ( this.setPos.getValue ( ) ) {
+                        Strafe.mc.player.posY -= (double) this.groundFactor.getValue ( ) / 100.0;
                     }
                 }
             }
@@ -144,13 +144,13 @@ public class Strafe
                 this.moveSpeed = (double) this.getMultiplier() * Strafe.getBaseMoveSpeed() - 0.01;
             } else if (this.stage == 2 && EntityUtil.isMoving()) {
                 this.stage = 3;
-                Strafe.mc.player.motionY = (double) this.yOffset.getValue().intValue() / 1000.0;
-                event.setY((double) this.yOffset.getValue().intValue() / 1000.0);
+                Strafe.mc.player.motionY = (double) this.yOffset.getValue ( ) / 1000.0;
+                event.setY((double) this.yOffset.getValue ( ) / 1000.0);
                 if (this.cooldownHops > 0) {
                     --this.cooldownHops;
                 }
                 ++this.hops;
-                double accel = this.acceleration.getValue() == 2149 ? 2.149802 : (double) this.acceleration.getValue().intValue() / 1000.0;
+                double accel = this.acceleration.getValue() == 2149 ? 2.149802 : (double) this.acceleration.getValue ( ) / 1000.0;
                 this.moveSpeed *= accel;
             } else if (this.stage == 3) {
                 this.stage = 4;
@@ -158,12 +158,12 @@ public class Strafe
                 this.moveSpeed = this.lastDist - difference;
             } else {
                 if (Strafe.mc.world.getCollisionBoxes(Strafe.mc.player, Strafe.mc.player.getEntityBoundingBox().offset(0.0, Strafe.mc.player.motionY, 0.0)).size() > 0 || Strafe.mc.player.collidedVertically && this.stage > 0) {
-                    this.stage = this.bhop2.getValue() != false && RenoSense.speedManager.getSpeedKpH() >= (double) this.speedLimit.getValue().floatValue() ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
+                    this.stage = this.bhop2.getValue ( ) && RenoSense.speedManager.getSpeedKpH() >= (double) this.speedLimit.getValue ( ) ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
                 }
-                this.moveSpeed = this.lastDist - this.lastDist / (double) this.dFactor.getValue().intValue();
+                this.moveSpeed = this.lastDist - this.lastDist / (double) this.dFactor.getValue ( );
             }
             this.moveSpeed = Math.max(this.moveSpeed, Strafe.getBaseMoveSpeed());
-            if (this.hopWait.getValue().booleanValue() && this.limiter2.getValue().booleanValue() && this.hops < 2) {
+            if ( this.hopWait.getValue ( ) && this.limiter2.getValue ( ) && this.hops < 2) {
                 this.moveSpeed = EntityUtil.getMaxSpeed();
             }
             if (moveForward == 0.0f && moveStrafe == 0.0f) {
@@ -202,7 +202,7 @@ public class Strafe
     }
 
     private void doNCP(MoveEvent event) {
-        if (!this.limiter.getValue().booleanValue() && Strafe.mc.player.onGround) {
+        if (! this.limiter.getValue ( ) && Strafe.mc.player.onGround) {
             this.stage = 2;
         }
         switch (this.stage) {
@@ -216,7 +216,7 @@ public class Strafe
                 if (Strafe.mc.player.moveForward == 0.0f && Strafe.mc.player.moveStrafing == 0.0f || !Strafe.mc.player.onGround)
                     break;
                 if (Strafe.mc.player.isPotionActive(MobEffects.JUMP_BOOST)) {
-                    motionY += (float) (Strafe.mc.player.getActivePotionEffect(MobEffects.JUMP_BOOST).getAmplifier() + 1) * 0.1f;
+                    motionY += (float) ( Objects.requireNonNull ( Strafe.mc.player.getActivePotionEffect ( MobEffects.JUMP_BOOST ) ).getAmplifier() + 1) * 0.1f;
                 }
                 Strafe.mc.player.motionY = motionY;
                 event.setY(Strafe.mc.player.motionY);
@@ -229,7 +229,7 @@ public class Strafe
             }
             default: {
                 if (Strafe.mc.world.getCollisionBoxes(Strafe.mc.player, Strafe.mc.player.getEntityBoundingBox().offset(0.0, Strafe.mc.player.motionY, 0.0)).size() > 0 || Strafe.mc.player.collidedVertically && this.stage > 0) {
-                    this.stage = this.bhop2.getValue() != false && RenoSense.speedManager.getSpeedKpH() >= (double) this.speedLimit.getValue().floatValue() ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
+                    this.stage = this.bhop2.getValue ( ) && RenoSense.speedManager.getSpeedKpH() >= (double) this.speedLimit.getValue ( ) ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
                 }
                 this.moveSpeed = this.lastDist - this.lastDist / 159.0;
             }
@@ -251,10 +251,10 @@ public class Strafe
     }
 
     private float getMultiplier() {
-        float baseSpeed = this.specialMoveSpeed.getValue().intValue();
-        if (this.potion.getValue().booleanValue() && Strafe.mc.player.isPotionActive(MobEffects.SPEED)) {
+        float baseSpeed = this.specialMoveSpeed.getValue ( );
+        if ( this.potion.getValue ( ) && Strafe.mc.player.isPotionActive(MobEffects.SPEED)) {
             int amplifier = Objects.requireNonNull(Strafe.mc.player.getActivePotionEffect(MobEffects.SPEED)).getAmplifier() + 1;
-            baseSpeed = amplifier >= 2 ? (float) this.potionSpeed2.getValue().intValue() : (float) this.potionSpeed.getValue().intValue();
+            baseSpeed = amplifier >= 2 ? (float) this.potionSpeed2.getValue ( ) : (float) this.potionSpeed.getValue ( );
         }
         return baseSpeed / 100.0f;
     }
@@ -265,8 +265,8 @@ public class Strafe
 
     @SubscribeEvent
     public void onPacketReceive(PacketEvent.Receive event) {
-        if (event.getPacket() instanceof SPacketPlayerPosLook && this.noLag.getValue().booleanValue()) {
-            this.stage = this.mode.getValue() == Mode.BHOP && (this.limiter2.getValue() != false || this.bhop2.getValue() != false) ? 1 : 4;
+        if (event.getPacket() instanceof SPacketPlayerPosLook && this.noLag.getValue ( ) ) {
+            this.stage = this.mode.getValue() == Mode.BHOP && ( this.limiter2.getValue ( ) || this.bhop2.getValue ( ) ) ? 1 : 4;
         }
     }
 

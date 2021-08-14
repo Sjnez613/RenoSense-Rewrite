@@ -1,6 +1,5 @@
 package me.sjnez.renosense.mixin.mixins;
 
-import javax.annotation.Nullable;
 import me.sjnez.renosense.RenoSense;
 import me.sjnez.renosense.features.gui.custom.GuiCustomMainScreen;
 import me.sjnez.renosense.features.modules.client.Managers;
@@ -25,6 +24,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import javax.annotation.Nullable;
+
 @Mixin(value={Minecraft.class})
 public abstract class MixinMinecraft {
     @Shadow
@@ -40,7 +41,7 @@ public abstract class MixinMinecraft {
     @Inject(method={"getLimitFramerate"}, at={@At(value="HEAD")}, cancellable=true)
     public void getLimitFramerateHook(CallbackInfoReturnable<Integer> callbackInfoReturnable) {
         try {
-            if (Managers.getInstance().unfocusedCpu.getValue().booleanValue() && !Display.isActive()) {
+            if ( Managers.getInstance ( ).unfocusedCpu.getValue ( ) && !Display.isActive()) {
                 callbackInfoReturnable.setReturnValue(Managers.getInstance().cpuFPS.getValue());
             }
         }
@@ -51,17 +52,17 @@ public abstract class MixinMinecraft {
 
     @Redirect(method={"runGameLoop"}, at=@At(value="INVOKE", target="Lorg/lwjgl/opengl/Display;sync(I)V", remap=false))
     public void syncHook(int maxFps) {
-        if (Managers.getInstance().betterFrames.getValue().booleanValue()) {
-            Display.sync((int)Managers.getInstance().betterFPS.getValue());
+        if ( Managers.getInstance ( ).betterFrames.getValue ( ) ) {
+            Display.sync( Managers.getInstance().betterFPS.getValue() );
         } else {
-            Display.sync((int)maxFps);
+            Display.sync( maxFps );
         }
     }
 
     @Inject(method={"runTick()V"}, at={@At(value="RETURN")})
     private void runTick(CallbackInfo callbackInfo) {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu && Screens.INSTANCE.mainScreen.getValue().booleanValue()) {
-            Minecraft.getMinecraft().displayGuiScreen((GuiScreen)new GuiCustomMainScreen());
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu && Screens.INSTANCE.mainScreen.getValue ( ) ) {
+            Minecraft.getMinecraft().displayGuiScreen( new GuiCustomMainScreen() );
         }
     }
 

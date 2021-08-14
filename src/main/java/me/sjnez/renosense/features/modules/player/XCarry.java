@@ -30,19 +30,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class XCarry
         extends Module {
     private static XCarry INSTANCE = new XCarry();
-    private final Setting<Boolean> simpleMode = this.register(new Setting<Boolean>("Simple", false));
-    private final Setting<Bind> autoStore = this.register(new Setting<Bind>("AutoDuel", new Bind(-1)));
-    private final Setting<Integer> obbySlot = this.register(new Setting<Object>("ObbySlot", Integer.valueOf(2), Integer.valueOf(1), Integer.valueOf(9), v -> this.autoStore.getValue().getKey() != -1));
-    private final Setting<Integer> slot1 = this.register(new Setting<Object>("Slot1", Integer.valueOf(22), Integer.valueOf(9), Integer.valueOf(44), v -> this.autoStore.getValue().getKey() != -1));
-    private final Setting<Integer> slot2 = this.register(new Setting<Object>("Slot2", Integer.valueOf(23), Integer.valueOf(9), Integer.valueOf(44), v -> this.autoStore.getValue().getKey() != -1));
-    private final Setting<Integer> slot3 = this.register(new Setting<Object>("Slot3", Integer.valueOf(24), Integer.valueOf(9), Integer.valueOf(44), v -> this.autoStore.getValue().getKey() != -1));
-    private final Setting<Integer> tasks = this.register(new Setting<Object>("Actions", Integer.valueOf(3), Integer.valueOf(1), Integer.valueOf(12), v -> this.autoStore.getValue().getKey() != -1));
-    private final Setting<Boolean> store = this.register(new Setting<Boolean>("Store", false));
-    private final Setting<Boolean> shiftClicker = this.register(new Setting<Boolean>("ShiftClick", false));
-    private final Setting<Boolean> withShift = this.register(new Setting<Object>("WithShift", Boolean.valueOf(true), v -> this.shiftClicker.getValue()));
+    private final Setting<Boolean> simpleMode = this.register( new Setting <> ( "Simple" , false ));
+    private final Setting<Bind> autoStore = this.register( new Setting <> ( "AutoDuel" , new Bind ( - 1 ) ));
+    private final Setting<Integer> obbySlot = this.register(new Setting<Object>("ObbySlot", 2 , 1 , 9 , v -> this.autoStore.getValue().getKey() != -1));
+    private final Setting<Integer> slot1 = this.register(new Setting<Object>("Slot1", 22 , 9 , 44 , v -> this.autoStore.getValue().getKey() != -1));
+    private final Setting<Integer> slot2 = this.register(new Setting<Object>("Slot2", 23 , 9 , 44 , v -> this.autoStore.getValue().getKey() != -1));
+    private final Setting<Integer> slot3 = this.register(new Setting<Object>("Slot3", 24 , 9 , 44 , v -> this.autoStore.getValue().getKey() != -1));
+    private final Setting<Integer> tasks = this.register(new Setting<Object>("Actions", 3 , 1 , 12 , v -> this.autoStore.getValue().getKey() != -1));
+    private final Setting<Boolean> store = this.register( new Setting <> ( "Store" , false ));
+    private final Setting<Boolean> shiftClicker = this.register( new Setting <> ( "ShiftClick" , false ));
+    private final Setting<Boolean> withShift = this.register(new Setting<Object>("WithShift", Boolean.TRUE , v -> this.shiftClicker.getValue()));
     private final Setting<Bind> keyBind = this.register(new Setting<Object>("ShiftBind", new Bind(-1), v -> this.shiftClicker.getValue()));
     private final AtomicBoolean guiNeedsClose = new AtomicBoolean(false);
-    private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue<InventoryUtil.Task>();
+    private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue <> ( );
     private GuiInventory openedGui = null;
     private boolean guiCloseGuard = false;
     private boolean autoDuelOn = false;
@@ -50,7 +50,7 @@ public class XCarry
     private boolean slot1done = false;
     private boolean slot2done = false;
     private boolean slot3done = false;
-    private List<Integer> doneSlots = new ArrayList<Integer>();
+    private List<Integer> doneSlots = new ArrayList <> ( );
 
     public XCarry() {
         super("XCarry", "Uses the crafting inventory for storage", Module.Category.PLAYER, true, false, false);
@@ -70,16 +70,16 @@ public class XCarry
 
     @Override
     public void onUpdate() {
-        if (this.shiftClicker.getValue().booleanValue() && XCarry.mc.currentScreen instanceof GuiInventory) {
+        if ( this.shiftClicker.getValue ( ) && XCarry.mc.currentScreen instanceof GuiInventory) {
             Slot slot;
             boolean ourBind;
             boolean bl = ourBind = this.keyBind.getValue().getKey() != -1 && Keyboard.isKeyDown(this.keyBind.getValue().getKey()) && !Keyboard.isKeyDown(42);
-            if ((Keyboard.isKeyDown(42) && this.withShift.getValue().booleanValue() || ourBind) && Mouse.isButtonDown(0) && (slot = ((GuiInventory) XCarry.mc.currentScreen).getSlotUnderMouse()) != null && InventoryUtil.getEmptyXCarry() != -1) {
+            if ((Keyboard.isKeyDown(42) && this.withShift.getValue ( ) || ourBind) && Mouse.isButtonDown(0) && (slot = ((GuiInventory) XCarry.mc.currentScreen).getSlotUnderMouse()) != null && InventoryUtil.getEmptyXCarry() != -1) {
                 int slotNumber = slot.slotNumber;
                 if (slotNumber > 4 && ourBind) {
                     this.taskList.add(new InventoryUtil.Task(slotNumber));
                     this.taskList.add(new InventoryUtil.Task(InventoryUtil.getEmptyXCarry()));
-                } else if (slotNumber > 4 && this.withShift.getValue().booleanValue()) {
+                } else if (slotNumber > 4 && this.withShift.getValue ( ) ) {
                     boolean isHotBarFull = true;
                     boolean isInvFull = true;
                     for (int i : InventoryUtil.findEmptySlots(false)) {
@@ -103,24 +103,24 @@ public class XCarry
             }
         }
         if (this.autoDuelOn) {
-            this.doneSlots = new ArrayList<Integer>();
+            this.doneSlots = new ArrayList <> ( );
             if (InventoryUtil.getEmptyXCarry() == -1 || this.obbySlotDone && this.slot1done && this.slot2done && this.slot3done) {
                 this.autoDuelOn = false;
             }
             if (this.autoDuelOn) {
-                if (!this.obbySlotDone && !XCarry.mc.player.inventory.getStackInSlot(this.obbySlot.getValue().intValue() - 1).isEmpty) {
+                if (!this.obbySlotDone && !XCarry.mc.player.inventory.getStackInSlot( this.obbySlot.getValue ( ) - 1).isEmpty) {
                     this.addTasks(36 + this.obbySlot.getValue() - 1);
                 }
                 this.obbySlotDone = true;
-                if (!this.slot1done && !XCarry.mc.player.inventoryContainer.inventorySlots.get(this.slot1.getValue().intValue()).getStack().isEmpty) {
+                if (!this.slot1done && !XCarry.mc.player.inventoryContainer.inventorySlots.get( this.slot1.getValue ( ) ).getStack().isEmpty) {
                     this.addTasks(this.slot1.getValue());
                 }
                 this.slot1done = true;
-                if (!this.slot2done && !XCarry.mc.player.inventoryContainer.inventorySlots.get(this.slot2.getValue().intValue()).getStack().isEmpty) {
+                if (!this.slot2done && !XCarry.mc.player.inventoryContainer.inventorySlots.get( this.slot2.getValue ( ) ).getStack().isEmpty) {
                     this.addTasks(this.slot2.getValue());
                 }
                 this.slot2done = true;
-                if (!this.slot3done && !XCarry.mc.player.inventoryContainer.inventorySlots.get(this.slot3.getValue().intValue()).getStack().isEmpty) {
+                if (!this.slot3done && !XCarry.mc.player.inventoryContainer.inventorySlots.get( this.slot3.getValue ( ) ).getStack().isEmpty) {
                     this.addTasks(this.slot3.getValue());
                 }
                 this.slot3done = true;
@@ -159,7 +159,7 @@ public class XCarry
     @Override
     public void onDisable() {
         if (!XCarry.fullNullCheck()) {
-            if (!this.simpleMode.getValue().booleanValue()) {
+            if (! this.simpleMode.getValue ( ) ) {
                 this.closeGui();
                 this.close();
             } else {
@@ -175,7 +175,7 @@ public class XCarry
 
     @SubscribeEvent
     public void onCloseGuiScreen(PacketEvent.Send event) {
-        if (this.simpleMode.getValue().booleanValue() && event.getPacket() instanceof CPacketCloseWindow) {
+        if ( this.simpleMode.getValue ( ) && event.getPacket() instanceof CPacketCloseWindow) {
             CPacketCloseWindow packet = event.getPacket();
             if (packet.windowId == XCarry.mc.player.inventoryContainer.windowId) {
                 event.setCanceled(true);
@@ -185,7 +185,7 @@ public class XCarry
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onGuiOpen(GuiOpenEvent event) {
-        if (!this.simpleMode.getValue().booleanValue()) {
+        if (! this.simpleMode.getValue ( ) ) {
             if (this.guiCloseGuard) {
                 event.setCanceled(true);
             } else if (event.getGui() instanceof GuiInventory) {

@@ -1,9 +1,6 @@
 package me.sjnez.renosense.mixin.mixins;
 
 import com.google.common.base.Predicate;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Nullable;
 import me.sjnez.renosense.features.modules.client.Notifications;
 import me.sjnez.renosense.features.modules.player.Speedmine;
 import me.sjnez.renosense.features.modules.render.CameraClip;
@@ -30,6 +27,10 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+
 @Mixin(value={EntityRenderer.class})
 public abstract class MixinEntityRenderer {
     private boolean injection = true;
@@ -44,7 +45,7 @@ public abstract class MixinEntityRenderer {
 
     @Inject(method={"renderItemActivation"}, at={@At(value="HEAD")}, cancellable=true)
     public void renderItemActivationHook(CallbackInfo info) {
-        if (this.itemActivationItem != null && NoRender.getInstance().isOn() && NoRender.getInstance().totemPops.getValue().booleanValue() && this.itemActivationItem.getItem() == Items.TOTEM_OF_UNDYING) {
+        if (this.itemActivationItem != null && NoRender.getInstance().isOn() && NoRender.getInstance ( ).totemPops.getValue ( ) && this.itemActivationItem.getItem() == Items.TOTEM_OF_UNDYING) {
             info.cancel();
         }
     }
@@ -67,7 +68,7 @@ public abstract class MixinEntityRenderer {
                 }
                 catch (Exception e) {
                     e.printStackTrace();
-                    if (!Notifications.getInstance().isOn() || !Notifications.getInstance().crash.getValue().booleanValue()) break block3;
+                    if (!Notifications.getInstance().isOn() || ! Notifications.getInstance ( ).crash.getValue ( ) ) break block3;
                     Notifications.displayCrash(e);
                 }
             }
@@ -77,7 +78,7 @@ public abstract class MixinEntityRenderer {
 
     @Redirect(method={"setupCameraTransform"}, at=@At(value="FIELD", target="Lnet/minecraft/client/entity/EntityPlayerSP;prevTimeInPortal:F"))
     public float prevTimeInPortalHook(EntityPlayerSP entityPlayerSP) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().nausea.getValue().booleanValue()) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance ( ).nausea.getValue ( ) ) {
             return -3.4028235E38f;
         }
         return entityPlayerSP.prevTimeInPortal;
@@ -95,35 +96,35 @@ public abstract class MixinEntityRenderer {
         if (NoRender.getInstance().isOn() && NoRender.getInstance().fog.getValue() == NoRender.Fog.AIR) {
             return Blocks.AIR.defaultBlockState;
         }
-        return ActiveRenderInfo.getBlockStateAtEntityViewpoint((World)worldIn, (Entity)entityIn, (float)p_186703_2_);
+        return ActiveRenderInfo.getBlockStateAtEntityViewpoint( worldIn , entityIn , p_186703_2_ );
     }
 
     @Inject(method={"hurtCameraEffect"}, at={@At(value="HEAD")}, cancellable=true)
     public void hurtCameraEffectHook(float ticks, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().hurtcam.getValue().booleanValue()) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance ( ).hurtcam.getValue ( ) ) {
             info.cancel();
         }
     }
 
     @Redirect(method={"getMouseOver"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/multiplayer/WorldClient;getEntitiesInAABBexcluding(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/AxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List;"))
     public List<Entity> getEntitiesInAABBexcludingHook(WorldClient worldClient, @Nullable Entity entityIn, AxisAlignedBB boundingBox, @Nullable Predicate<? super Entity> predicate) {
-        if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && (!Speedmine.getInstance().pickaxe.getValue().booleanValue() || this.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe)) {
-            return new ArrayList<Entity>();
+        if (Speedmine.getInstance().isOn() && Speedmine.getInstance ( ).noTrace.getValue ( ) && (! Speedmine.getInstance ( ).pickaxe.getValue ( ) || this.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe)) {
+            return new ArrayList <> ( );
         }
-        if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && Speedmine.getInstance().noGapTrace.getValue().booleanValue() && this.mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE) {
-            return new ArrayList<Entity>();
+        if (Speedmine.getInstance().isOn() && Speedmine.getInstance ( ).noTrace.getValue ( ) && Speedmine.getInstance ( ).noGapTrace.getValue ( ) && this.mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE) {
+            return new ArrayList <> ( );
         }
         return worldClient.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
     }
 
     @ModifyVariable(method={"orientCamera"}, ordinal=3, at=@At(value="STORE", ordinal=0), require=1)
     public double changeCameraDistanceHook(double range) {
-        return CameraClip.getInstance().isEnabled() && CameraClip.getInstance().extend.getValue() != false ? CameraClip.getInstance().distance.getValue() : range;
+        return CameraClip.getInstance().isEnabled() && CameraClip.getInstance ( ).extend.getValue ( ) ? CameraClip.getInstance().distance.getValue() : range;
     }
 
     @ModifyVariable(method={"orientCamera"}, ordinal=7, at=@At(value="STORE", ordinal=0), require=1)
     public double orientCameraHook(double range) {
-        return CameraClip.getInstance().isEnabled() && CameraClip.getInstance().extend.getValue() != false ? CameraClip.getInstance().distance.getValue() : (CameraClip.getInstance().isEnabled() && CameraClip.getInstance().extend.getValue() == false ? 4.0 : range);
+        return CameraClip.getInstance().isEnabled() && CameraClip.getInstance ( ).extend.getValue ( ) ? CameraClip.getInstance().distance.getValue() : (CameraClip.getInstance().isEnabled() && ! CameraClip.getInstance ( ).extend.getValue ( ) ? 4.0 : range);
     }
 }
 

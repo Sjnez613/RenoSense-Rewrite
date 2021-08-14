@@ -105,7 +105,7 @@ public class PlayerUtil implements Util {
                 final JsonObject node = e.getAsJsonObject();
                 final String name = node.get("name").getAsString();
                 final long changedAt = node.has("changedToAt") ? node.get("changedToAt").getAsLong() : 0L;
-                temp.add(name + "§8" + new Date(changedAt).toString());
+                temp.add(name + "§8" + new Date(changedAt) );
             }
             Collections.sort(temp);
             return temp;
@@ -163,7 +163,7 @@ public class PlayerUtil implements Util {
         public void run() {
             NetworkPlayerInfo profile;
             try {
-                final ArrayList<NetworkPlayerInfo> infoMap = new ArrayList<NetworkPlayerInfo>(Objects.requireNonNull(mc.getConnection()).getPlayerInfoMap());
+                final ArrayList<NetworkPlayerInfo> infoMap = new ArrayList <> ( Objects.requireNonNull ( mc.getConnection ( ) ).getPlayerInfoMap ( ) );
                 profile = infoMap.stream().filter(networkPlayerInfo -> networkPlayerInfo.getGameProfile().getName().equalsIgnoreCase(this.name)).findFirst().orElse(null);
                 assert profile != null;
                 this.uuid = profile.getGameProfile().getId();

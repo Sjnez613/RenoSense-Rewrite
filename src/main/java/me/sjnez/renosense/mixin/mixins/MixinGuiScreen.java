@@ -15,7 +15,7 @@ public class MixinGuiScreen
 extends Gui {
     @Inject(method={"renderToolTip"}, at={@At(value="HEAD")}, cancellable=true)
     public void renderToolTipHook(ItemStack stack, int x, int y, CallbackInfo info) {
-        if (ToolTips.getInstance().isOn() && ToolTips.getInstance().shulkers.getValue().booleanValue() && stack.getItem() instanceof ItemShulkerBox) {
+        if (ToolTips.getInstance().isOn() && ToolTips.getInstance ( ).shulkers.getValue ( ) && stack.getItem() instanceof ItemShulkerBox) {
             ToolTips.getInstance().renderShulkerToolTip(stack, x, y, null);
             info.cancel();
         }

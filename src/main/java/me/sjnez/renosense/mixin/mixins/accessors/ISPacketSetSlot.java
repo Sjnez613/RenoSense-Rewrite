@@ -7,9 +7,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value={SPacketSetSlot.class})
 public interface ISPacketSetSlot {
     @Accessor(value="windowId")
-    public int getId();
+    int getId ( );
 
     @Accessor(value="windowId")
-    public void setWindowId(int var1);
+    void setWindowId ( int var1 );
 }
 

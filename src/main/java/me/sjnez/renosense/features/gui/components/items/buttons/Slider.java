@@ -31,7 +31,7 @@ public class Slider
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.dragSetting(mouseX, mouseY);
         RenderUtil.drawRect(this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515);
-        if (ClickGui.getInstance().rainbowRolling.getValue().booleanValue()) {
+        if ( ClickGui.getInstance ( ).rainbowRolling.getValue ( ) ) {
             int color = ColorUtil.changeAlpha(HUD.getInstance().colorMap.get(MathUtil.clamp((int) this.y, 0, this.renderer.scaledHeight)), RenoSense.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue());
             int color1 = ColorUtil.changeAlpha(HUD.getInstance().colorMap.get(MathUtil.clamp((int) this.y + this.height, 0, this.renderer.scaledHeight)), RenoSense.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue());
             RenderUtil.drawGradientRect(this.x, this.y, ((Number) this.setting.getValue()).floatValue() <= this.min.floatValue() ? 0.0f : ((float) this.width + 7.4f) * this.partialMultiplier(), (float) this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? HUD.getInstance().colorMap.get(MathUtil.clamp((int) this.y, 0, this.renderer.scaledHeight)) : color, !this.isHovering(mouseX, mouseY) ? HUD.getInstance().colorMap.get(MathUtil.clamp((int) this.y, 0, this.renderer.scaledHeight)) : color1);
@@ -80,8 +80,8 @@ public class Slider
             double result = (Double) this.setting.getMin() + (double) ((float) this.difference * percent);
             this.setting.setValue((double) Math.round(10.0 * result) / 10.0);
         } else if (this.setting.getValue() instanceof Float) {
-            float result = ((Float) this.setting.getMin()).floatValue() + (float) this.difference * percent;
-            this.setting.setValue(Float.valueOf((float) Math.round(10.0f * result) / 10.0f));
+            float result = (Float) this.setting.getMin ( ) + (float) this.difference * percent;
+            this.setting.setValue( (float) Math.round ( 10.0f * result ) / 10.0f );
         } else if (this.setting.getValue() instanceof Integer) {
             this.setting.setValue((Integer) this.setting.getMin() + (int) ((float) this.difference * percent));
         }

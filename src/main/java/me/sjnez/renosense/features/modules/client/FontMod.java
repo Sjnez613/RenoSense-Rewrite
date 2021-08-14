@@ -12,14 +12,14 @@ import java.awt.*;
 public class FontMod
         extends Module {
     private static FontMod INSTANCE = new FontMod();
-    public Setting<String> fontName = this.register(new Setting<String>("FontName", "Arial", "Name of the font."));
-    public Setting<Integer> fontSize = this.register(new Setting<Integer>("FontSize", Integer.valueOf(18), "Size of the font."));
-    public Setting<Integer> fontStyle = this.register(new Setting<Integer>("FontStyle", Integer.valueOf(0), "Style of the font."));
-    public Setting<Boolean> antiAlias = this.register(new Setting<Boolean>("AntiAlias", Boolean.valueOf(true), "Smoother font."));
-    public Setting<Boolean> fractionalMetrics = this.register(new Setting<Boolean>("Metrics", Boolean.valueOf(true), "Thinner font."));
-    public Setting<Boolean> shadow = this.register(new Setting<Boolean>("Shadow", Boolean.valueOf(true), "Less shadow offset font."));
-    public Setting<Boolean> showFonts = this.register(new Setting<Boolean>("Fonts", Boolean.valueOf(false), "Shows all fonts."));
-    public Setting<Boolean> full = this.register(new Setting<Boolean>("Full", false));
+    public Setting<String> fontName = this.register( new Setting <> ( "FontName" , "Arial" , "Name of the font." ));
+    public Setting<Integer> fontSize = this.register( new Setting <> ( "FontSize" , 18 , "Size of the font." ));
+    public Setting<Integer> fontStyle = this.register( new Setting <> ( "FontStyle" , 0 , "Style of the font." ));
+    public Setting<Boolean> antiAlias = this.register( new Setting <> ( "AntiAlias" , Boolean.TRUE , "Smoother font." ));
+    public Setting<Boolean> fractionalMetrics = this.register( new Setting <> ( "Metrics" , Boolean.TRUE , "Thinner font." ));
+    public Setting<Boolean> shadow = this.register( new Setting <> ( "Shadow" , Boolean.TRUE , "Less shadow offset font." ));
+    public Setting<Boolean> showFonts = this.register( new Setting <> ( "Fonts" , Boolean.FALSE , "Shows all fonts." ));
+    public Setting<Boolean> full = this.register( new Setting <> ( "Full" , false ));
     private boolean reloadFont = false;
 
     public FontMod() {
@@ -35,8 +35,7 @@ public class FontMod
     }
 
     public static boolean checkFont(String font, boolean message) {
-        String[] fonts;
-        for (String s : fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()) {
+        for (String s : GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()) {
             if (!message && s.equals(font)) {
                 return true;
             }
@@ -65,7 +64,7 @@ public class FontMod
 
     @Override
     public void onTick() {
-        if (this.showFonts.getValue().booleanValue()) {
+        if ( this.showFonts.getValue ( ) ) {
             FontMod.checkFont("Hello", true);
             Command.sendMessage("Current Font: " + this.fontName.getValue());
             this.showFonts.setValue(false);

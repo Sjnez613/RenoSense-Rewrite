@@ -23,21 +23,21 @@ public class HoleManager
         extends Feature
         implements Runnable {
     private static final BlockPos[] surroundOffset = BlockUtil.toBlockPos(EntityUtil.getOffsets(0, true, true));
-    private final List<BlockPos> midSafety = new ArrayList<BlockPos>();
+    private final List<BlockPos> midSafety = new ArrayList <> ( );
     private final Timer syncTimer = new Timer();
     private final AtomicBoolean shouldInterrupt = new AtomicBoolean(false);
     private final Timer holeTimer = new Timer();
-    private List<BlockPos> holes = new ArrayList<BlockPos>();
+    private List<BlockPos> holes = new ArrayList <> ( );
     private ScheduledExecutorService executorService;
     private int lastUpdates = 0;
     private Thread thread;
 
     public void update() {
         if (Managers.getInstance().holeThread.getValue() == Managers.ThreadMode.WHILE) {
-            if (this.thread == null || this.thread.isInterrupted() || !this.thread.isAlive() || this.syncTimer.passedMs(Managers.getInstance().holeSync.getValue().intValue())) {
+            if (this.thread == null || this.thread.isInterrupted() || !this.thread.isAlive() || this.syncTimer.passedMs( Managers.getInstance ( ).holeSync.getValue ( ) )) {
                 if (this.thread == null) {
                     this.thread = new Thread(this);
-                } else if (this.syncTimer.passedMs(Managers.getInstance().holeSync.getValue().intValue()) && !this.shouldInterrupt.get()) {
+                } else if (this.syncTimer.passedMs( Managers.getInstance ( ).holeSync.getValue ( ) ) && !this.shouldInterrupt.get()) {
                     this.shouldInterrupt.set(true);
                     this.syncTimer.reset();
                     return;
@@ -62,7 +62,7 @@ public class HoleManager
                 }
                 this.executorService = this.getExecutor();
             }
-        } else if (this.holeTimer.passedMs(Managers.getInstance().holeUpdates.getValue().intValue()) && !HoleManager.fullNullCheck() && (HoleESP.getInstance().isOn() || HoleFiller.getInstance().isOn())) {
+        } else if (this.holeTimer.passedMs( Managers.getInstance ( ).holeUpdates.getValue ( ) ) && !HoleManager.fullNullCheck() && (HoleESP.getInstance().isOn() || HoleFiller.getInstance().isOn())) {
             this.holes = this.calcHoles();
             this.holeTimer.reset();
         }
@@ -79,7 +79,7 @@ public class HoleManager
 
     private ScheduledExecutorService getExecutor() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(this, 0L, Managers.getInstance().holeUpdates.getValue().intValue(), TimeUnit.MILLISECONDS);
+        service.scheduleAtFixedRate(this, 0L, Managers.getInstance ( ).holeUpdates.getValue ( ) , TimeUnit.MILLISECONDS);
         return service;
     }
 
@@ -97,7 +97,7 @@ public class HoleManager
                     this.holes = this.calcHoles();
                 }
                 try {
-                    Thread.sleep(Managers.getInstance().holeUpdates.getValue().intValue());
+                    Thread.sleep( Managers.getInstance ( ).holeUpdates.getValue ( ) );
                 } catch (InterruptedException e) {
                     this.thread.interrupt();
                     e.printStackTrace();
@@ -123,9 +123,9 @@ public class HoleManager
     }
 
     public List<BlockPos> calcHoles() {
-        ArrayList<BlockPos> safeSpots = new ArrayList<BlockPos>();
+        ArrayList<BlockPos> safeSpots = new ArrayList <> ( );
         this.midSafety.clear();
-        List<BlockPos> positions = BlockUtil.getSphere(EntityUtil.getPlayerPos(HoleManager.mc.player), Managers.getInstance().holeRange.getValue().floatValue(), Managers.getInstance().holeRange.getValue().intValue(), false, true, 0);
+        List<BlockPos> positions = BlockUtil.getSphere(EntityUtil.getPlayerPos(HoleManager.mc.player), Managers.getInstance ( ).holeRange.getValue ( ) , Managers.getInstance().holeRange.getValue().intValue(), false, true, 0);
         for (BlockPos pos : positions) {
             if (!HoleManager.mc.world.getBlockState(pos).getBlock().equals(Blocks.AIR) || !HoleManager.mc.world.getBlockState(pos.add(0, 1, 0)).getBlock().equals(Blocks.AIR) || !HoleManager.mc.world.getBlockState(pos.add(0, 2, 0)).getBlock().equals(Blocks.AIR))
                 continue;

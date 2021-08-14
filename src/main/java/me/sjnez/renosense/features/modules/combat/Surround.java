@@ -6,8 +6,8 @@ import me.sjnez.renosense.features.command.Command;
 import me.sjnez.renosense.features.modules.Module;
 import me.sjnez.renosense.features.setting.Setting;
 import me.sjnez.renosense.util.Timer;
-import me.sjnez.renosense.util.oyveyutils.OyVeyentityUtil;
 import me.sjnez.renosense.util.*;
+import me.sjnez.renosense.util.oyveyutils.OyVeyentityUtil;
 import net.minecraft.block.BlockEnderChest;
 import net.minecraft.block.BlockObsidian;
 import net.minecraft.entity.Entity;
@@ -21,15 +21,15 @@ import java.util.*;
 public class Surround
         extends Module {
     public static boolean isPlacing = false;
-    private final Setting<Integer> blocksPerTick = this.register(new Setting<Integer>("BlocksPerTick", 12, 1, 20));
-    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 0, 0, 250));
-    private final Setting<Boolean> noGhost = this.register(new Setting<Boolean>("PacketPlace", false));
-    private final Setting<Boolean> center = this.register(new Setting<Boolean>("TPCenter", false));
-    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Rotate", true));
+    private final Setting<Integer> blocksPerTick = this.register( new Setting <> ( "BlocksPerTick" , 12 , 1 , 20 ));
+    private final Setting<Integer> delay = this.register( new Setting <> ( "Delay" , 0 , 0 , 250 ));
+    private final Setting<Boolean> noGhost = this.register( new Setting <> ( "PacketPlace" , false ));
+    private final Setting<Boolean> center = this.register( new Setting <> ( "TPCenter" , false ));
+    private final Setting<Boolean> rotate = this.register( new Setting <> ( "Rotate" , true ));
     private final me.sjnez.renosense.util.Timer timer = new me.sjnez.renosense.util.Timer();
     private final me.sjnez.renosense.util.Timer retryTimer = new Timer();
-    private final Set<Vec3d> extendingBlocks = new HashSet<Vec3d>();
-    private final Map<BlockPos, Integer> retries = new HashMap<BlockPos, Integer>();
+    private final Set<Vec3d> extendingBlocks = new HashSet <> ( );
+    private final Map<BlockPos, Integer> retries = new HashMap <> ( );
     private int isSafe;
     private BlockPos startPos;
     private boolean didPlace = false;
@@ -52,7 +52,7 @@ public class Surround
         }
         this.lastHotbarSlot = Surround.mc.player.inventory.currentItem;
         this.startPos = EntityUtil.getRoundedBlockPos(Surround.mc.player);
-        if (this.center.getValue().booleanValue()) {
+        if ( this.center.getValue ( ) ) {
             RenoSense.positionManager.setPositionPacket((double) this.startPos.getX() + 0.5, this.startPos.getY(), (double) this.startPos.getZ() + 0.5, true, true, true);
         }
         this.retries.clear();
@@ -90,13 +90,13 @@ public class Surround
         if (this.check()) {
             return;
         }
-        if (!OyVeyentityUtil.isSafe((Entity)Surround.mc.player, 0, true)) {
+        if (!OyVeyentityUtil.isSafe( Surround.mc.player , 0, true)) {
             this.isSafe = 0;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), OyVeyentityUtil.getUnsafeBlockArray((Entity)Surround.mc.player, 0, true), true, false, false);
+            this.placeBlocks(Surround.mc.player.getPositionVector(), OyVeyentityUtil.getUnsafeBlockArray( Surround.mc.player , 0, true), true, false, false);
         }
-        else if (!OyVeyentityUtil.isSafe((Entity)Surround.mc.player, -1, false)) {
+        else if (!OyVeyentityUtil.isSafe( Surround.mc.player , -1, false)) {
             this.isSafe = 1;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), OyVeyentityUtil.getUnsafeBlockArray((Entity)Surround.mc.player, -1, false), false, false, true);
+            this.placeBlocks(Surround.mc.player.getPositionVector(), OyVeyentityUtil.getUnsafeBlockArray( Surround.mc.player , -1, false), false, false, true);
         }
         else {
             this.isSafe = 3;
@@ -116,11 +116,9 @@ public class Surround
         if (this.extendingBlocks.size() == 2 && this.extenders < 1) {
             Vec3d[] array = new Vec3d[2];
             int i = 0;
-            Iterator<Vec3d> iterator = this.extendingBlocks.iterator();
-            while (iterator.hasNext()) {
-                Vec3d vec3d;
-                array[i] = vec3d = iterator.next();
-                ++i;
+            for (Vec3d extendingBlock : this.extendingBlocks) {
+                array[i] = extendingBlock;
+                ++ i;
             }
             int placementsBefore = this.placements;
             if (this.areClose(array) != null) {
@@ -149,7 +147,7 @@ public class Surround
     }
 
     private boolean placeBlocks(Vec3d pos, Vec3d[] vec3ds, boolean hasHelpingBlocks, boolean isHelping, boolean isExtending) {
-        boolean gotHelp = true;
+        boolean gotHelp;
         block5:
         for (Vec3d vec3d : vec3ds) {
             gotHelp = true;
@@ -220,7 +218,7 @@ public class Surround
             this.disable();
             return true;
         }
-        return !this.timer.passedMs(this.delay.getValue().intValue());
+        return !this.timer.passedMs( this.delay.getValue ( ) );
     }
 
     private void placeBlock(BlockPos pos) {

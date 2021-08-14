@@ -17,8 +17,8 @@ import java.util.Map;
 
 public class StreamerMode
         extends Module {
-    public Setting<Integer> width = this.register(new Setting<Integer>("Width", 600, 100, 3160));
-    public Setting<Integer> height = this.register(new Setting<Integer>("Height", 900, 100, 2140));
+    public Setting<Integer> width = this.register( new Setting <> ( "Width" , 600 , 100 , 3160 ));
+    public Setting<Integer> height = this.register( new Setting <> ( "Height" , 900 , 100 , 2140 ));
     private SecondScreenFrame window = null;
 
     public StreamerMode() {
@@ -46,7 +46,7 @@ public class StreamerMode
     @Override
     public void onLogout() {
         if (this.window != null) {
-            ArrayList<String> drawInfo = new ArrayList<String>();
+            ArrayList<String> drawInfo = new ArrayList <> ( );
             drawInfo.add("RenoSense v1.9.0");
             drawInfo.add("");
             drawInfo.add("No Connection.");
@@ -67,7 +67,7 @@ public class StreamerMode
     @Override
     public void onUpdate() {
         if (this.window != null) {
-            ArrayList<String> drawInfo = new ArrayList<String>();
+            ArrayList<String> drawInfo = new ArrayList <> ( );
             drawInfo.add("RenoSense v1.9.0");
             drawInfo.add("");
             drawInfo.add("Fps: " + Minecraft.debugFPS);

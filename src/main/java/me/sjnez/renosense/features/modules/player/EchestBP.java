@@ -18,9 +18,8 @@ public class EchestBP
 
     @Override
     public void onUpdate() {
-        InventoryBasic basic;
         Container container;
-        if (EchestBP.mc.currentScreen instanceof GuiContainer && (container = ((GuiContainer) EchestBP.mc.currentScreen).inventorySlots) instanceof ContainerChest && ((ContainerChest) container).getLowerChestInventory() instanceof InventoryBasic && (basic = (InventoryBasic) ((ContainerChest) container).getLowerChestInventory()).getName().equalsIgnoreCase("Ender Chest")) {
+        if (EchestBP.mc.currentScreen instanceof GuiContainer && (container = ((GuiContainer) EchestBP.mc.currentScreen).inventorySlots) instanceof ContainerChest && ((ContainerChest) container).getLowerChestInventory() instanceof InventoryBasic && ((ContainerChest) container).getLowerChestInventory().getName().equalsIgnoreCase("Ender Chest")) {
             this.echestScreen = EchestBP.mc.currentScreen;
             EchestBP.mc.currentScreen = null;
         }

@@ -27,7 +27,7 @@ public class ModuleTools extends Module {
     public enum Notifier{
         PHOBOS,
         FUTURE,
-        DOTGOD;
+        DOTGOD
     }
 
     public enum PopNotifier{

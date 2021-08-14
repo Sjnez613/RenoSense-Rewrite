@@ -18,20 +18,20 @@ public class Spammer
         extends Module {
     private static final String fileName = "phobos/util/Spammer.txt";
     private static final String defaultMessage = "gg";
-    private static final List<String> spamMessages = new ArrayList<String>();
+    private static final List<String> spamMessages = new ArrayList <> ( );
     private static final Random rnd = new Random();
     private final Timer timer = new Timer();
-    private final List<String> sendPlayers = new ArrayList<String>();
-    public Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.PWORD));
+    private final List<String> sendPlayers = new ArrayList <> ( );
+    public Setting<Mode> mode = this.register( new Setting <> ( "Mode" , Mode.PWORD ));
     public Setting<PwordMode> type = this.register(new Setting<Object>("Pword", PwordMode.CHAT, v -> this.mode.getValue() == Mode.PWORD));
-    public Setting<DelayType> delayType = this.register(new Setting<DelayType>("DelayType", DelayType.S));
-    public Setting<Integer> delay = this.register(new Setting<Object>("DelayS", Integer.valueOf(10), Integer.valueOf(1), Integer.valueOf(1000), v -> this.delayType.getValue() == DelayType.S));
-    public Setting<Integer> delayDS = this.register(new Setting<Object>("DelayDS", Integer.valueOf(10), Integer.valueOf(1), Integer.valueOf(500), v -> this.delayType.getValue() == DelayType.DS));
-    public Setting<Integer> delayMS = this.register(new Setting<Object>("DelayDS", Integer.valueOf(10), Integer.valueOf(1), Integer.valueOf(1000), v -> this.delayType.getValue() == DelayType.MS));
+    public Setting<DelayType> delayType = this.register( new Setting <> ( "DelayType" , DelayType.S ));
+    public Setting<Integer> delay = this.register(new Setting<Object>("DelayS", 10 , 1 , 1000 , v -> this.delayType.getValue() == DelayType.S));
+    public Setting<Integer> delayDS = this.register(new Setting<Object>("DelayDS", 10 , 1 , 500 , v -> this.delayType.getValue() == DelayType.DS));
+    public Setting<Integer> delayMS = this.register(new Setting<Object>("DelayDS", 10 , 1 , 1000 , v -> this.delayType.getValue() == DelayType.MS));
     public Setting<String> msgTarget = this.register(new Setting<Object>("MsgTarget", "Target...", v -> this.mode.getValue() == Mode.PWORD && this.type.getValue() == PwordMode.MSG));
-    public Setting<Boolean> greentext = this.register(new Setting<Object>("Greentext", Boolean.valueOf(false), v -> this.mode.getValue() == Mode.FILE));
-    public Setting<Boolean> random = this.register(new Setting<Object>("Random", Boolean.valueOf(false), v -> this.mode.getValue() == Mode.FILE));
-    public Setting<Boolean> loadFile = this.register(new Setting<Object>("LoadFile", Boolean.valueOf(false), v -> this.mode.getValue() == Mode.FILE));
+    public Setting<Boolean> greentext = this.register(new Setting<Object>("Greentext", Boolean.FALSE , v -> this.mode.getValue() == Mode.FILE));
+    public Setting<Boolean> random = this.register(new Setting<Object>("Random", Boolean.FALSE , v -> this.mode.getValue() == Mode.FILE));
+    public Setting<Boolean> loadFile = this.register(new Setting<Object>("LoadFile", Boolean.FALSE , v -> this.mode.getValue() == Mode.FILE));
 
     public Spammer() {
         super("Spammer", "Spams stuff.", Module.Category.MISC, true, false, false);
@@ -74,21 +74,21 @@ public class Spammer
             this.disable();
             return;
         }
-        if (this.loadFile.getValue().booleanValue()) {
+        if ( this.loadFile.getValue ( ) ) {
             this.readSpamFile();
             this.loadFile.setValue(false);
         }
         switch (this.delayType.getValue()) {
             case MS: {
-                if (this.timer.passedMs(this.delayMS.getValue().intValue())) break;
+                if (this.timer.passedMs( this.delayMS.getValue ( ) )) break;
                 return;
             }
             case S: {
-                if (this.timer.passedS(this.delay.getValue().intValue())) break;
+                if (this.timer.passedS( this.delay.getValue ( ) )) break;
                 return;
             }
             case DS: {
-                if (this.timer.passedDs(this.delayDS.getValue().intValue())) break;
+                if (this.timer.passedDs( this.delayDS.getValue ( ) )) break;
                 return;
             }
         }
@@ -101,22 +101,23 @@ public class Spammer
                 }
                 case EVERYONE: {
                     String target = null;
-                    if (Util.mc.getConnection() != null && Util.mc.getConnection().getPlayerInfoMap() != null) {
-                        for (NetworkPlayerInfo info : Util.mc.getConnection().getPlayerInfoMap()) {
-                            if (info == null || info.getDisplayName() == null) continue;
+                    if ( Util.mc.getConnection ( ) != null ) {
+                        Util.mc.getConnection ( ).getPlayerInfoMap ( );
+                        for (NetworkPlayerInfo info : Util.mc.getConnection ( ).getPlayerInfoMap ( )) {
+                            if ( info == null || info.getDisplayName ( ) == null ) continue;
                             try {
-                                String str = info.getDisplayName().getFormattedText();
-                                String name = StringUtils.stripControlCodes(str);
-                                if (name.equals(Spammer.mc.player.getName()) || this.sendPlayers.contains(name))
+                                String str = info.getDisplayName ( ).getFormattedText ( );
+                                String name = StringUtils.stripControlCodes ( str );
+                                if ( name.equals ( Spammer.mc.player.getName ( ) ) || this.sendPlayers.contains ( name ) )
                                     continue;
                                 target = name;
-                                this.sendPlayers.add(name);
+                                this.sendPlayers.add ( name );
                                 break;
-                            } catch (Exception exception) {
+                            } catch ( Exception ignored ) {
                             }
                         }
-                        if (target == null) {
-                            this.sendPlayers.clear();
+                        if ( target == null ) {
+                            this.sendPlayers.clear ( );
                             return;
                         }
                         msg = "/msg " + target + msg;
@@ -128,7 +129,7 @@ public class Spammer
             Spammer.mc.player.sendChatMessage(msg);
         } else if (spamMessages.size() > 0) {
             String messageOut;
-            if (this.random.getValue().booleanValue()) {
+            if ( this.random.getValue ( ) ) {
                 int index = rnd.nextInt(spamMessages.size());
                 messageOut = spamMessages.get(index);
                 spamMessages.remove(index);
@@ -137,7 +138,7 @@ public class Spammer
                 spamMessages.remove(0);
             }
             spamMessages.add(messageOut);
-            if (this.greentext.getValue().booleanValue()) {
+            if ( this.greentext.getValue ( ) ) {
                 messageOut = "> " + messageOut;
             }
             Spammer.mc.player.connection.sendPacket(new CPacketChatMessage(messageOut.replaceAll("\u00a7", "")));

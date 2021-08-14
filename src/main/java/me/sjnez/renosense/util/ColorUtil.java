@@ -49,11 +49,11 @@ public class ColorUtil {
     }
 
     public static int changeAlpha(int origColor, int userInputedAlpha) {
-        return userInputedAlpha << 24 | (origColor &= 0xFFFFFF);
+        return userInputedAlpha << 24 | origColor & 0xFFFFFF;
     }
 
     private ArrayList<ColorName> initColorList() {
-        ArrayList<ColorName> colorList = new ArrayList<ColorName>();
+        ArrayList<ColorName> colorList = new ArrayList <> ( );
         colorList.add(new ColorName("AliceBlue", 240, 248, 255));
         colorList.add(new ColorName("AntiqueWhite", 250, 235, 215));
         colorList.add(new ColorName("Aqua", 0, 255, 255));

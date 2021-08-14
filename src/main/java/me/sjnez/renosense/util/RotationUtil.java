@@ -20,11 +20,11 @@ public class RotationUtil
         double diry = me.posY - py;
         double dirz = me.posZ - pz;
         double len = Math.sqrt(dirx * dirx + diry * diry + dirz * dirz);
-        double pitch = Math.asin(diry /= len);
-        double yaw = Math.atan2(dirz /= len, dirx /= len);
+        double pitch = Math.asin( diry / len );
+        double yaw = Math.atan2( dirz / len , dirx / len );
         pitch = pitch * 180.0 / Math.PI;
         yaw = yaw * 180.0 / Math.PI;
-        return new double[]{yaw += 90.0, pitch};
+        return new double[]{yaw + 90.0 , pitch};
     }
 
     public static float[] getLegitRotations(Vec3d vec) {
@@ -126,12 +126,12 @@ public class RotationUtil
         if (angle < -270.0f) {
             return true;
         }
-        float fov = (ClickGui.getInstance().customFov.getValue() != false ? ClickGui.getInstance().fov.getValue().floatValue() : mc.gameSettings.fovSetting) / 2.0f;
+        float fov = ( ClickGui.getInstance ( ).customFov.getValue ( ) ? ClickGui.getInstance ( ).fov.getValue ( ) : mc.gameSettings.fovSetting) / 2.0f;
         return angle < fov + 10.0f && angle > -fov - 10.0f;
     }
 
     public static float getFov() {
-        return ClickGui.getInstance().customFov.getValue() != false ? ClickGui.getInstance().fov.getValue().floatValue() : mc.gameSettings.fovSetting;
+        return ClickGui.getInstance ( ).customFov.getValue ( ) ? ClickGui.getInstance ( ).fov.getValue ( ) : mc.gameSettings.fovSetting;
     }
 
     public static float getHalvedfov() {

@@ -34,13 +34,13 @@ extends AbstractClientPlayer {
     @Inject(method={"sendChatMessage"}, at={@At(value="HEAD")}, cancellable=true)
     public void sendChatMessage(String message, CallbackInfo callback) {
         ChatEvent chatEvent = new ChatEvent(message);
-        MinecraftForge.EVENT_BUS.post((Event)chatEvent);
+        MinecraftForge.EVENT_BUS.post( chatEvent );
     }
 
     @Inject(method={"pushOutOfBlocks"}, at={@At(value="HEAD")}, cancellable=true)
     private void pushOutOfBlocksHook(double x, double y, double z, CallbackInfoReturnable<Boolean> info) {
         PushEvent event = new PushEvent(1);
-        MinecraftForge.EVENT_BUS.post((Event)event);
+        MinecraftForge.EVENT_BUS.post( event );
         if (event.isCanceled()) {
             info.setReturnValue(false);
         }
@@ -49,7 +49,7 @@ extends AbstractClientPlayer {
     @Inject(method={"onUpdateWalkingPlayer"}, at={@At(value="HEAD")}, cancellable=true)
     private void preMotion(CallbackInfo info) {
         UpdateWalkingPlayerEvent event = new UpdateWalkingPlayerEvent(0);
-        MinecraftForge.EVENT_BUS.post((Event)event);
+        MinecraftForge.EVENT_BUS.post( event );
         if (event.isCanceled()) {
             info.cancel();
         }
@@ -67,7 +67,7 @@ extends AbstractClientPlayer {
     @Inject(method={"onUpdateWalkingPlayer"}, at={@At(value="RETURN")})
     private void postMotion(CallbackInfo info) {
         UpdateWalkingPlayerEvent event = new UpdateWalkingPlayerEvent(1);
-        MinecraftForge.EVENT_BUS.post((Event)event);
+        MinecraftForge.EVENT_BUS.post( event );
     }
 
     @Inject(method={"Lnet/minecraft/client/entity/EntityPlayerSP;setServerBrand(Ljava/lang/String;)V"}, at={@At(value="HEAD")})
@@ -80,7 +80,7 @@ extends AbstractClientPlayer {
     @Redirect(method={"move"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/entity/AbstractClientPlayer;move(Lnet/minecraft/entity/MoverType;DDD)V"))
     public void move(AbstractClientPlayer player, MoverType moverType, double x, double y, double z) {
         MoveEvent event = new MoveEvent(0, moverType, x, y, z);
-        MinecraftForge.EVENT_BUS.post((Event)event);
+        MinecraftForge.EVENT_BUS.post( event );
         if (!event.isCanceled()) {
             super.move(event.getType(), event.getX(), event.getY(), event.getZ());
         }

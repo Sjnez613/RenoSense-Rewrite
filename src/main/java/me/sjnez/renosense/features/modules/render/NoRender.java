@@ -38,27 +38,27 @@ public class NoRender
         NoRender.INSTANCE = new NoRender();
     }
 
-    public Setting<Boolean> fire = this.register(new Setting<Boolean>("Fire", Boolean.valueOf(false), "Removes the portal overlay."));
-    public Setting<Boolean> portal = this.register(new Setting<Boolean>("Portal", Boolean.valueOf(false), "Removes the portal overlay."));
-    public Setting<Boolean> pumpkin = this.register(new Setting<Boolean>("Pumpkin", Boolean.valueOf(false), "Removes the pumpkin overlay."));
-    public Setting<Boolean> totemPops = this.register(new Setting<Boolean>("TotemPop", Boolean.valueOf(false), "Removes the Totem overlay."));
-    public Setting<Boolean> items = this.register(new Setting<Boolean>("Items", Boolean.valueOf(false), "Removes items on the ground."));
-    public Setting<Boolean> nausea = this.register(new Setting<Boolean>("Nausea", Boolean.valueOf(false), "Removes Portal Nausea."));
-    public Setting<Boolean> hurtcam = this.register(new Setting<Boolean>("HurtCam", Boolean.valueOf(false), "Removes shaking after taking damage."));
-    public Setting<Fog> fog = this.register(new Setting<Fog>("Fog", Fog.NONE, "Removes Fog."));
-    public Setting<Boolean> noWeather = this.register(new Setting<Boolean>("Weather", Boolean.valueOf(false), "AntiWeather"));
-    public Setting<Boss> boss = this.register(new Setting<Boss>("BossBars", Boss.NONE, "Modifies the bossbars."));
-    public Setting<Float> scale = this.register(new Setting<Object>("Scale", Float.valueOf(0.0f), Float.valueOf(0.5f), Float.valueOf(1.0f), v -> this.boss.getValue() == Boss.MINIMIZE || this.boss.getValue() != Boss.STACK, "Scale of the bars."));
-    public Setting<Boolean> bats = this.register(new Setting<Boolean>("Bats", Boolean.valueOf(false), "Removes bats."));
-    public Setting<NoArmor> noArmor = this.register(new Setting<NoArmor>("NoArmor", NoArmor.NONE, "Doesnt Render Armor on players."));
-    public Setting<Boolean> glint = this.register(new Setting<Object>("Glint", Boolean.valueOf(false), v -> this.noArmor.getValue() != NoArmor.NONE));
-    public Setting<Skylight> skylight = this.register(new Setting<Skylight>("Skylight", Skylight.NONE));
-    public Setting<Boolean> barriers = this.register(new Setting<Boolean>("Barriers", Boolean.valueOf(false), "Barriers"));
-    public Setting<Boolean> blocks = this.register(new Setting<Boolean>("Blocks", Boolean.valueOf(false), "Blocks"));
-    public Setting<Boolean> advancements = this.register(new Setting<Boolean>("Advancements", false));
-    public Setting<Boolean> pigmen = this.register(new Setting<Boolean>("Pigmen", false));
-    public Setting<Boolean> timeChange = this.register(new Setting<Boolean>("TimeChange", false));
-    public Setting<Integer> time = this.register(new Setting<Object>("Time", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(23000), v -> this.timeChange.getValue()));
+    public Setting<Boolean> fire = this.register( new Setting <> ( "Fire" , Boolean.FALSE , "Removes the portal overlay." ));
+    public Setting<Boolean> portal = this.register( new Setting <> ( "Portal" , Boolean.FALSE , "Removes the portal overlay." ));
+    public Setting<Boolean> pumpkin = this.register( new Setting <> ( "Pumpkin" , Boolean.FALSE , "Removes the pumpkin overlay." ));
+    public Setting<Boolean> totemPops = this.register( new Setting <> ( "TotemPop" , Boolean.FALSE , "Removes the Totem overlay." ));
+    public Setting<Boolean> items = this.register( new Setting <> ( "Items" , Boolean.FALSE , "Removes items on the ground." ));
+    public Setting<Boolean> nausea = this.register( new Setting <> ( "Nausea" , Boolean.FALSE , "Removes Portal Nausea." ));
+    public Setting<Boolean> hurtcam = this.register( new Setting <> ( "HurtCam" , Boolean.FALSE , "Removes shaking after taking damage." ));
+    public Setting<Fog> fog = this.register( new Setting <> ( "Fog" , Fog.NONE , "Removes Fog." ));
+    public Setting<Boolean> noWeather = this.register( new Setting <> ( "Weather" , Boolean.FALSE , "AntiWeather" ));
+    public Setting<Boss> boss = this.register( new Setting <> ( "BossBars" , Boss.NONE , "Modifies the bossbars." ));
+    public Setting<Float> scale = this.register(new Setting<Object>("Scale", 0.0f , 0.5f , 1.0f , v -> this.boss.getValue() == Boss.MINIMIZE || this.boss.getValue() != Boss.STACK, "Scale of the bars."));
+    public Setting<Boolean> bats = this.register( new Setting <> ( "Bats" , Boolean.FALSE , "Removes bats." ));
+    public Setting<NoArmor> noArmor = this.register( new Setting <> ( "NoArmor" , NoArmor.NONE , "Doesnt Render Armor on players." ));
+    public Setting<Boolean> glint = this.register(new Setting<Object>("Glint", Boolean.FALSE , v -> this.noArmor.getValue() != NoArmor.NONE));
+    public Setting<Skylight> skylight = this.register( new Setting <> ( "Skylight" , Skylight.NONE ));
+    public Setting<Boolean> barriers = this.register( new Setting <> ( "Barriers" , Boolean.FALSE , "Barriers" ));
+    public Setting<Boolean> blocks = this.register( new Setting <> ( "Blocks" , Boolean.FALSE , "Blocks" ));
+    public Setting<Boolean> advancements = this.register( new Setting <> ( "Advancements" , false ));
+    public Setting<Boolean> pigmen = this.register( new Setting <> ( "Pigmen" , false ));
+    public Setting<Boolean> timeChange = this.register( new Setting <> ( "TimeChange" , false ));
+    public Setting<Integer> time = this.register(new Setting<Object>("Time", 0 , 0 , 23000 , v -> this.timeChange.getValue()));
 
     public NoRender() {
         super("NoRender", "Allows you to stop rendering stuff", Module.Category.RENDER, true, false, false);
@@ -154,15 +154,15 @@ public class NoRender
                 }
             } else if (this.boss.getValue() == Boss.STACK) {
                 final Map<UUID, BossInfoClient> map = NoRender.mc.ingameGUI.getBossOverlay().mapBossInfos;
-                final HashMap<String, Pair<BossInfoClient, Integer>> to = new HashMap<String, Pair<BossInfoClient, Integer>>();
+                final HashMap<String, Pair<BossInfoClient, Integer>> to = new HashMap <> ( );
                 for (final Map.Entry<UUID, BossInfoClient> entry2 : map.entrySet()) {
                     final String s = entry2.getValue().getName().getFormattedText();
                     if (to.containsKey(s)) {
                         Pair<BossInfoClient, Integer> p = to.get(s);
-                        p = new Pair<BossInfoClient, Integer>(p.getKey(), p.getValue() + 1);
+                        p = new Pair <> ( p.getKey ( ) , p.getValue ( ) + 1 );
                         to.put(s, p);
                     } else {
-                        final Pair<BossInfoClient, Integer> p = new Pair<BossInfoClient, Integer>(entry2.getValue(), 1);
+                        final Pair<BossInfoClient, Integer> p = new Pair <> ( entry2.getValue ( ) , 1 );
                         to.put(s, p);
                     }
                 }

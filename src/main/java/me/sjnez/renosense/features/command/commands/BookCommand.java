@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCustomPayload;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,7 +34,7 @@ public class BookCommand
                 pages.appendTag(new NBTTagString(joinedPages.substring(page * 210, (page + 1) * 210)));
             }
             if (heldItem.hasTagCompound()) {
-                heldItem.getTagCompound().setTag("pages", pages);
+                Objects.requireNonNull ( heldItem.getTagCompound ( ) ).setTag("pages", pages);
             } else {
                 heldItem.setTagInfo("pages", pages);
             }

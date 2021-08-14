@@ -49,13 +49,12 @@ public class InventoryUtil
 
     public static int findHotbarBlock(Class clazz) {
         for (int i = 0; i < 9; ++i) {
-            Block block;
             ItemStack stack = mc.player.inventory.getStackInSlot(i);
             if (stack == ItemStack.EMPTY) continue;
             if (clazz.isInstance(stack.getItem())) {
                 return i;
             }
-            if (!(stack.getItem() instanceof ItemBlock) || !clazz.isInstance(block = ((ItemBlock) stack.getItem()).getBlock()))
+            if (!(stack.getItem() instanceof ItemBlock) || !clazz.isInstance( ((ItemBlock) stack.getItem()).getBlock() ))
                 continue;
             return i;
         }
@@ -64,9 +63,8 @@ public class InventoryUtil
 
     public static int findHotbarBlock(Block blockIn) {
         for (int i = 0; i < 9; ++i) {
-            Block block;
             ItemStack stack = mc.player.inventory.getStackInSlot(i);
-            if (stack == ItemStack.EMPTY || !(stack.getItem() instanceof ItemBlock) || (block = ((ItemBlock) stack.getItem()).getBlock()) != blockIn)
+            if (stack == ItemStack.EMPTY || !(stack.getItem() instanceof ItemBlock) || ((ItemBlock) stack.getItem()).getBlock() != blockIn)
                 continue;
             return i;
         }
@@ -111,7 +109,7 @@ public class InventoryUtil
     }
 
     public static List<Integer> findEmptySlots(boolean withXCarry) {
-        ArrayList<Integer> outPut = new ArrayList<Integer>();
+        ArrayList<Integer> outPut = new ArrayList <> ( );
         for (Map.Entry<Integer, ItemStack> entry : InventoryUtil.getInventoryAndHotbarSlots().entrySet()) {
             if (!entry.getValue().isEmpty && entry.getValue().getItem() != Items.AIR) continue;
             outPut.add(entry.getKey());
@@ -184,7 +182,7 @@ public class InventoryUtil
     }
 
     private static Map<Integer, ItemStack> getInventorySlots(int currentI, int last) {
-        HashMap<Integer, ItemStack> fullInventorySlots = new HashMap<Integer, ItemStack>();
+        HashMap<Integer, ItemStack> fullInventorySlots = new HashMap <> ( );
         for (int current = currentI; current <= last; ++current) {
             fullInventorySlots.put(current, mc.player.inventoryContainer.getInventory().get(current));
         }
@@ -192,7 +190,7 @@ public class InventoryUtil
     }
 
     private static Map<Integer, ItemStack> fuckYou3arthqu4kev2(int currentI, int last) {
-        HashMap<Integer, ItemStack> fullInventorySlots = new HashMap<Integer, ItemStack>();
+        HashMap<Integer, ItemStack> fullInventorySlots = new HashMap <> ( );
         for (int current = currentI; current <= last; ++current) {
             fullInventorySlots.put(current, mc.player.openContainer.getInventory().get(current));
         }
@@ -264,7 +262,7 @@ public class InventoryUtil
     }
 
     public static boolean holdingItem(Class clazz) {
-        boolean result = false;
+        boolean result;
         ItemStack stack = mc.player.getHeldItemMainhand();
         result = InventoryUtil.isInstanceOf(stack, clazz);
         if (!result) {
@@ -382,10 +380,9 @@ public class InventoryUtil
         int slot = InventoryUtil.findItemInventorySlot(item, offHand);
         if (slot == -1 && withXCarry) {
             for (int i = 1; i < 5; ++i) {
-                Item craftingStackItem;
                 Slot craftingSlot = mc.player.inventoryContainer.inventorySlots.get(i);
                 ItemStack craftingStack = craftingSlot.getStack();
-                if (craftingStack.getItem() == Items.AIR || (craftingStackItem = craftingStack.getItem()) != item)
+                if (craftingStack.getItem() == Items.AIR || craftingStack.getItem() != item)
                     continue;
                 slot = i;
             }
@@ -397,7 +394,6 @@ public class InventoryUtil
         int slot = InventoryUtil.findInventoryBlock(clazz, offHand);
         if (slot == -1 && withXCarry) {
             for (int i = 1; i < 5; ++i) {
-                Block block;
                 Slot craftingSlot = mc.player.inventoryContainer.inventorySlots.get(i);
                 ItemStack craftingStack = craftingSlot.getStack();
                 if (craftingStack.getItem() == Items.AIR) continue;
@@ -406,7 +402,7 @@ public class InventoryUtil
                     slot = i;
                     continue;
                 }
-                if (!(craftingStackItem instanceof ItemBlock) || !clazz.isInstance(block = ((ItemBlock) craftingStackItem).getBlock()))
+                if (!(craftingStackItem instanceof ItemBlock) || !clazz.isInstance( ((ItemBlock) craftingStackItem).getBlock() ))
                     continue;
                 slot = i;
             }

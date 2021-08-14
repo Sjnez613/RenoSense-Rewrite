@@ -20,20 +20,20 @@ import java.util.Map;
 
 public class StorageESP
         extends Module {
-    private final Setting<Float> range = this.register(new Setting<Float>("Range", Float.valueOf(50.0f), Float.valueOf(1.0f), Float.valueOf(300.0f)));
-    private final Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Sync", false));
-    private final Setting<Boolean> chest = this.register(new Setting<Boolean>("Chest", true));
-    private final Setting<Boolean> dispenser = this.register(new Setting<Boolean>("Dispenser", false));
-    private final Setting<Boolean> shulker = this.register(new Setting<Boolean>("Shulker", true));
-    private final Setting<Boolean> echest = this.register(new Setting<Boolean>("Ender Chest", true));
-    private final Setting<Boolean> furnace = this.register(new Setting<Boolean>("Furnace", false));
-    private final Setting<Boolean> hopper = this.register(new Setting<Boolean>("Hopper", false));
-    private final Setting<Boolean> cart = this.register(new Setting<Boolean>("Minecart", false));
-    private final Setting<Boolean> frame = this.register(new Setting<Boolean>("Item Frame", false));
-    private final Setting<Boolean> box = this.register(new Setting<Boolean>("Box", false));
-    private final Setting<Integer> boxAlpha = this.register(new Setting<Object>("BoxAlpha", Integer.valueOf(125), Integer.valueOf(0), Integer.valueOf(255), v -> this.box.getValue()));
-    private final Setting<Boolean> outline = this.register(new Setting<Boolean>("Outline", true));
-    private final Setting<Float> lineWidth = this.register(new Setting<Object>("LineWidth", Float.valueOf(1.0f), Float.valueOf(0.1f), Float.valueOf(5.0f), v -> this.outline.getValue()));
+    private final Setting<Float> range = this.register( new Setting <> ( "Range" , 50.0f , 1.0f , 300.0f ));
+    private final Setting<Boolean> colorSync = this.register( new Setting <> ( "Sync" , false ));
+    private final Setting<Boolean> chest = this.register( new Setting <> ( "Chest" , true ));
+    private final Setting<Boolean> dispenser = this.register( new Setting <> ( "Dispenser" , false ));
+    private final Setting<Boolean> shulker = this.register( new Setting <> ( "Shulker" , true ));
+    private final Setting<Boolean> echest = this.register( new Setting <> ( "Ender Chest" , true ));
+    private final Setting<Boolean> furnace = this.register( new Setting <> ( "Furnace" , false ));
+    private final Setting<Boolean> hopper = this.register( new Setting <> ( "Hopper" , false ));
+    private final Setting<Boolean> cart = this.register( new Setting <> ( "Minecart" , false ));
+    private final Setting<Boolean> frame = this.register( new Setting <> ( "Item Frame" , false ));
+    private final Setting<Boolean> box = this.register( new Setting <> ( "Box" , false ));
+    private final Setting<Integer> boxAlpha = this.register(new Setting<Object>("BoxAlpha", 125 , 0 , 255 , v -> this.box.getValue()));
+    private final Setting<Boolean> outline = this.register( new Setting <> ( "Outline" , true ));
+    private final Setting<Float> lineWidth = this.register(new Setting<Object>("LineWidth", 1.0f , 0.1f , 5.0f , v -> this.outline.getValue()));
 
     public StorageESP() {
         super("StorageESP", "Highlights Containers.", Module.Category.RENDER, false, false, false);
@@ -43,21 +43,21 @@ public class StorageESP
     public void onRender3D(Render3DEvent event) {
         int color;
         BlockPos pos;
-        HashMap<BlockPos, Integer> positions = new HashMap<BlockPos, Integer>();
+        HashMap<BlockPos, Integer> positions = new HashMap <> ( );
         for (TileEntity tileEntity : StorageESP.mc.world.loadedTileEntityList) {
-            if (!(tileEntity instanceof TileEntityChest && this.chest.getValue() != false || tileEntity instanceof TileEntityDispenser && this.dispenser.getValue() != false || tileEntity instanceof TileEntityShulkerBox && this.shulker.getValue() != false || tileEntity instanceof TileEntityEnderChest && this.echest.getValue() != false || tileEntity instanceof TileEntityFurnace && this.furnace.getValue() != false) && (!(tileEntity instanceof TileEntityHopper) || !this.hopper.getValue().booleanValue()) || !(StorageESP.mc.player.getDistanceSq(pos = tileEntity.getPos()) <= MathUtil.square(this.range.getValue().floatValue())) || (color = this.getTileEntityColor(tileEntity)) == -1)
+            if (!(tileEntity instanceof TileEntityChest && this.chest.getValue ( ) || tileEntity instanceof TileEntityDispenser && this.dispenser.getValue ( ) || tileEntity instanceof TileEntityShulkerBox && this.shulker.getValue ( ) || tileEntity instanceof TileEntityEnderChest && this.echest.getValue ( ) || tileEntity instanceof TileEntityFurnace && this.furnace.getValue ( ) ) && (!(tileEntity instanceof TileEntityHopper) || ! this.hopper.getValue ( ) ) || !(StorageESP.mc.player.getDistanceSq(pos = tileEntity.getPos()) <= MathUtil.square( this.range.getValue ( ) )) || (color = this.getTileEntityColor(tileEntity)) == -1)
                 continue;
             positions.put(pos, color);
         }
         for (Entity entity : StorageESP.mc.world.loadedEntityList) {
-            if ((!(entity instanceof EntityItemFrame) || !this.frame.getValue().booleanValue()) && (!(entity instanceof EntityMinecartChest) || !this.cart.getValue().booleanValue()) || !(StorageESP.mc.player.getDistanceSq(pos = entity.getPosition()) <= MathUtil.square(this.range.getValue().floatValue())) || (color = this.getEntityColor(entity)) == -1)
+            if ((!(entity instanceof EntityItemFrame) || ! this.frame.getValue ( ) ) && (!(entity instanceof EntityMinecartChest) || ! this.cart.getValue ( ) ) || !(StorageESP.mc.player.getDistanceSq(pos = entity.getPosition()) <= MathUtil.square( this.range.getValue ( ) )) || (color = this.getEntityColor(entity)) == -1)
                 continue;
             positions.put(pos, color);
         }
         for (Map.Entry entry : positions.entrySet()) {
             BlockPos blockPos = (BlockPos) entry.getKey();
             color = (Integer) entry.getValue();
-            RenderUtil.drawBoxESP(blockPos, this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColor() : new Color(color), false, new Color(color), this.lineWidth.getValue().floatValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), false);
+            RenderUtil.drawBoxESP(blockPos, this.colorSync.getValue ( ) ? Colors.INSTANCE.getCurrentColor() : new Color(color), false, new Color(color), this.lineWidth.getValue ( ) , this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), false);
         }
     }
 

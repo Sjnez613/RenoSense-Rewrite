@@ -27,10 +27,10 @@ public class PhysicsCapes
     public void onPlayerRender(RenderPlayerEvent.Post event) {
         GlStateManager.pushMatrix();
         float f11 = (float) System.currentTimeMillis() / 1000.0f;
-        HashMap<ModelRenderer, Float> waveMap = new HashMap<ModelRenderer, Float>();
+        HashMap<ModelRenderer, Float> waveMap = new HashMap <> ( );
         float fuck = f11;
         for (ModelRenderer renderer : this.cape.boxList) {
-            waveMap.put(renderer, Float.valueOf((float) Math.sin((double) fuck / 0.5) * 4.0f));
+            waveMap.put(renderer, (float) Math.sin ( (double) fuck / 0.5 ) * 4.0f );
             fuck += 1.0f;
         }
         double rotate = this.interpolate(event.getEntityPlayer().prevRenderYawOffset, event.getEntityPlayer().renderYawOffset, event.getPartialRenderTick());
@@ -62,7 +62,7 @@ public class PhysicsCapes
         GlStateManager.rotate(180.0f, 0.0f, 1.0f, 0.0f);
         if (PhysicsCapes.mc.player.moveForward != 0.0f || PhysicsCapes.mc.player.moveStrafing != 0.0f) {
             for (ModelRenderer renderer : this.cape.boxList) {
-                renderer.rotateAngleX = waveMap.get(renderer).floatValue();
+                renderer.rotateAngleX = waveMap.get ( renderer );
             }
         } else {
             for (ModelRenderer renderer : this.cape.boxList) {

@@ -7,8 +7,8 @@ import net.minecraft.util.math.Vec3d;
 
 public class AntiVoid extends Module {
 
-    public Setting<Double> yLevel = this.register(new Setting<Double>("YLevel", 1.0, 0.1, 5.0));
-    public Setting<Double> yForce = this.register(new Setting<Double>("YMotion", 0.1, 0.0, 1.0));
+    public Setting<Double> yLevel = this.register( new Setting <> ( "YLevel" , 1.0 , 0.1 , 5.0 ));
+    public Setting<Double> yForce = this.register( new Setting <> ( "YMotion" , 0.1 , 0.0 , 1.0 ));
 
     public AntiVoid() {
         super("AntiVoid", "Glitches you up from void.", Module.Category.MOVEMENT, false, false, false);
