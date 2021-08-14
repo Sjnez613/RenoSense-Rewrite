@@ -7,10 +7,13 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.MoverType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 public class FakePlayer extends Module {
+    public List<Integer> fakePlayerIdList = new ArrayList<Integer>();
     public Setting<Boolean> dotgod = this.register(new Setting("DotGod", false));
     private static FakePlayer INSTANCE = new FakePlayer();
 
@@ -82,17 +85,27 @@ public class FakePlayer extends Module {
             toggle();
             return;
         }
+        this.fakePlayerIdList = new ArrayList<Integer>();
+
+        this.addFakePlayer(-100);
+    }
+
+    public void addFakePlayer(int entityId){
         if (otherPlayer == null) {
             otherPlayer = new EntityOtherPlayerMP(mc.world, new GameProfile(UUID.randomUUID(), "Scott"));
             otherPlayer.copyLocationAndAnglesFrom(mc.player);
             otherPlayer.inventory.copyInventory(mc.player.inventory);
         }
-        mc.world.spawnEntity(otherPlayer);
+        mc.world.addEntityToWorld(entityId, otherPlayer);
+        this.fakePlayerIdList.add(entityId);
 
     }
 
     @Override
     public void onDisable() {
+        for (int id : this.fakePlayerIdList) {
+            FakePlayer.mc.world.removeEntityFromWorld(id);
+        }
         if (otherPlayer != null) {
             mc.world.removeEntity(otherPlayer);
             otherPlayer = null;

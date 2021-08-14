@@ -388,7 +388,7 @@ public class HUD
             RenoSense.notificationManager.handleNotifications(height - (j + 16));
         }
         k = ((HUD.mc.currentScreen instanceof GuiChat) ? 14 : 0);
-        final String coordinates = grayString + "XYZ " + ChatFormatting.WHITE + posX + ", " + posY + ", " + posZ + " " + ChatFormatting.RESET + grayString + "[" + ChatFormatting.WHITE + hposX + ", " + hposZ + ChatFormatting.RESET + grayString + "]";
+        final String coordinates = String.valueOf(ChatFormatting.WHITE) + posX + ChatFormatting.GRAY + " [" + hposX + "], " + ChatFormatting.WHITE + posY + ChatFormatting.GRAY + ", " + ChatFormatting.WHITE + posZ + ChatFormatting.GRAY + " [" + hposZ + "]";
         final String text4 = (this.direction.getValue() ? (RenoSense.rotationManager.getDirection4D(false) + " ") : "") + (this.coords.getValue() ? coordinates : "") + "";
         final TextManager renderer12 = this.renderer;
         final String text16 = text4;
