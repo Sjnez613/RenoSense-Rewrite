@@ -1,9 +1,11 @@
 package me.sjnez.renosense.manager;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import me.sjnez.renosense.RenoSense;
 import me.sjnez.renosense.features.Feature;
 import me.sjnez.renosense.features.command.Command;
 import me.sjnez.renosense.features.modules.client.Notifications;
+import me.sjnez.renosense.features.modules.module.ModuleTools;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.HashSet;
@@ -26,13 +28,63 @@ public class TotemPopManager
                     playerNumber += character;
                     playerNumber *= 10;
                 }
-                Command.sendOverwriteMessage("\u00a7c" + player.getName() + " popped " + "\u00a7a" + this.getTotemPops(player) + "\u00a7c" + " Totem" + (this.getTotemPops(player) == 1 ? "" : "s") + ".", playerNumber, this.notifications.totemNoti.getValue());
+                Command.sendOverwriteMessage(this.pop(player), playerNumber, this.notifications.totemNoti.getValue());
                 this.toAnnounce.remove(player);
                 this.notifications.totemAnnounce.reset();
                 break;
             }
         }
     }
+
+    public String pop(EntityPlayer player) {
+        if (this.getTotemPops(player) == 1) {
+            if (ModuleTools.getInstance().isEnabled()) {
+                switch (ModuleTools.getInstance().popNotifier.getValue()) {
+                    case FUTURE: {
+                        String text = ChatFormatting.RED + "[Future] " + ChatFormatting.GREEN + player.getName() + ChatFormatting.GRAY + " just popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.GRAY + " totem.";
+                        return text;
+                    }
+                    case PHOBOS: {
+                        String text = ChatFormatting.GOLD + player.getName() + ChatFormatting.RED + " popped " + ChatFormatting.GOLD + this.getTotemPops(player) + ChatFormatting.RED + " totem.";
+                        return text;
+                    }
+                    case DOTGOD: {
+                        String text = ChatFormatting.DARK_PURPLE + "[" + ChatFormatting.LIGHT_PURPLE + "DotGod.CC" + ChatFormatting.DARK_PURPLE + "] " + ChatFormatting.LIGHT_PURPLE + player.getName() + " has popped " + ChatFormatting.RED + this.getTotemPops(player) + ChatFormatting.LIGHT_PURPLE + " time in total!";
+                        return text;
+                    }
+                    case NONE: {
+                        return RenoSense.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totem.";
+                    }
+                }
+            } else {
+                return RenoSense.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totem.";
+            }
+        } else {
+            if (ModuleTools.getInstance().isEnabled()) {
+                switch (ModuleTools.getInstance().popNotifier.getValue()) {
+                    case FUTURE: {
+                        String text = ChatFormatting.RED + "[Future] " + ChatFormatting.GREEN + player.getName() + ChatFormatting.GRAY + " just popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.GRAY + " totems.";
+                        return text;
+                    }
+                    case PHOBOS: {
+                        String text = ChatFormatting.GOLD + player.getName() + ChatFormatting.RED + " popped " + ChatFormatting.GOLD + this.getTotemPops(player) + ChatFormatting.RED + " totems.";
+                        return text;
+                    }
+                    case DOTGOD: {
+                        String text = ChatFormatting.DARK_PURPLE + "[" + ChatFormatting.LIGHT_PURPLE + "DotGod.CC" + ChatFormatting.DARK_PURPLE + "] " + ChatFormatting.LIGHT_PURPLE + player.getName() + " has popped " + ChatFormatting.RED + this.getTotemPops(player) + ChatFormatting.LIGHT_PURPLE + " times in total!";
+                        return text;
+                    }
+                    case NONE: {
+                        return ChatFormatting.WHITE + player.getName() + " popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totems.";
+                    }
+                }
+            } else {
+                return RenoSense.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totems.";
+            }
+        }
+        return "";
+    }
+
 
     public void onLogout() {
         this.onOwnLogout(this.notifications.clearOnLogout.getValue());
@@ -50,6 +102,59 @@ public class TotemPopManager
         }
     }
 
+    public String death1(EntityPlayer player) {
+        if (this.getTotemPops(player) == 1) {
+            if (ModuleTools.getInstance().isEnabled()) {
+                switch (ModuleTools.getInstance().popNotifier.getValue()) {
+                    case FUTURE: {
+                        String text = ChatFormatting.RED + "[Future] " + ChatFormatting.GREEN + player.getName() + ChatFormatting.GRAY + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.GRAY + " totem.";
+                        return text;
+                    }
+                    case PHOBOS: {
+                        String text = ChatFormatting.GOLD + player.getName() + ChatFormatting.RED + " died after popping " + ChatFormatting.GOLD + this.getTotemPops(player) + ChatFormatting.RED + " totem.";
+                        return text;
+                    }
+                    case DOTGOD: {
+                        String text = ChatFormatting.DARK_PURPLE + "[" + ChatFormatting.LIGHT_PURPLE + "DotGod.CC" + ChatFormatting.DARK_PURPLE + "] " + ChatFormatting.LIGHT_PURPLE + player.getName() + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.LIGHT_PURPLE + " time!";
+                        return text;
+                    }
+                    case NONE: {
+                        return RenoSense.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totem!";
+
+                    }
+                }
+            } else {
+                return RenoSense.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totem!";
+
+            }
+        } else {
+            if (ModuleTools.getInstance().isEnabled()) {
+                switch (ModuleTools.getInstance().popNotifier.getValue()) {
+                    case FUTURE: {
+                        String text = ChatFormatting.RED + "[Future] " + ChatFormatting.GREEN + player.getName() + ChatFormatting.GRAY + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.GRAY + " totems.";
+                        return text;
+                    }
+                    case PHOBOS: {
+                        String text = ChatFormatting.GOLD + player.getName() + ChatFormatting.RED + " died after popping " + ChatFormatting.GOLD + this.getTotemPops(player) + ChatFormatting.RED + " totems.";
+                        return text;
+                    }
+                    case DOTGOD: {
+                        String text = ChatFormatting.DARK_PURPLE + "[" + ChatFormatting.LIGHT_PURPLE + "DotGod.CC" + ChatFormatting.DARK_PURPLE + "] " + ChatFormatting.LIGHT_PURPLE + player.getName() + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.LIGHT_PURPLE + " times!";
+                        return text;
+                    }
+                    case NONE: {
+                        return RenoSense.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totems!";
+
+                    }
+                }
+            } else {
+                return RenoSense.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totems!";
+            }
+        }
+        return null;
+    }
+
+
     public void onDeath(EntityPlayer player) {
         if (this.getTotemPops(player) != 0 && !player.equals(TotemPopManager.mc.player) && this.notifications.isOn() && this.notifications.totemPops.getValue().booleanValue()) {
             int playerNumber = 0;
@@ -57,7 +162,7 @@ public class TotemPopManager
                 playerNumber += character;
                 playerNumber *= 10;
             }
-            Command.sendOverwriteMessage("\u00a7c" + player.getName() + " died after popping " + "\u00a7a" + this.getTotemPops(player) + "\u00a7c" + " Totem" + (this.getTotemPops(player) == 1 ? "" : "s") + ".", playerNumber, this.notifications.totemNoti.getValue());
+            Command.sendOverwriteMessage(this.death1(player), playerNumber, this.notifications.totemNoti.getValue());
             this.toAnnounce.remove(player);
         }
         this.resetPops(player);

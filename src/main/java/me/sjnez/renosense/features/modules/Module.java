@@ -30,6 +30,7 @@ public class Module
     public float arrayListOffset = 0.0f;
     public float arrayListVOffset = 0.0f;
     public float offset;
+
     public float vOffset;
     public boolean sliding;
     public Animation animation;

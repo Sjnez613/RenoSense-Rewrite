@@ -1,10 +1,12 @@
 package me.sjnez.renosense.features.modules.client;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import me.sjnez.renosense.RenoSense;
 import me.sjnez.renosense.event.events.ClientEvent;
 import me.sjnez.renosense.event.events.PacketEvent;
 import me.sjnez.renosense.features.command.Command;
 import me.sjnez.renosense.features.modules.Module;
+import me.sjnez.renosense.features.modules.module.ModuleTools;
 import me.sjnez.renosense.features.setting.Setting;
 import me.sjnez.renosense.manager.FileManager;
 import me.sjnez.renosense.util.Timer;
@@ -152,6 +154,53 @@ public class Notifications
         }
     }
 
+
+    public TextComponentString getNotifierOn(Module module) {
+        if (ModuleTools.getInstance().isEnabled()) {
+            switch (ModuleTools.getInstance().notifier.getValue()) {
+                case FUTURE: {
+                    TextComponentString text = new TextComponentString(ChatFormatting.RED + "[Future] " + ChatFormatting.GRAY + module.getDisplayName() + " toggled " + ChatFormatting.GREEN + "on" + ChatFormatting.GRAY + ".");
+                    return text;
+                }
+                case DOTGOD: {
+                    TextComponentString text = new TextComponentString(ChatFormatting.DARK_PURPLE + "[" + ChatFormatting.LIGHT_PURPLE + "DotGod.CC" + ChatFormatting.DARK_PURPLE + "] " + ChatFormatting.DARK_AQUA + module.getDisplayName() + ChatFormatting.LIGHT_PURPLE + " was " + ChatFormatting.GREEN + "enabled.");
+                    return text;
+
+                }
+                case PHOBOS: {
+                    TextComponentString text = new TextComponentString((RenoSense.commandManager.getClientMessage()) + ChatFormatting.BOLD + module.getDisplayName() + ChatFormatting.RESET + ChatFormatting.GREEN + " enabled.");
+                    return text;
+
+                }
+            }
+        }
+        TextComponentString text = new TextComponentString(RenoSense.commandManager.getClientMessage() + ChatFormatting.GREEN + module.getDisplayName() + " toggled on.");
+        return text;
+    }
+
+    public TextComponentString getNotifierOff(Module module) {
+        if (ModuleTools.getInstance().isEnabled()) {
+            switch (ModuleTools.getInstance().notifier.getValue()) {
+                case FUTURE: {
+                    TextComponentString text = new TextComponentString(ChatFormatting.RED + "[Future] " + ChatFormatting.GRAY + module.getDisplayName() + " toggled " + ChatFormatting.RED + "off" + ChatFormatting.GRAY + ".");
+                    return text;
+                }
+                case DOTGOD: {
+                    TextComponentString text = new TextComponentString(ChatFormatting.DARK_PURPLE + "[" + ChatFormatting.LIGHT_PURPLE + "DotGod.CC" + ChatFormatting.DARK_PURPLE + "] " + ChatFormatting.DARK_AQUA + module.getDisplayName() + ChatFormatting.LIGHT_PURPLE + " was " + ChatFormatting.RED + "disabled.");
+                    return text;
+
+                }
+                case PHOBOS: {
+                    TextComponentString text = new TextComponentString((RenoSense.commandManager.getClientMessage()) + ChatFormatting.BOLD + module.getDisplayName() + ChatFormatting.RESET + ChatFormatting.RED + " disabled.");
+                    return text;
+
+                }
+            }
+        }
+        TextComponentString text = new TextComponentString(RenoSense.commandManager.getClientMessage() + ChatFormatting.RED + module.getDisplayName() + " toggled off.");
+        return text;
+    }
+
     @SubscribeEvent
     public void onToggleModule(ClientEvent event) {
         int moduleNumber;
@@ -165,27 +214,16 @@ public class Notifications
                 moduleNumber += character;
                 moduleNumber *= 10;
             }
-            if (this.watermark.getValue().booleanValue()) {
-                TextComponentString textComponentString = new TextComponentString(RenoSense.commandManager.getClientMessage() + " " + "\u00a7r" + "\u00a7c" + module.getDisplayName() + " disabled.");
-                Notifications.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(textComponentString, moduleNumber);
-            } else {
-                TextComponentString textComponentString = new TextComponentString("\u00a7c" + module.getDisplayName() + " disabled.");
-                Notifications.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(textComponentString, moduleNumber);
-            }
+            Notifications.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(getNotifierOff(module), moduleNumber);
         }
+
         if (event.getStage() == 1 && (modules.contains((module = (Module) event.getFeature()).getDisplayName()) || !this.list.getValue().booleanValue())) {
             moduleNumber = 0;
             for (char character : module.getDisplayName().toCharArray()) {
                 moduleNumber += character;
                 moduleNumber *= 10;
             }
-            if (this.watermark.getValue().booleanValue()) {
-                TextComponentString textComponentString = new TextComponentString(RenoSense.commandManager.getClientMessage() + " " + "\u00a7r" + "\u00a7a" + module.getDisplayName() + " enabled.");
-                Notifications.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(textComponentString, moduleNumber);
-            } else {
-                TextComponentString textComponentString = new TextComponentString("\u00a7a" + module.getDisplayName() + " enabled.");
-                Notifications.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(textComponentString, moduleNumber);
-            }
+            Notifications.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(getNotifierOn(module), moduleNumber);
         }
     }
 }

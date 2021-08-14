@@ -26,6 +26,7 @@ public class HoleESP
     public Setting<Double> height = this.register(new Setting<Double>("Height", 0.0, -2.0, 2.0));
     public Setting<Boolean> safeColor = this.register(new Setting<Boolean>("SafeColor", false));
     public Setting<Boolean> customOutline = this.register(new Setting<Object>("CustomLine", Boolean.valueOf(false), v -> this.outline.getValue()));
+    private final Setting<Boolean> x = this.register(new Setting("X", true));
     private final Setting<Integer> holes = this.register(new Setting<Integer>("Holes", 3, 1, 500));
     private final Setting<Integer> minPulseAlpha = this.register(new Setting<Object>("MinPulse", Integer.valueOf(10), Integer.valueOf(0), Integer.valueOf(255), v -> this.pulseAlpha.getValue()));
     private final Setting<Integer> maxPulseAlpha = this.register(new Setting<Object>("MaxPulse", Integer.valueOf(40), Integer.valueOf(0), Integer.valueOf(255), v -> this.pulseAlpha.getValue()));
@@ -108,8 +109,16 @@ public class HoleESP
             if (pos.equals(new BlockPos(HoleESP.mc.player.posX, HoleESP.mc.player.posY, HoleESP.mc.player.posZ)) && !this.ownHole.getValue().booleanValue() || !RotationUtil.isInFov(pos))
                 continue;
             if (this.safeColor.getValue().booleanValue() && RenoSense.holeManager.isSafe(pos)) {
+                if (this.x.getValue()) {
+                    RenderUtil.drawBoundingBoxBottomBlockPosXInMiddle(pos, 1, this.safeRed.getValue(), this.safeGreen.getValue(), this.safeBlue.getValue(), this.safeAlpha.getValue());
+                    RenderUtil.drawBoundingBoxBottomBlockPosXInMiddle2(pos, 1, this.safeRed.getValue(), this.safeGreen.getValue(), this.safeBlue.getValue(), this.safeAlpha.getValue());
+                }
                 RenderUtil.drawBoxESP(pos, new Color(this.safeRed.getValue(), this.safeGreen.getValue(), this.safeBlue.getValue(), this.safeAlpha.getValue()), this.customOutline.getValue(), new Color(this.safecRed.getValue(), this.safecGreen.getValue(), this.safecBlue.getValue(), this.safecAlpha.getValue()), this.lineWidth.getValue().floatValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), true, this.height.getValue(), this.gradientBox.getValue(), this.gradientOutline.getValue(), this.invertGradientBox.getValue(), this.invertGradientOutline.getValue(), this.currentAlpha);
             } else {
+                if (this.x.getValue()) {
+                    RenderUtil.drawBoundingBoxBottomBlockPosXInMiddle(pos, 1, this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue());
+                    RenderUtil.drawBoundingBoxBottomBlockPosXInMiddle2(pos, 1, this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue());
+                }
                 RenderUtil.drawBoxESP(pos, new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), this.customOutline.getValue(), new Color(this.cRed.getValue(), this.cGreen.getValue(), this.cBlue.getValue(), this.cAlpha.getValue()), this.lineWidth.getValue().floatValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), true, this.height.getValue(), this.gradientBox.getValue(), this.gradientOutline.getValue(), this.invertGradientBox.getValue(), this.invertGradientOutline.getValue(), this.currentAlpha);
             }
             ++drawnHoles;

@@ -11,6 +11,7 @@ import me.sjnez.renosense.features.modules.combat.*;
 import me.sjnez.renosense.features.modules.misc.*;
 import me.sjnez.renosense.features.modules.module.Display;
 import me.sjnez.renosense.features.modules.module.FriendSettings;
+import me.sjnez.renosense.features.modules.module.ModuleTools;
 import me.sjnez.renosense.features.modules.movement.*;
 import me.sjnez.renosense.features.modules.player.*;
 import me.sjnez.renosense.features.modules.render.*;
@@ -31,6 +32,7 @@ public class ModuleManager
     public Map<Module, Color> moduleColorMap = new HashMap<Module, Color>();
 
     public void init() {
+        this.modules.add(new ModuleTools());
         this.modules.add(new ChestSwap());
         this.modules.add(new FriendSettings());
         this.modules.add(new RenoSenseOffhand());

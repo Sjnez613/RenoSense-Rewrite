@@ -77,14 +77,11 @@ public class ChatModifier
                 return;
             }
             switch (this.suffix.getValue()) {
-                case CHARLES: {
-                    s = s + " \u23d0 CharlesDana Hack";
+                case RenoSense: {
+                    s = s + " \u23d0 RenoSense";
                     break;
                 }
-                case MAFIA: {
-                    s = s + " \u23d0 Ghost_Mafia hack";
-                    break;
-                }
+
             }
             if (s.length() >= 256) {
                 s = s.substring(0, 256);
@@ -138,8 +135,7 @@ public class ChatModifier
 
     public enum Suffix {
         NONE,
-        MAFIA,
-        CHARLES
+        RenoSense
 
     }
 }
