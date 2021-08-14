@@ -13,9 +13,9 @@ public class BaritoneNoStop
     public void execute(String[] commands) {
         if (commands.length == 5) {
             RenoSense.baritoneManager.setPrefix(commands[0]);
-            int x = 0;
-            int y = 0;
-            int z = 0;
+            int x;
+            int y;
+            int z;
             try {
                 x = Integer.parseInt(commands[1]);
                 y = Integer.parseInt(commands[2]);

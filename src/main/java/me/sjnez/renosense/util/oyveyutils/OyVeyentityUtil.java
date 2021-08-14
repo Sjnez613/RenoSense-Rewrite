@@ -163,7 +163,7 @@ public class OyVeyentityUtil
     }
 
     public static List<Vec3d> getUnsafeBlocksFromVec3d(Vec3d pos, int height, boolean floor) {
-        ArrayList<Vec3d> vec3ds = new ArrayList<Vec3d>();
+        ArrayList<Vec3d> vec3ds = new ArrayList <> ( );
         for (Vec3d vector : getOffsets(height, floor)) {
             BlockPos targetPos = new BlockPos(pos).add(vector.x, vector.y, vector.z);
             Block block = mc.world.getBlockState(targetPos).getBlock();
@@ -183,8 +183,7 @@ public class OyVeyentityUtil
     }
 
     public static boolean isObbyHole(BlockPos blockPos) {
-        BlockPos[] touchingBlocks;
-        for (BlockPos pos : touchingBlocks = new BlockPos[]{blockPos.north(), blockPos.south(), blockPos.east(), blockPos.west(), blockPos.down()}) {
+        for (BlockPos pos : new BlockPos[]{blockPos.north(), blockPos.south(), blockPos.east(), blockPos.west(), blockPos.down()}) {
             IBlockState touchingState = mc.world.getBlockState(pos);
             if (touchingState.getBlock() != Blocks.AIR && touchingState.getBlock() == Blocks.OBSIDIAN) continue;
             return false;
@@ -193,8 +192,7 @@ public class OyVeyentityUtil
     }
 
     public static boolean isBedrockHole(BlockPos blockPos) {
-        BlockPos[] touchingBlocks;
-        for (BlockPos pos : touchingBlocks = new BlockPos[]{blockPos.north(), blockPos.south(), blockPos.east(), blockPos.west(), blockPos.down()}) {
+        for (BlockPos pos : new BlockPos[]{blockPos.north(), blockPos.south(), blockPos.east(), blockPos.west(), blockPos.down()}) {
             IBlockState touchingState = mc.world.getBlockState(pos);
             if (touchingState.getBlock() != Blocks.AIR && touchingState.getBlock() == Blocks.BEDROCK) continue;
             return false;
@@ -203,8 +201,7 @@ public class OyVeyentityUtil
     }
 
     public static boolean isBothHole(BlockPos blockPos) {
-        BlockPos[] touchingBlocks;
-        for (BlockPos pos : touchingBlocks = new BlockPos[]{blockPos.north(), blockPos.south(), blockPos.east(), blockPos.west(), blockPos.down()}) {
+        for (BlockPos pos : new BlockPos[]{blockPos.north(), blockPos.south(), blockPos.east(), blockPos.west(), blockPos.down()}) {
             IBlockState touchingState = mc.world.getBlockState(pos);
             if (touchingState.getBlock() != Blocks.AIR && (touchingState.getBlock() == Blocks.BEDROCK || touchingState.getBlock() == Blocks.OBSIDIAN))
                 continue;
@@ -238,7 +235,7 @@ public class OyVeyentityUtil
     }
 
     public static List<Vec3d> getUntrappedBlocks(EntityPlayer player, boolean antiScaffold, boolean antiStep, boolean legs, boolean platform, boolean antiDrop) {
-        ArrayList<Vec3d> vec3ds = new ArrayList<Vec3d>();
+        ArrayList<Vec3d> vec3ds = new ArrayList <> ( );
         if (!antiStep && getUnsafeBlocks(player, 2, false).size() == 4) {
             vec3ds.addAll(getUnsafeBlocks(player, 2, false));
         }
@@ -296,7 +293,7 @@ public class OyVeyentityUtil
     }
 
     public static List<Vec3d> getUntrappedBlocksExtended(int extension, EntityPlayer player, boolean antiScaffold, boolean antiStep, boolean legs, boolean platform, boolean antiDrop, boolean raytrace) {
-        ArrayList<Vec3d> placeTargets = new ArrayList<Vec3d>();
+        ArrayList<Vec3d> placeTargets = new ArrayList <> ( );
         if (extension == 1) {
             placeTargets.addAll(targets(player.getPositionVector(), antiScaffold, antiStep, legs, platform, antiDrop, raytrace));
         } else {
@@ -307,7 +304,7 @@ public class OyVeyentityUtil
                 ++extend;
             }
         }
-        ArrayList<Vec3d> removeList = new ArrayList<Vec3d>();
+        ArrayList<Vec3d> removeList = new ArrayList <> ( );
         for (Vec3d vec3d : placeTargets) {
             BlockPos pos = new BlockPos(vec3d);
             if (BlockUtil.isPositionPlaceable(pos, raytrace) != -1) continue;
@@ -320,7 +317,7 @@ public class OyVeyentityUtil
     }
 
     public static List<Vec3d> targets(Vec3d vec3d, boolean antiScaffold, boolean antiStep, boolean legs, boolean platform, boolean antiDrop, boolean raytrace) {
-        ArrayList<Vec3d> placeTargets = new ArrayList<Vec3d>();
+        ArrayList<Vec3d> placeTargets = new ArrayList <> ( );
         if (antiDrop) {
             Collections.addAll(placeTargets, BlockUtil.convertVec3ds(vec3d, antiDropOffsetList));
         }
@@ -367,7 +364,7 @@ public class OyVeyentityUtil
     }
 
     public static List<Vec3d> getOffsetList(int y, boolean floor) {
-        ArrayList<Vec3d> offsets = new ArrayList<Vec3d>();
+        ArrayList<Vec3d> offsets = new ArrayList <> ( );
         offsets.add(new Vec3d(-1.0, y, 0.0));
         offsets.add(new Vec3d(1.0, y, 0.0));
         offsets.add(new Vec3d(0.0, y, -1.0));
@@ -391,7 +388,7 @@ public class OyVeyentityUtil
     }
 
     public static List<Vec3d> getTrapOffsetsList(boolean antiScaffold, boolean antiStep, boolean legs, boolean platform, boolean antiDrop) {
-        ArrayList<Vec3d> offsets = new ArrayList<Vec3d>(getOffsetList(1, false));
+        ArrayList<Vec3d> offsets = new ArrayList <> ( getOffsetList ( 1 , false ) );
         offsets.add(new Vec3d(0.0, 2.0, 0.0));
         if (antiScaffold) {
             offsets.add(new Vec3d(0.0, 3.0, 0.0));
@@ -413,7 +410,7 @@ public class OyVeyentityUtil
     }
 
     public static Vec3d[] getHeightOffsets(int min, int max) {
-        ArrayList<Vec3d> offsets = new ArrayList<Vec3d>();
+        ArrayList<Vec3d> offsets = new ArrayList <> ( );
         for (int i = min; i <= max; ++i) {
             offsets.add(new Vec3d(0.0, i, 0.0));
         }
@@ -607,7 +604,7 @@ public class OyVeyentityUtil
     }
 
     public static Map<String, Integer> getTextRadarPlayers() {
-        Map<String, Integer> output = new HashMap<String, Integer>();
+        Map<String, Integer> output = new HashMap <> ( );
         DecimalFormat dfHealth = new DecimalFormat("#.#");
         dfHealth.setRoundingMode(RoundingMode.CEILING);
         DecimalFormat dfDistance = new DecimalFormat("#.#");
@@ -640,7 +637,7 @@ public class OyVeyentityUtil
                 distanceSB.append("c");
             }
             distanceSB.append(distance);
-            output.put(healthSB.toString() + " " + (RenoSense.friendManager.isFriend(player) ? ChatFormatting.AQUA : ChatFormatting.RED) + player.getName() + " " + distanceSB.toString() + " \u00c2\u00a7f0", (int) mc.player.getDistance(player));
+            output.put( healthSB + " " + (RenoSense.friendManager.isFriend(player) ? ChatFormatting.AQUA : ChatFormatting.RED) + player.getName() + " " + distanceSB + " \u00c2\u00a7f0", (int) mc.player.getDistance(player));
             healthSB.setLength(0);
             distanceSB.setLength(0);
         }

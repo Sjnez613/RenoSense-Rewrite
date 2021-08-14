@@ -29,7 +29,7 @@ public class NoStopManager
                 return;
             }
             if (currentPos.equals(this.lastPos)) {
-                if (this.stopped && this.timer.passedS(Managers.getInstance().baritoneTimeOut.getValue().intValue())) {
+                if (this.stopped && this.timer.passedS( Managers.getInstance ( ).baritoneTimeOut.getValue ( ) )) {
                     this.sendMessage();
                     this.stopped = false;
                     return;

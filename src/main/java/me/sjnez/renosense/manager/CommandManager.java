@@ -34,7 +34,7 @@ public class CommandManager
     }
 
     public static String[] removeElement(String[] input, int indexToDelete) {
-        LinkedList<String> result = new LinkedList<String>();
+        LinkedList<String> result = new LinkedList <> ( );
         for (int i = 0; i < input.length; ++i) {
             if (i == indexToDelete) continue;
             result.add(input[i]);

@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 public class ModuleManager
         extends Feature {
     public ArrayList<Module> modules = new ArrayList();
-    public List<Module> sortedModules = new ArrayList<Module>();
-    public List<Module> alphabeticallySortedModules = new ArrayList<Module>();
-    public Map<Module, Color> moduleColorMap = new HashMap<Module, Color>();
+    public List<Module> sortedModules = new ArrayList <> ( );
+    public List<Module> alphabeticallySortedModules = new ArrayList <> ( );
+    public Map<Module, Color> moduleColorMap = new HashMap <> ( );
 
     public void init() {
         this.modules.add(new ModuleTools());
@@ -255,7 +255,7 @@ public class ModuleManager
     }
 
     public ArrayList<Module> getEnabledModules() {
-        ArrayList<Module> enabledModules = new ArrayList<Module>();
+        ArrayList<Module> enabledModules = new ArrayList <> ( );
         for (Module module : this.modules) {
             if (!module.isEnabled() && !module.isSliding()) continue;
             enabledModules.add(module);
@@ -264,7 +264,7 @@ public class ModuleManager
     }
 
     public ArrayList<Module> getModulesByCategory(Module.Category category) {
-        ArrayList<Module> modulesCategory = new ArrayList<Module>();
+        ArrayList<Module> modulesCategory = new ArrayList <> ( );
         this.modules.forEach(module -> {
             if (module.getCategory() == category) {
                 modulesCategory.add(module);
@@ -337,7 +337,7 @@ public class ModuleManager
     }
 
     public List<Module> getAnimationModules(Module.Category category) {
-        ArrayList<Module> animationModules = new ArrayList<Module>();
+        ArrayList<Module> animationModules = new ArrayList <> ( );
         for (Module module : this.getEnabledModules()) {
             if (module.getCategory() != category || module.isDisabled() || !module.isSliding() || !module.isDrawn())
                 continue;

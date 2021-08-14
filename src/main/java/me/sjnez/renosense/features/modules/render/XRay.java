@@ -11,8 +11,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class XRay
         extends Module {
     private static XRay INSTANCE = new XRay();
-    public Setting<String> newBlock = this.register(new Setting<String>("NewBlock", "Add Block..."));
-    public Setting<Boolean> showBlocks = this.register(new Setting<Boolean>("ShowBlocks", false));
+    public Setting<String> newBlock = this.register( new Setting <> ( "NewBlock" , "Add Block..." ));
+    public Setting<Boolean> showBlocks = this.register( new Setting <> ( "ShowBlocks" , false ));
 
     public XRay() {
         super("XRay", "Lets you look through walls.", Module.Category.RENDER, false, false, true);
@@ -47,7 +47,7 @@ public class XRay
         }
         if (event.getStage() == 2 && event.getSetting() != null && event.getSetting().getFeature() != null && event.getSetting().getFeature().equals(this)) {
             if (event.getSetting().equals(this.newBlock) && !this.shouldRender(this.newBlock.getPlannedValue())) {
-                this.register(new Setting<Object>(this.newBlock.getPlannedValue(), Boolean.valueOf(true), v -> this.showBlocks.getValue()));
+                this.register(new Setting<Object>(this.newBlock.getPlannedValue(), Boolean.TRUE , v -> this.showBlocks.getValue()));
                 Command.sendMessage("<Xray> Added new Block: " + this.newBlock.getPlannedValue());
                 if (this.isOn()) {
                     XRay.mc.renderGlobal.loadRenderers();
@@ -58,7 +58,7 @@ public class XRay
                 if (setting.equals(this.enabled) || setting.equals(this.drawn) || setting.equals(this.bind) || setting.equals(this.newBlock) || setting.equals(this.showBlocks)) {
                     return;
                 }
-                if (setting.getValue() instanceof Boolean && !((Boolean) setting.getPlannedValue()).booleanValue()) {
+                if (setting.getValue() instanceof Boolean && ! (Boolean) setting.getPlannedValue ( ) ) {
                     this.unregister(setting);
                     if (this.isOn()) {
                         XRay.mc.renderGlobal.loadRenderers();

@@ -23,13 +23,13 @@ import java.util.*;
 
 public class AntiTrap
         extends Module {
-    public static Set<BlockPos> placedPos = new HashSet<BlockPos>();
-    private final Setting<Integer> coolDown = this.register(new Setting<Integer>("CoolDown", 400, 0, 1000));
-    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting<InventoryUtil.Switch>("Switch", InventoryUtil.Switch.NORMAL));
+    public static Set<BlockPos> placedPos = new HashSet <> ( );
+    private final Setting<Integer> coolDown = this.register( new Setting <> ( "CoolDown" , 400 , 0 , 1000 ));
+    private final Setting<InventoryUtil.Switch> switchMode = this.register( new Setting <> ( "Switch" , InventoryUtil.Switch.NORMAL ));
     private final Vec3d[] surroundTargets = new Vec3d[]{new Vec3d(1.0, 0.0, 0.0), new Vec3d(0.0, 0.0, 1.0), new Vec3d(-1.0, 0.0, 0.0), new Vec3d(0.0, 0.0, -1.0), new Vec3d(1.0, 0.0, -1.0), new Vec3d(1.0, 0.0, 1.0), new Vec3d(-1.0, 0.0, -1.0), new Vec3d(-1.0, 0.0, 1.0), new Vec3d(1.0, 1.0, 0.0), new Vec3d(0.0, 1.0, 1.0), new Vec3d(-1.0, 1.0, 0.0), new Vec3d(0.0, 1.0, -1.0), new Vec3d(1.0, 1.0, -1.0), new Vec3d(1.0, 1.0, 1.0), new Vec3d(-1.0, 1.0, -1.0), new Vec3d(-1.0, 1.0, 1.0)};
     private final me.sjnez.renosense.util.Timer timer = new Timer();
-    public Setting<Rotate> rotate = this.register(new Setting<Rotate>("Rotate", Rotate.NORMAL));
-    public Setting<Boolean> sortY = this.register(new Setting<Boolean>("SortY", true));
+    public Setting<Rotate> rotate = this.register( new Setting <> ( "Rotate" , Rotate.NORMAL ));
+    public Setting<Boolean> sortY = this.register( new Setting <> ( "SortY" , true ));
     private int lastHotbarSlot = -1;
     private boolean switchedItem;
     private boolean offhand = false;
@@ -40,7 +40,7 @@ public class AntiTrap
 
     @Override
     public void onEnable() {
-        if (AntiTrap.fullNullCheck() || !this.timer.passedMs(this.coolDown.getValue().intValue())) {
+        if (AntiTrap.fullNullCheck() || !this.timer.passedMs( this.coolDown.getValue ( ) )) {
             this.disable();
             return;
         }
@@ -69,12 +69,12 @@ public class AntiTrap
             return;
         }
         this.lastHotbarSlot = AntiTrap.mc.player.inventory.currentItem;
-        ArrayList<Vec3d> targets = new ArrayList<Vec3d>();
+        ArrayList<Vec3d> targets = new ArrayList <> ( );
         Collections.addAll(targets, BlockUtil.convertVec3ds(AntiTrap.mc.player.getPositionVector(), this.surroundTargets));
         EntityPlayer closestPlayer = EntityUtil.getClosestEnemy(6.0);
         if (closestPlayer != null) {
             targets.sort((vec3d, vec3d2) -> Double.compare(closestPlayer.getDistanceSq(vec3d2.x, vec3d2.y, vec3d2.z), closestPlayer.getDistanceSq(vec3d.x, vec3d.y, vec3d.z)));
-            if (this.sortY.getValue().booleanValue()) {
+            if ( this.sortY.getValue ( ) ) {
                 targets.sort(Comparator.comparingDouble(vec3d -> vec3d.y));
             }
         }

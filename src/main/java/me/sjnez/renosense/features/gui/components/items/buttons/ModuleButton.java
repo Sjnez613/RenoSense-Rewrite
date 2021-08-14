@@ -17,7 +17,7 @@ import java.util.List;
 public class ModuleButton
         extends Button {
     private final Module module;
-    private List<Item> items = new ArrayList<Item>();
+    private List<Item> items = new ArrayList <> ( );
     private boolean subOpen;
 
     public ModuleButton(Module module) {
@@ -27,7 +27,7 @@ public class ModuleButton
     }
 
     public void initSettings() {
-        ArrayList<Item> newItems = new ArrayList<Item>();
+        ArrayList<Item> newItems = new ArrayList <> ( );
         if (!this.module.getSettings().isEmpty()) {
             for (Setting setting : this.module.getSettings()) {
                 if (setting.getValue() instanceof Boolean && !setting.getName().equals("Enabled")) {
@@ -58,7 +58,7 @@ public class ModuleButton
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (!this.items.isEmpty()) {
             ClickGui gui = RenoSense.moduleManager.getModuleByClass(ClickGui.class);
-            RenoSense.textManager.drawStringWithShadow(gui.openCloseChange.getValue().booleanValue() ? (this.subOpen ? gui.close.getValue() : gui.open.getValue()) : gui.moduleButton.getValue(), this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.0f - (float) PhobosGui.getClickGui().getTextOffset(), -1);
+            RenoSense.textManager.drawStringWithShadow( gui.openCloseChange.getValue ( ) ? (this.subOpen ? gui.close.getValue() : gui.open.getValue()) : gui.moduleButton.getValue(), this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.0f - (float) PhobosGui.getClickGui().getTextOffset(), -1);
             if (this.subOpen) {
                 float height = 1.0f;
                 for (Item item : this.items) {

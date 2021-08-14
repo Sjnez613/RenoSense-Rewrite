@@ -46,47 +46,47 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Offhand
         extends Module {
     private static Offhand instance;
-    private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue<InventoryUtil.Task>();
+    private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue <> ( );
     private final Timer timer = new Timer();
     private final Timer secondTimer = new Timer();
     private final Timer serverTimer = new Timer();
-    public Setting<Type> type = this.register(new Setting<Type>("Mode", Type.NEW));
-    public Setting<Boolean> cycle = this.register(new Setting<Object>("Cycle", Boolean.valueOf(false), v -> this.type.getValue() == Type.OLD));
-    public Setting<Bind> cycleKey = this.register(new Setting<Object>("Key", new Bind(-1), v -> this.cycle.getValue() != false && this.type.getValue() == Type.OLD));
-    public Setting<Bind> offHandGapple = this.register(new Setting<Bind>("Gapple", new Bind(-1)));
-    public Setting<Float> gappleHealth = this.register(new Setting<Float>("G-Health", Float.valueOf(13.0f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
-    public Setting<Float> gappleHoleHealth = this.register(new Setting<Float>("G-H-Health", Float.valueOf(3.5f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
-    public Setting<Bind> offHandCrystal = this.register(new Setting<Bind>("Crystal", new Bind(-1)));
-    public Setting<Float> crystalHealth = this.register(new Setting<Float>("C-Health", Float.valueOf(13.0f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
-    public Setting<Float> crystalHoleHealth = this.register(new Setting<Float>("C-H-Health", Float.valueOf(3.5f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
-    public Setting<Float> cTargetDistance = this.register(new Setting<Float>("C-Distance", Float.valueOf(10.0f), Float.valueOf(1.0f), Float.valueOf(20.0f)));
-    public Setting<Bind> obsidian = this.register(new Setting<Bind>("Obsidian", new Bind(-1)));
-    public Setting<Float> obsidianHealth = this.register(new Setting<Float>("O-Health", Float.valueOf(13.0f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
-    public Setting<Float> obsidianHoleHealth = this.register(new Setting<Float>("O-H-Health", Float.valueOf(8.0f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
-    public Setting<Bind> webBind = this.register(new Setting<Bind>("Webs", new Bind(-1)));
-    public Setting<Float> webHealth = this.register(new Setting<Float>("W-Health", Float.valueOf(13.0f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
-    public Setting<Float> webHoleHealth = this.register(new Setting<Float>("W-H-Health", Float.valueOf(8.0f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
-    public Setting<Boolean> holeCheck = this.register(new Setting<Boolean>("Hole-Check", true));
-    public Setting<Boolean> crystalCheck = this.register(new Setting<Boolean>("Crystal-Check", false));
-    public Setting<Boolean> gapSwap = this.register(new Setting<Boolean>("Gap-Swap", true));
-    public Setting<Integer> updates = this.register(new Setting<Integer>("Updates", 1, 1, 2));
-    public Setting<Boolean> cycleObby = this.register(new Setting<Object>("CycleObby", Boolean.valueOf(false), v -> this.type.getValue() == Type.OLD));
-    public Setting<Boolean> cycleWebs = this.register(new Setting<Object>("CycleWebs", Boolean.valueOf(false), v -> this.type.getValue() == Type.OLD));
-    public Setting<Boolean> crystalToTotem = this.register(new Setting<Object>("Crystal-Totem", Boolean.valueOf(true), v -> this.type.getValue() == Type.OLD));
-    public Setting<Boolean> absorption = this.register(new Setting<Object>("Absorption", Boolean.valueOf(false), v -> this.type.getValue() == Type.OLD));
-    public Setting<Boolean> autoGapple = this.register(new Setting<Object>("AutoGapple", Boolean.valueOf(false), v -> this.type.getValue() == Type.OLD));
-    public Setting<Boolean> onlyWTotem = this.register(new Setting<Object>("OnlyWTotem", Boolean.valueOf(true), v -> this.autoGapple.getValue() != false && this.type.getValue() == Type.OLD));
-    public Setting<Boolean> unDrawTotem = this.register(new Setting<Object>("DrawTotems", Boolean.valueOf(true), v -> this.type.getValue() == Type.OLD));
-    public Setting<Boolean> noOffhandGC = this.register(new Setting<Boolean>("NoOGC", false));
-    public Setting<Boolean> retardOGC = this.register(new Setting<Boolean>("RetardOGC", false));
-    public Setting<Boolean> returnToCrystal = this.register(new Setting<Boolean>("RecoverySwitch", false));
-    public Setting<Integer> timeout = this.register(new Setting<Integer>("Timeout", 50, 0, 500));
-    public Setting<Integer> timeout2 = this.register(new Setting<Integer>("Timeout2", 50, 0, 500));
-    public Setting<Integer> actions = this.register(new Setting<Object>("Actions", Integer.valueOf(4), Integer.valueOf(1), Integer.valueOf(4), v -> this.type.getValue() == Type.OLD));
+    public Setting<Type> type = this.register( new Setting <> ( "Mode" , Type.NEW ));
+    public Setting<Boolean> cycle = this.register(new Setting<Object>("Cycle", Boolean.FALSE , v -> this.type.getValue() == Type.OLD));
+    public Setting<Bind> cycleKey = this.register(new Setting<Object>("Key", new Bind(-1), v -> this.cycle.getValue ( ) && this.type.getValue() == Type.OLD));
+    public Setting<Bind> offHandGapple = this.register( new Setting <> ( "Gapple" , new Bind ( - 1 ) ));
+    public Setting<Float> gappleHealth = this.register( new Setting <> ( "G-Health" , 13.0f , 0.1f , 36.0f ));
+    public Setting<Float> gappleHoleHealth = this.register( new Setting <> ( "G-H-Health" , 3.5f , 0.1f , 36.0f ));
+    public Setting<Bind> offHandCrystal = this.register( new Setting <> ( "Crystal" , new Bind ( - 1 ) ));
+    public Setting<Float> crystalHealth = this.register( new Setting <> ( "C-Health" , 13.0f , 0.1f , 36.0f ));
+    public Setting<Float> crystalHoleHealth = this.register( new Setting <> ( "C-H-Health" , 3.5f , 0.1f , 36.0f ));
+    public Setting<Float> cTargetDistance = this.register( new Setting <> ( "C-Distance" , 10.0f , 1.0f , 20.0f ));
+    public Setting<Bind> obsidian = this.register( new Setting <> ( "Obsidian" , new Bind ( - 1 ) ));
+    public Setting<Float> obsidianHealth = this.register( new Setting <> ( "O-Health" , 13.0f , 0.1f , 36.0f ));
+    public Setting<Float> obsidianHoleHealth = this.register( new Setting <> ( "O-H-Health" , 8.0f , 0.1f , 36.0f ));
+    public Setting<Bind> webBind = this.register( new Setting <> ( "Webs" , new Bind ( - 1 ) ));
+    public Setting<Float> webHealth = this.register( new Setting <> ( "W-Health" , 13.0f , 0.1f , 36.0f ));
+    public Setting<Float> webHoleHealth = this.register( new Setting <> ( "W-H-Health" , 8.0f , 0.1f , 36.0f ));
+    public Setting<Boolean> holeCheck = this.register( new Setting <> ( "Hole-Check" , true ));
+    public Setting<Boolean> crystalCheck = this.register( new Setting <> ( "Crystal-Check" , false ));
+    public Setting<Boolean> gapSwap = this.register( new Setting <> ( "Gap-Swap" , true ));
+    public Setting<Integer> updates = this.register( new Setting <> ( "Updates" , 1 , 1 , 2 ));
+    public Setting<Boolean> cycleObby = this.register(new Setting<Object>("CycleObby", Boolean.FALSE , v -> this.type.getValue() == Type.OLD));
+    public Setting<Boolean> cycleWebs = this.register(new Setting<Object>("CycleWebs", Boolean.FALSE , v -> this.type.getValue() == Type.OLD));
+    public Setting<Boolean> crystalToTotem = this.register(new Setting<Object>("Crystal-Totem", Boolean.TRUE , v -> this.type.getValue() == Type.OLD));
+    public Setting<Boolean> absorption = this.register(new Setting<Object>("Absorption", Boolean.FALSE , v -> this.type.getValue() == Type.OLD));
+    public Setting<Boolean> autoGapple = this.register(new Setting<Object>("AutoGapple", Boolean.FALSE , v -> this.type.getValue() == Type.OLD));
+    public Setting<Boolean> onlyWTotem = this.register(new Setting<Object>("OnlyWTotem", Boolean.TRUE , v -> this.autoGapple.getValue ( ) && this.type.getValue() == Type.OLD));
+    public Setting<Boolean> unDrawTotem = this.register(new Setting<Object>("DrawTotems", Boolean.TRUE , v -> this.type.getValue() == Type.OLD));
+    public Setting<Boolean> noOffhandGC = this.register( new Setting <> ( "NoOGC" , false ));
+    public Setting<Boolean> retardOGC = this.register( new Setting <> ( "RetardOGC" , false ));
+    public Setting<Boolean> returnToCrystal = this.register( new Setting <> ( "RecoverySwitch" , false ));
+    public Setting<Integer> timeout = this.register( new Setting <> ( "Timeout" , 50 , 0 , 500 ));
+    public Setting<Integer> timeout2 = this.register( new Setting <> ( "Timeout2" , 50 , 0 , 500 ));
+    public Setting<Integer> actions = this.register(new Setting<Object>("Actions", 4 , 1 , 4 , v -> this.type.getValue() == Type.OLD));
     public Setting<NameMode> displayNameChange = this.register(new Setting<Object>("Name", NameMode.TOTEM, v -> this.type.getValue() == Type.OLD));
-    public Setting<Boolean> guis = this.register(new Setting<Boolean>("Guis", false));
-    public Setting<Integer> serverTimeOut = this.register(new Setting<Integer>("S-Timeout", 1000, 0, 5000));
-    public Setting<Boolean> bedcheck = this.register(new Setting<Boolean>("BedCheck", false));
+    public Setting<Boolean> guis = this.register( new Setting <> ( "Guis" , false ));
+    public Setting<Integer> serverTimeOut = this.register( new Setting <> ( "S-Timeout" , 1000 , 0 , 5000 ));
+    public Setting<Boolean> bedcheck = this.register( new Setting <> ( "BedCheck" , false ));
     public Mode mode = Mode.CRYSTALS;
     public Mode oldMode = Mode.CRYSTALS;
     public Mode2 currentMode = Mode2.TOTEMS;
@@ -127,7 +127,7 @@ public class Offhand
     }
 
     public void onItemFinish(ItemStack stack, EntityLivingBase base) {
-        if (this.noOffhandGC.getValue().booleanValue() && base.equals(Offhand.mc.player) && stack.getItem() == Offhand.mc.player.getHeldItemOffhand().getItem()) {
+        if ( this.noOffhandGC.getValue ( ) && base.equals(Offhand.mc.player) && stack.getItem() == Offhand.mc.player.getHeldItemOffhand().getItem()) {
             this.secondTimer.reset();
             this.second = true;
         }
@@ -143,7 +143,7 @@ public class Offhand
 
     @SubscribeEvent
     public void onUpdateWalkingPlayer(ProcessRightClickBlockEvent event) {
-        if (this.noOffhandGC.getValue().booleanValue() && event.hand == EnumHand.MAIN_HAND && event.stack.getItem() == Items.END_CRYSTAL && Offhand.mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE && Offhand.mc.objectMouseOver != null && event.pos == Offhand.mc.objectMouseOver.getBlockPos()) {
+        if ( this.noOffhandGC.getValue ( ) && event.hand == EnumHand.MAIN_HAND && event.stack.getItem() == Items.END_CRYSTAL && Offhand.mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE && Offhand.mc.objectMouseOver != null && event.pos == Offhand.mc.objectMouseOver.getBlockPos()) {
             event.setCanceled(true);
             Offhand.mc.player.setActiveHand(EnumHand.OFF_HAND);
             Offhand.mc.playerController.processRightClick(Offhand.mc.player, Offhand.mc.world, EnumHand.OFF_HAND);
@@ -152,8 +152,8 @@ public class Offhand
 
     @Override
     public void onUpdate() {
-        if (this.noOffhandGC.getValue().booleanValue() && this.retardOGC.getValue().booleanValue()) {
-            if (this.timer.passedMs(this.timeout.getValue().intValue())) {
+        if ( this.noOffhandGC.getValue ( ) && this.retardOGC.getValue ( ) ) {
+            if (this.timer.passedMs( this.timeout.getValue ( ) )) {
                 if (Offhand.mc.player != null && Offhand.mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE && Offhand.mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL && Mouse.isButtonDown(1)) {
                     Offhand.mc.player.setActiveHand(EnumHand.OFF_HAND);
                     Offhand.mc.gameSettings.keyBindUseItem.pressed = Mouse.isButtonDown(1);
@@ -166,7 +166,7 @@ public class Offhand
             return;
         }
         this.doOffhand();
-        if (this.secondTimer.passedMs(this.timeout2.getValue().intValue()) && this.second) {
+        if (this.secondTimer.passedMs( this.timeout2.getValue ( ) ) && this.second) {
             this.second = false;
             this.timer.reset();
         }
@@ -208,10 +208,10 @@ public class Offhand
                     }
                     this.setMode(Mode.WEBS);
                 }
-            } else if (this.cycle.getValue().booleanValue()) {
+            } else if ( this.cycle.getValue ( ) ) {
                 if (this.cycleKey.getValue().getKey() == Keyboard.getEventKey()) {
                     Mode2 newMode = (Mode2) EnumConverter.increaseEnum(this.currentMode);
-                    if (newMode == Mode2.OBSIDIAN && !this.cycleObby.getValue().booleanValue() || newMode == Mode2.WEBS && !this.cycleWebs.getValue().booleanValue()) {
+                    if (newMode == Mode2.OBSIDIAN && ! this.cycleObby.getValue ( ) || newMode == Mode2.WEBS && ! this.cycleWebs.getValue ( ) ) {
                         newMode = Mode2.TOTEMS;
                     }
                     this.setMode(newMode);
@@ -235,18 +235,18 @@ public class Offhand
 
     @SubscribeEvent
     public void onPacketSend(PacketEvent.Send event) {
-        if (this.noOffhandGC.getValue().booleanValue() && !Offhand.fullNullCheck() && Offhand.mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE && Offhand.mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL && Offhand.mc.gameSettings.keyBindUseItem.isKeyDown()) {
+        if ( this.noOffhandGC.getValue ( ) && !Offhand.fullNullCheck() && Offhand.mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE && Offhand.mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL && Offhand.mc.gameSettings.keyBindUseItem.isKeyDown()) {
             CPacketPlayerTryUseItem packet;
             if (event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock) {
                 CPacketPlayerTryUseItemOnBlock packet2 = event.getPacket();
                 if (packet2.getHand() == EnumHand.MAIN_HAND && !AutoCrystal.placedPos.contains(packet2.getPos())) {
-                    if (this.timer.passedMs(this.timeout.getValue().intValue())) {
+                    if (this.timer.passedMs( this.timeout.getValue ( ) )) {
                         Offhand.mc.player.setActiveHand(EnumHand.OFF_HAND);
                         Offhand.mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(EnumHand.OFF_HAND));
                     }
                     event.setCanceled(true);
                 }
-            } else if (event.getPacket() instanceof CPacketPlayerTryUseItem && (packet = event.getPacket()).getHand() == EnumHand.OFF_HAND && !this.timer.passedMs(this.timeout.getValue().intValue())) {
+            } else if (event.getPacket() instanceof CPacketPlayerTryUseItem && (packet = event.getPacket()).getHand() == EnumHand.OFF_HAND && !this.timer.passedMs( this.timeout.getValue ( ) )) {
                 event.setCanceled(true);
             }
         }
@@ -338,14 +338,14 @@ public class Offhand
     }
 
     public void doOffhand() {
-        if (!this.serverTimer.passedMs(this.serverTimeOut.getValue().intValue())) {
+        if (!this.serverTimer.passedMs( this.serverTimeOut.getValue ( ) )) {
             return;
         }
         if (this.type.getValue() == Type.NEW) {
-            if (Offhand.mc.currentScreen instanceof GuiContainer && !this.guis.getValue().booleanValue() && !(Offhand.mc.currentScreen instanceof GuiInventory)) {
+            if (Offhand.mc.currentScreen instanceof GuiContainer && ! this.guis.getValue ( ) && !(Offhand.mc.currentScreen instanceof GuiInventory)) {
                 return;
             }
-            if (this.gapSwap.getValue().booleanValue()) {
+            if ( this.gapSwap.getValue ( ) ) {
                 if ((this.getSlot(Mode.GAPPLES) != -1 || Offhand.mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE) && Offhand.mc.player.getHeldItemMainhand().getItem() != Items.GOLDEN_APPLE && Offhand.mc.gameSettings.keyBindUseItem.isKeyDown()) {
                     this.setMode(Mode.GAPPLES);
                     this.eatingApple = true;
@@ -385,7 +385,7 @@ public class Offhand
                 }
             }
         } else {
-            if (!this.unDrawTotem.getValue().booleanValue()) {
+            if (! this.unDrawTotem.getValue ( ) ) {
                 this.manageDrawn();
             }
             this.didSwitchThisTick = false;
@@ -421,18 +421,18 @@ public class Offhand
     }
 
     private void manageDrawn() {
-        if (this.currentMode == Mode2.TOTEMS && this.drawn.getValue().booleanValue()) {
+        if (this.currentMode == Mode2.TOTEMS && this.drawn.getValue ( ) ) {
             this.drawn.setValue(false);
         }
-        if (this.currentMode != Mode2.TOTEMS && !this.drawn.getValue().booleanValue()) {
+        if (this.currentMode != Mode2.TOTEMS && ! this.drawn.getValue ( ) ) {
             this.drawn.setValue(true);
         }
     }
 
     public void doSwitch() {
-        if (this.autoGapple.getValue().booleanValue()) {
+        if ( this.autoGapple.getValue ( ) ) {
             if (Offhand.mc.gameSettings.keyBindUseItem.isKeyDown()) {
-                if (Offhand.mc.player.getHeldItemMainhand().getItem() instanceof ItemSword && (!this.onlyWTotem.getValue().booleanValue() || Offhand.mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING)) {
+                if (Offhand.mc.player.getHeldItemMainhand().getItem() instanceof ItemSword && (! this.onlyWTotem.getValue ( ) || Offhand.mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING)) {
                     this.setMode(Mode.GAPPLES);
                     this.autoGappleSwitch = true;
                 }
@@ -441,17 +441,17 @@ public class Offhand
                 this.autoGappleSwitch = false;
             }
         }
-        if (this.currentMode == Mode2.GAPPLES && ((!EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.gappleHealth.getValue().floatValue() || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.gappleHoleHealth.getValue().floatValue()) || this.currentMode == Mode2.CRYSTALS && ((!EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.crystalHealth.getValue().floatValue() || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.crystalHoleHealth.getValue().floatValue()) || this.currentMode == Mode2.OBSIDIAN && ((!EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.obsidianHealth.getValue().floatValue() || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.obsidianHoleHealth.getValue().floatValue()) || this.currentMode == Mode2.WEBS && ((!EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.webHealth.getValue().floatValue() || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.webHoleHealth.getValue().floatValue())) {
-            if (this.returnToCrystal.getValue().booleanValue() && this.currentMode == Mode2.CRYSTALS) {
+        if (this.currentMode == Mode2.GAPPLES && ((!EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.gappleHealth.getValue ( ) || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.gappleHoleHealth.getValue ( ) ) || this.currentMode == Mode2.CRYSTALS && ((!EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.crystalHealth.getValue ( ) || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.crystalHoleHealth.getValue ( ) ) || this.currentMode == Mode2.OBSIDIAN && ((!EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.obsidianHealth.getValue ( ) || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.obsidianHoleHealth.getValue ( ) ) || this.currentMode == Mode2.WEBS && ((!EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.webHealth.getValue ( ) || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.webHoleHealth.getValue ( ) )) {
+            if ( this.returnToCrystal.getValue ( ) && this.currentMode == Mode2.CRYSTALS) {
                 this.switchedForHealthReason = true;
             }
             this.setMode(Mode2.TOTEMS);
         }
-        if (this.switchedForHealthReason && (EntityUtil.isSafe(Offhand.mc.player) && !this.bedPlaceable() && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) > this.crystalHoleHealth.getValue().floatValue() || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) > this.crystalHealth.getValue().floatValue())) {
+        if (this.switchedForHealthReason && (EntityUtil.isSafe(Offhand.mc.player) && !this.bedPlaceable() && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) > this.crystalHoleHealth.getValue ( ) || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) > this.crystalHealth.getValue ( ) )) {
             this.setMode(Mode2.CRYSTALS);
             this.switchedForHealthReason = false;
         }
-        if (Offhand.mc.currentScreen instanceof GuiContainer && !this.guis.getValue().booleanValue() && !(Offhand.mc.currentScreen instanceof GuiInventory)) {
+        if (Offhand.mc.currentScreen instanceof GuiContainer && ! this.guis.getValue ( ) && !(Offhand.mc.currentScreen instanceof GuiInventory)) {
             return;
         }
         Item currentOffhandItem = Offhand.mc.player.getHeldItemOffhand().getItem();
@@ -532,7 +532,7 @@ public class Offhand
     }
 
     private boolean noNearbyPlayers() {
-        return this.mode == Mode.CRYSTALS && Offhand.mc.world.playerEntities.stream().noneMatch(e -> e != Offhand.mc.player && !RenoSense.friendManager.isFriend(e) && Offhand.mc.player.getDistance(e) <= this.cTargetDistance.getValue().floatValue());
+        return this.mode == Mode.CRYSTALS && Offhand.mc.world.playerEntities.stream().noneMatch(e -> e != Offhand.mc.player && !RenoSense.friendManager.isFriend(e) && Offhand.mc.player.getDistance(e) <= this.cTargetDistance.getValue ( ) );
     }
 
     private boolean isItemInOffhand() {
@@ -575,10 +575,10 @@ public class Offhand
         if (this.isHeldInMainHand() || this.isSwapToTotem()) {
             return true;
         }
-        if (this.holeCheck.getValue().booleanValue() && EntityUtil.isInHole(Offhand.mc.player) && !this.bedPlaceable()) {
-            return Offhand.mc.player.getHealth() + Offhand.mc.player.getAbsorptionAmount() <= this.getHoleHealth() || Offhand.mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || Offhand.mc.player.fallDistance >= 3.0f || this.noNearbyPlayers() || this.crystalCheck.getValue() != false && this.isCrystalsAABBEmpty();
+        if ( this.holeCheck.getValue ( ) && EntityUtil.isInHole(Offhand.mc.player) && !this.bedPlaceable()) {
+            return Offhand.mc.player.getHealth() + Offhand.mc.player.getAbsorptionAmount() <= this.getHoleHealth() || Offhand.mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || Offhand.mc.player.fallDistance >= 3.0f || this.noNearbyPlayers() || this.crystalCheck.getValue ( ) && this.isCrystalsAABBEmpty();
         }
-        return Offhand.mc.player.getHealth() + Offhand.mc.player.getAbsorptionAmount() <= this.getHealth() || Offhand.mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || Offhand.mc.player.fallDistance >= 3.0f || this.noNearbyPlayers() || this.crystalCheck.getValue() != false && this.isCrystalsAABBEmpty();
+        return Offhand.mc.player.getHealth() + Offhand.mc.player.getAbsorptionAmount() <= this.getHealth() || Offhand.mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || Offhand.mc.player.fallDistance >= 3.0f || this.noNearbyPlayers() || this.crystalCheck.getValue ( ) && this.isCrystalsAABBEmpty();
     }
 
     private boolean isNotEmpty(BlockPos pos) {
@@ -588,31 +588,31 @@ public class Offhand
     private float getHealth() {
         switch (this.mode) {
             case CRYSTALS: {
-                return this.crystalHealth.getValue().floatValue();
+                return this.crystalHealth.getValue ( );
             }
             case GAPPLES: {
-                return this.gappleHealth.getValue().floatValue();
+                return this.gappleHealth.getValue ( );
             }
             case OBSIDIAN: {
-                return this.obsidianHealth.getValue().floatValue();
+                return this.obsidianHealth.getValue ( );
             }
         }
-        return this.webHealth.getValue().floatValue();
+        return this.webHealth.getValue ( );
     }
 
     private float getHoleHealth() {
         switch (this.mode) {
             case CRYSTALS: {
-                return this.crystalHoleHealth.getValue().floatValue();
+                return this.crystalHoleHealth.getValue ( );
             }
             case GAPPLES: {
-                return this.gappleHoleHealth.getValue().floatValue();
+                return this.gappleHoleHealth.getValue ( );
             }
             case OBSIDIAN: {
-                return this.obsidianHoleHealth.getValue().floatValue();
+                return this.obsidianHoleHealth.getValue ( );
             }
         }
-        return this.webHoleHealth.getValue().floatValue();
+        return this.webHoleHealth.getValue ( );
     }
 
     private boolean isCrystalsAABBEmpty() {
@@ -705,7 +705,7 @@ public class Offhand
     }
 
     public void setMode(Mode2 mode) {
-        this.currentMode = this.currentMode == mode ? Mode2.TOTEMS : (this.cycle.getValue() == false && this.crystalToTotem.getValue() != false && (this.currentMode == Mode2.CRYSTALS || this.currentMode == Mode2.OBSIDIAN || this.currentMode == Mode2.WEBS) && mode == Mode2.GAPPLES ? Mode2.TOTEMS : mode);
+        this.currentMode = this.currentMode == mode ? Mode2.TOTEMS : ( ! this.cycle.getValue ( ) && this.crystalToTotem.getValue ( ) && (this.currentMode == Mode2.CRYSTALS || this.currentMode == Mode2.OBSIDIAN || this.currentMode == Mode2.WEBS) && mode == Mode2.GAPPLES ? Mode2.TOTEMS : mode);
     }
 
     public boolean isSwapToTotem() {
@@ -717,7 +717,7 @@ public class Offhand
     }
 
     private boolean bedPlaceable() {
-        if (!this.bedcheck.getValue().booleanValue()) {
+        if (! this.bedcheck.getValue ( ) ) {
             return false;
         }
         if (Offhand.mc.world.getBlockState(Offhand.mc.player.getPosition()).getBlock() != Blocks.BED && Offhand.mc.world.getBlockState(Offhand.mc.player.getPosition()).getBlock() != Blocks.AIR) {

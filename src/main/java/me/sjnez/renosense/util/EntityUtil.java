@@ -175,7 +175,7 @@ public class EntityUtil implements Util {
     }
 
     public static List<Vec3d> getUnsafeBlocksFromVec3d(final Vec3d pos, final int height, final boolean floor, final boolean face) {
-        final List<Vec3d> vec3ds = new ArrayList<Vec3d>();
+        final List<Vec3d> vec3ds = new ArrayList <> ( );
         for (final Vec3d vector : getOffsets(height, floor, face)) {
             final BlockPos targetPos = new BlockPos(pos).add(vector.x, vector.y, vector.z);
             final Block block = mc.world.getBlockState(targetPos).getBlock();
@@ -272,7 +272,7 @@ public class EntityUtil implements Util {
     }
 
     public static List<Vec3d> getUntrappedBlocks(final EntityPlayer player, final boolean antiScaffold, final boolean antiStep, final boolean legs, final boolean platform, final boolean antiDrop, final boolean face) {
-        final List<Vec3d> vec3ds = new ArrayList<Vec3d>();
+        final List<Vec3d> vec3ds = new ArrayList <> ( );
         if (!antiStep && getUnsafeBlocks(player, 2, false, face).size() == 4) {
             vec3ds.addAll(getUnsafeBlocks(player, 2, false, face));
         }
@@ -332,7 +332,7 @@ public class EntityUtil implements Util {
     }
 
     public static List<Vec3d> getUntrappedBlocksExtended(final int extension, final EntityPlayer player, final boolean antiScaffold, final boolean antiStep, final boolean legs, final boolean platform, final boolean antiDrop, final boolean raytrace, final boolean noScaffoldExtend, final boolean face) {
-        final List<Vec3d> placeTargets = new ArrayList<Vec3d>();
+        final List<Vec3d> placeTargets = new ArrayList <> ( );
         if (extension == 1) {
             placeTargets.addAll(targets(player.getPositionVector(), antiScaffold, antiStep, legs, platform, antiDrop, raytrace, face));
         } else {
@@ -345,7 +345,7 @@ public class EntityUtil implements Util {
                 ++extend;
             }
         }
-        final List<Vec3d> removeList = new ArrayList<Vec3d>();
+        final List<Vec3d> removeList = new ArrayList <> ( );
         for (final Vec3d vec3d : placeTargets) {
             final BlockPos pos = new BlockPos(vec3d);
             if (BlockUtil.isPositionPlaceable(pos, raytrace) == -1) {
@@ -359,7 +359,7 @@ public class EntityUtil implements Util {
     }
 
     public static List<Vec3d> targets(final Vec3d vec3d, final boolean antiScaffold, final boolean antiStep, final boolean legs, final boolean platform, final boolean antiDrop, final boolean raytrace, final boolean face) {
-        final List<Vec3d> placeTargets = new ArrayList<Vec3d>();
+        final List<Vec3d> placeTargets = new ArrayList <> ( );
         if (antiDrop) {
             Collections.addAll(placeTargets, BlockUtil.convertVec3ds(vec3d, EntityUtil.antiDropOffsetList));
         }
@@ -396,7 +396,7 @@ public class EntityUtil implements Util {
             Collections.addAll(placeTargets, BlockUtil.convertVec3ds(vec3d, EntityUtil.antiScaffoldOffsetList));
         }
         if (!face) {
-            final List<Vec3d> offsets = new ArrayList<Vec3d>();
+            final List<Vec3d> offsets = new ArrayList <> ( );
             offsets.add(new Vec3d(1.0, 1.0, 0.0));
             offsets.add(new Vec3d(0.0, 1.0, -1.0));
             offsets.add(new Vec3d(0.0, 1.0, 1.0));
@@ -407,7 +407,7 @@ public class EntityUtil implements Util {
     }
 
     public static List<Vec3d> getOffsetList(final int y, final boolean floor, final boolean face) {
-        final List<Vec3d> offsets = new ArrayList<Vec3d>();
+        final List<Vec3d> offsets = new ArrayList <> ( );
         if (face) {
             offsets.add(new Vec3d(-1.0, y, 0.0));
             offsets.add(new Vec3d(1.0, y, 0.0));
@@ -435,7 +435,7 @@ public class EntityUtil implements Util {
     }
 
     public static List<Vec3d> getTrapOffsetsList(final boolean antiScaffold, final boolean antiStep, final boolean legs, final boolean platform, final boolean antiDrop, final boolean face) {
-        final List<Vec3d> offsets = new ArrayList<Vec3d>(getOffsetList(1, false, face));
+        final List<Vec3d> offsets = new ArrayList <> ( getOffsetList ( 1 , false , face ) );
         offsets.add(new Vec3d(0.0, 2.0, 0.0));
         if (antiScaffold) {
             offsets.add(new Vec3d(0.0, 3.0, 0.0));
@@ -457,7 +457,7 @@ public class EntityUtil implements Util {
     }
 
     public static Vec3d[] getHeightOffsets(final int min, final int max) {
-        final List<Vec3d> offsets = new ArrayList<Vec3d>();
+        final List<Vec3d> offsets = new ArrayList <> ( );
         for (int i = min; i <= max; ++i) {
             offsets.add(new Vec3d(0.0, i, 0.0));
         }
@@ -564,9 +564,6 @@ public class EntityUtil implements Util {
             return false;
         }
         final NBTTagList enchants = (NBTTagList) stack.getTagCompound().getTag("ench");
-        if (enchants == null) {
-            return false;
-        }
         int i = 0;
         while (i < enchants.tagCount()) {
             final NBTTagCompound enchant = enchants.getCompoundTagAt(i);
@@ -800,7 +797,7 @@ public class EntityUtil implements Util {
     }
 
     public static Map<String, Integer> getTextRadarPlayers() {
-        Map<String, Integer> output = new HashMap<String, Integer>();
+        Map<String, Integer> output = new HashMap <> ( );
         final DecimalFormat dfHealth = new DecimalFormat("#.#");
         dfHealth.setRoundingMode(RoundingMode.CEILING);
         final DecimalFormat dfDistance = new DecimalFormat("#.#");
@@ -834,13 +831,11 @@ public class EntityUtil implements Util {
                 distanceSB.append("a");
             } else if (distanceInt > 10) {
                 distanceSB.append("6");
-            } else if (distanceInt >= 50) {
-                distanceSB.append("7");
             } else {
                 distanceSB.append("c");
             }
             distanceSB.append(distance);
-            output.put(healthSB.toString() + " " + (RenoSense.friendManager.isFriend(player) ? "§b" : "§r") + player.getName() + " " + distanceSB.toString() + " " + "§f" + RenoSense.totemPopManager.getTotemPopString(player) + RenoSense.potionManager.getTextRadarPotion(player), (int) mc.player.getDistance(player));
+            output.put( healthSB + " " + (RenoSense.friendManager.isFriend(player) ? "§b" : "§r") + player.getName() + " " + distanceSB + " " + "§f" + RenoSense.totemPopManager.getTotemPopString(player) + RenoSense.potionManager.getTextRadarPotion(player), (int) mc.player.getDistance(player));
             healthSB.setLength(0);
             distanceSB.setLength(0);
         }

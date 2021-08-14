@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class InventoryManager
         implements Util {
-    public Map<String, List<ItemStack>> inventories = new HashMap<String, List<ItemStack>>();
+    public Map<String, List<ItemStack>> inventories = new HashMap <> ( );
     private int recoverySlot = -1;
 
     public void update() {

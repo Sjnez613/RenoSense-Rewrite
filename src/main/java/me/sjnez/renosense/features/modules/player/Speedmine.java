@@ -29,28 +29,28 @@ import java.awt.*;
 public class Speedmine
         extends Module {
     private static Speedmine INSTANCE = new Speedmine();
-    private final Setting<Float> range = this.register(new Setting<Float>("Range", Float.valueOf(10.0f), Float.valueOf(0.0f), Float.valueOf(50.0f)));
+    private final Setting<Float> range = this.register( new Setting <> ( "Range" , 10.0f , 0.0f , 50.0f ));
     private final Timer timer = new Timer();
-    public Setting<Boolean> tweaks = this.register(new Setting<Boolean>("Tweaks", true));
+    public Setting<Boolean> tweaks = this.register( new Setting <> ( "Tweaks" , true ));
     public Setting<Mode> mode = this.register(new Setting<Object>("Mode", Mode.PACKET, v -> this.tweaks.getValue()));
-    public Setting<Boolean> reset = this.register(new Setting<Boolean>("Reset", true));
-    public Setting<Float> damage = this.register(new Setting<Object>("Damage", Float.valueOf(0.7f), Float.valueOf(0.0f), Float.valueOf(1.0f), v -> this.mode.getValue() == Mode.DAMAGE && this.tweaks.getValue() != false));
-    public Setting<Boolean> noBreakAnim = this.register(new Setting<Boolean>("NoBreakAnim", false));
-    public Setting<Boolean> noDelay = this.register(new Setting<Boolean>("NoDelay", false));
-    public Setting<Boolean> noSwing = this.register(new Setting<Boolean>("NoSwing", false));
-    public Setting<Boolean> noTrace = this.register(new Setting<Boolean>("NoTrace", false));
-    public Setting<Boolean> noGapTrace = this.register(new Setting<Object>("NoGapTrace", Boolean.valueOf(false), v -> this.noTrace.getValue()));
-    public Setting<Boolean> allow = this.register(new Setting<Boolean>("AllowMultiTask", false));
-    public Setting<Boolean> pickaxe = this.register(new Setting<Object>("Pickaxe", Boolean.valueOf(true), v -> this.noTrace.getValue()));
-    public Setting<Boolean> doubleBreak = this.register(new Setting<Boolean>("DoubleBreak", false));
-    public Setting<Boolean> webSwitch = this.register(new Setting<Boolean>("WebSwitch", false));
-    public Setting<Boolean> silentSwitch = this.register(new Setting<Boolean>("SilentSwitch", false));
-    public Setting<Boolean> illegal = this.register(new Setting<Boolean>("IllegalMine", false));
-    public Setting<Boolean> render = this.register(new Setting<Boolean>("Render", false));
-    public Setting<Boolean> box = this.register(new Setting<Object>("Box", Boolean.valueOf(false), v -> this.render.getValue()));
-    private final Setting<Integer> boxAlpha = this.register(new Setting<Object>("BoxAlpha", Integer.valueOf(85), Integer.valueOf(0), Integer.valueOf(255), v -> this.box.getValue() != false && this.render.getValue() != false));
-    public Setting<Boolean> outline = this.register(new Setting<Object>("Outline", Boolean.valueOf(true), v -> this.render.getValue()));
-    private final Setting<Float> lineWidth = this.register(new Setting<Object>("LineWidth", Float.valueOf(1.0f), Float.valueOf(0.1f), Float.valueOf(5.0f), v -> this.outline.getValue() != false && this.render.getValue() != false));
+    public Setting<Boolean> reset = this.register( new Setting <> ( "Reset" , true ));
+    public Setting<Float> damage = this.register(new Setting<Object>("Damage", 0.7f , 0.0f , 1.0f , v -> this.mode.getValue() == Mode.DAMAGE && this.tweaks.getValue ( ) ));
+    public Setting<Boolean> noBreakAnim = this.register( new Setting <> ( "NoBreakAnim" , false ));
+    public Setting<Boolean> noDelay = this.register( new Setting <> ( "NoDelay" , false ));
+    public Setting<Boolean> noSwing = this.register( new Setting <> ( "NoSwing" , false ));
+    public Setting<Boolean> noTrace = this.register( new Setting <> ( "NoTrace" , false ));
+    public Setting<Boolean> noGapTrace = this.register(new Setting<Object>("NoGapTrace", Boolean.FALSE , v -> this.noTrace.getValue()));
+    public Setting<Boolean> allow = this.register( new Setting <> ( "AllowMultiTask" , false ));
+    public Setting<Boolean> pickaxe = this.register(new Setting<Object>("Pickaxe", Boolean.TRUE , v -> this.noTrace.getValue()));
+    public Setting<Boolean> doubleBreak = this.register( new Setting <> ( "DoubleBreak" , false ));
+    public Setting<Boolean> webSwitch = this.register( new Setting <> ( "WebSwitch" , false ));
+    public Setting<Boolean> silentSwitch = this.register( new Setting <> ( "SilentSwitch" , false ));
+    public Setting<Boolean> illegal = this.register( new Setting <> ( "IllegalMine" , false ));
+    public Setting<Boolean> render = this.register( new Setting <> ( "Render" , false ));
+    public Setting<Boolean> box = this.register(new Setting<Object>("Box", Boolean.FALSE , v -> this.render.getValue()));
+    private final Setting<Integer> boxAlpha = this.register(new Setting<Object>("BoxAlpha", 85 , 0 , 255 , v -> this.box.getValue ( ) && this.render.getValue ( ) ));
+    public Setting<Boolean> outline = this.register(new Setting<Object>("Outline", Boolean.TRUE , v -> this.render.getValue()));
+    private final Setting<Float> lineWidth = this.register(new Setting<Object>("LineWidth", 1.0f , 0.1f , 5.0f , v -> this.outline.getValue ( ) && this.render.getValue ( ) ));
     public BlockPos currentPos;
     public IBlockState currentBlockState;
     private boolean isMining = false;
@@ -76,18 +76,18 @@ public class Speedmine
     @Override
     public void onTick() {
         if (this.currentPos != null) {
-            if (Speedmine.mc.player != null && Speedmine.mc.player.getDistanceSq(this.currentPos) > MathUtil.square(this.range.getValue().floatValue())) {
+            if (Speedmine.mc.player != null && Speedmine.mc.player.getDistanceSq(this.currentPos) > MathUtil.square( this.range.getValue ( ) )) {
                 this.currentPos = null;
                 this.currentBlockState = null;
                 return;
             }
-            if (Speedmine.mc.player != null && this.silentSwitch.getValue().booleanValue() && this.timer.passedMs((int) (2000.0f * RenoSense.serverManager.getTpsFactor())) && this.getPickSlot() != -1) {
+            if (Speedmine.mc.player != null && this.silentSwitch.getValue ( ) && this.timer.passedMs((int) (2000.0f * RenoSense.serverManager.getTpsFactor())) && this.getPickSlot() != -1) {
                 Speedmine.mc.player.connection.sendPacket(new CPacketHeldItemChange(this.getPickSlot()));
             }
             if (!Speedmine.mc.world.getBlockState(this.currentPos).equals(this.currentBlockState) || Speedmine.mc.world.getBlockState(this.currentPos).getBlock() == Blocks.AIR) {
                 this.currentPos = null;
                 this.currentBlockState = null;
-            } else if (this.webSwitch.getValue().booleanValue() && this.currentBlockState.getBlock() == Blocks.WEB && Speedmine.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe) {
+            } else if ( this.webSwitch.getValue ( ) && this.currentBlockState.getBlock() == Blocks.WEB && Speedmine.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe) {
                 InventoryUtil.switchToHotbarSlot(ItemSword.class, false);
             }
         }
@@ -98,22 +98,22 @@ public class Speedmine
         if (Speedmine.fullNullCheck()) {
             return;
         }
-        if (this.noDelay.getValue().booleanValue()) {
+        if ( this.noDelay.getValue ( ) ) {
             Speedmine.mc.playerController.blockHitDelay = 0;
         }
-        if (this.isMining && this.lastPos != null && this.lastFacing != null && this.noBreakAnim.getValue().booleanValue()) {
+        if (this.isMining && this.lastPos != null && this.lastFacing != null && this.noBreakAnim.getValue ( ) ) {
             Speedmine.mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, this.lastPos, this.lastFacing));
         }
-        if (this.reset.getValue().booleanValue() && Speedmine.mc.gameSettings.keyBindUseItem.isKeyDown() && !this.allow.getValue().booleanValue()) {
+        if ( this.reset.getValue ( ) && Speedmine.mc.gameSettings.keyBindUseItem.isKeyDown() && ! this.allow.getValue ( ) ) {
             Speedmine.mc.playerController.isHittingBlock = false;
         }
     }
 
     @Override
     public void onRender3D(Render3DEvent event) {
-        if (this.render.getValue().booleanValue() && this.currentPos != null) {
+        if ( this.render.getValue ( ) && this.currentPos != null) {
             Color color = new Color(this.timer.passedMs((int) (2000.0f * RenoSense.serverManager.getTpsFactor())) ? 0 : 255, this.timer.passedMs((int) (2000.0f * RenoSense.serverManager.getTpsFactor())) ? 255 : 0, 0, 255);
-            RenderUtil.drawBoxESP(this.currentPos, color, false, color, this.lineWidth.getValue().floatValue(), this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), false);
+            RenderUtil.drawBoxESP(this.currentPos, color, false, color, this.lineWidth.getValue ( ) , this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), false);
         }
     }
 
@@ -124,24 +124,25 @@ public class Speedmine
         }
         if (event.getStage() == 0) {
             CPacketPlayerDigging packet;
-            if (this.noSwing.getValue().booleanValue() && event.getPacket() instanceof CPacketAnimation) {
+            if ( this.noSwing.getValue ( ) && event.getPacket() instanceof CPacketAnimation) {
                 event.setCanceled(true);
             }
-            if (this.noBreakAnim.getValue().booleanValue() && event.getPacket() instanceof CPacketPlayerDigging && (packet = event.getPacket()) != null && packet.getPosition() != null) {
+            if ( this.noBreakAnim.getValue ( ) && event.getPacket ( ) instanceof CPacketPlayerDigging && ( packet = event.getPacket ( ) ) != null ) {
+                packet.getPosition ( );
                 try {
-                    for (Entity entity : Speedmine.mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(packet.getPosition()))) {
-                        if (!(entity instanceof EntityEnderCrystal)) continue;
-                        this.showAnimation();
+                    for (Entity entity : Speedmine.mc.world.getEntitiesWithinAABBExcludingEntity ( null , new AxisAlignedBB ( packet.getPosition ( ) ) )) {
+                        if ( ! ( entity instanceof EntityEnderCrystal ) ) continue;
+                        this.showAnimation ( );
                         return;
                     }
-                } catch (Exception exception) {
+                } catch ( Exception exception ) {
                     // empty catch block
                 }
-                if (packet.getAction().equals(CPacketPlayerDigging.Action.START_DESTROY_BLOCK)) {
-                    this.showAnimation(true, packet.getPosition(), packet.getFacing());
+                if ( packet.getAction ( ).equals ( CPacketPlayerDigging.Action.START_DESTROY_BLOCK ) ) {
+                    this.showAnimation ( true , packet.getPosition ( ) , packet.getFacing ( ) );
                 }
-                if (packet.getAction().equals(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK)) {
-                    this.showAnimation();
+                if ( packet.getAction ( ).equals ( CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK ) ) {
+                    this.showAnimation ( );
                 }
             }
         }
@@ -155,13 +156,13 @@ public class Speedmine
         if (event.getStage() == 3 && Speedmine.mc.world.getBlockState(event.pos).getBlock() instanceof BlockEndPortalFrame) {
             Speedmine.mc.world.getBlockState(event.pos).getBlock().setHardness(50.0f);
         }
-        if (event.getStage() == 3 && this.reset.getValue().booleanValue() && Speedmine.mc.playerController.curBlockDamageMP > 0.1f) {
+        if (event.getStage() == 3 && this.reset.getValue ( ) && Speedmine.mc.playerController.curBlockDamageMP > 0.1f) {
             Speedmine.mc.playerController.isHittingBlock = true;
         }
-        if (event.getStage() == 4 && this.tweaks.getValue().booleanValue()) {
+        if (event.getStage() == 4 && this.tweaks.getValue ( ) ) {
             BlockPos above;
             if (BlockUtil.canBreak(event.pos)) {
-                if (this.reset.getValue().booleanValue()) {
+                if ( this.reset.getValue ( ) ) {
                     Speedmine.mc.playerController.isHittingBlock = false;
                 }
                 switch (this.mode.getValue()) {
@@ -178,7 +179,7 @@ public class Speedmine
                         break;
                     }
                     case DAMAGE: {
-                        if (!(Speedmine.mc.playerController.curBlockDamageMP >= this.damage.getValue().floatValue()))
+                        if (!(Speedmine.mc.playerController.curBlockDamageMP >= this.damage.getValue ( ) ))
                             break;
                         Speedmine.mc.playerController.curBlockDamageMP = 1.0f;
                         break;
@@ -192,7 +193,7 @@ public class Speedmine
                     }
                 }
             }
-            if (this.doubleBreak.getValue().booleanValue() && BlockUtil.canBreak(above = event.pos.add(0, 1, 0)) && Speedmine.mc.player.getDistance(above.getX(), above.getY(), above.getZ()) <= 5.0) {
+            if ( this.doubleBreak.getValue ( ) && BlockUtil.canBreak(above = event.pos.add(0, 1, 0)) && Speedmine.mc.player.getDistance(above.getX(), above.getY(), above.getZ()) <= 5.0) {
                 Speedmine.mc.player.swingArm(EnumHand.MAIN_HAND);
                 Speedmine.mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, above, event.facing));
                 Speedmine.mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, above, event.facing));

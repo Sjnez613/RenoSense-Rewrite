@@ -20,9 +20,9 @@ import org.lwjgl.input.Mouse;
 
 public class MCF
         extends Module {
-    private final Setting<Boolean> middleClick = this.register(new Setting<Boolean>("MiddleClick", true));
-    private final Setting<Boolean> keyboard = this.register(new Setting<Boolean>("Keyboard", false));
-    private final Setting<Boolean> server = this.register(new Setting<Boolean>("Server", true));
+    private final Setting<Boolean> middleClick = this.register( new Setting <> ( "MiddleClick" , true ));
+    private final Setting<Boolean> keyboard = this.register( new Setting <> ( "Keyboard" , false ));
+    private final Setting<Boolean> server = this.register( new Setting <> ( "Server" , true ));
     private final Setting<Bind> key = this.register(new Setting<Object>("KeyBind", new Bind(-1), v -> this.keyboard.getValue()));
     private boolean clicked = false;
 
@@ -33,7 +33,7 @@ public class MCF
     @Override
     public void onUpdate() {
         if (Mouse.isButtonDown(2)) {
-            if (!this.clicked && this.middleClick.getValue().booleanValue() && MCF.mc.currentScreen == null) {
+            if (!this.clicked && this.middleClick.getValue ( ) && MCF.mc.currentScreen == null) {
                 this.onClick();
             }
             this.clicked = true;
@@ -44,7 +44,7 @@ public class MCF
 
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if (this.keyboard.getValue().booleanValue() && Keyboard.getEventKeyState() && !(MCF.mc.currentScreen instanceof PhobosGui) && this.key.getValue().getKey() == Keyboard.getEventKey()) {
+        if ( this.keyboard.getValue ( ) && Keyboard.getEventKeyState() && !(MCF.mc.currentScreen instanceof PhobosGui) && this.key.getValue().getKey() == Keyboard.getEventKey()) {
             this.onClick();
         }
     }
@@ -56,14 +56,14 @@ public class MCF
             if (RenoSense.friendManager.isFriend(entity.getName())) {
                 RenoSense.friendManager.removeFriend(entity.getName());
                 Command.sendMessage("\u00a7c" + entity.getName() + "\u00a7r" + " unfriended.");
-                if (this.server.getValue().booleanValue() && ServerModule.getInstance().isConnected()) {
+                if ( this.server.getValue ( ) && ServerModule.getInstance().isConnected()) {
                     MCF.mc.player.connection.sendPacket(new CPacketChatMessage("@Serverprefix" + ClickGui.getInstance().prefix.getValue()));
                     MCF.mc.player.connection.sendPacket(new CPacketChatMessage("@Server" + ClickGui.getInstance().prefix.getValue() + "friend del " + entity.getName()));
                 }
             } else {
                 RenoSense.friendManager.addFriend(entity.getName());
                 Command.sendMessage("\u00a7b" + entity.getName() + "\u00a7r" + " friended.");
-                if (this.server.getValue().booleanValue() && ServerModule.getInstance().isConnected()) {
+                if ( this.server.getValue ( ) && ServerModule.getInstance().isConnected()) {
                     MCF.mc.player.connection.sendPacket(new CPacketChatMessage("@Serverprefix" + ClickGui.getInstance().prefix.getValue()));
                     MCF.mc.player.connection.sendPacket(new CPacketChatMessage("@Server" + ClickGui.getInstance().prefix.getValue() + "friend add " + entity.getName()));
                 }

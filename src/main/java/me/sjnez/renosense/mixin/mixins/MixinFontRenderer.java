@@ -22,7 +22,7 @@ public abstract class MixinFontRenderer {
 
     @Inject(method={"drawString(Ljava/lang/String;FFIZ)I"}, at={@At(value="HEAD")}, cancellable=true)
     public void renderStringHook(String text, float x, float y, int color, boolean dropShadow, CallbackInfoReturnable<Integer> info) {
-        if (FontMod.getInstance().isOn() && FontMod.getInstance().full.getValue().booleanValue() && RenoSense.textManager != null) {
+        if (FontMod.getInstance().isOn() && FontMod.getInstance ( ).full.getValue ( ) && RenoSense.textManager != null) {
             float result = RenoSense.textManager.drawString(text, x, y, color, dropShadow);
             info.setReturnValue((int)result);
         }
@@ -30,7 +30,7 @@ public abstract class MixinFontRenderer {
 
     @Redirect(method={"drawString(Ljava/lang/String;FFIZ)I"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/gui/FontRenderer;renderString(Ljava/lang/String;FFIZ)I"))
     public int renderStringHook(FontRenderer fontrenderer, String text, float x, float y, int color, boolean dropShadow) {
-        if (RenoSense.moduleManager != null && HUD.getInstance().shadow.getValue().booleanValue() && dropShadow) {
+        if (RenoSense.moduleManager != null && HUD.getInstance ( ).shadow.getValue ( ) && dropShadow) {
             return this.renderString(text, x - 0.5f, y - 0.5f, color, true);
         }
         return this.renderString(text, x, y, color, dropShadow);
@@ -38,7 +38,7 @@ public abstract class MixinFontRenderer {
 
     @Redirect(method={"renderString(Ljava/lang/String;FFIZ)I"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/gui/FontRenderer;renderStringAtPos(Ljava/lang/String;Z)V"))
     public void renderStringAtPosHook(FontRenderer renderer, String text, boolean shadow) {
-        if (Media.getInstance().isOn() && Media.getInstance().changeOwn.getValue().booleanValue()) {
+        if (Media.getInstance().isOn() && Media.getInstance ( ).changeOwn.getValue ( ) ) {
             this.renderStringAtPos(text.replace(Media.getPlayerName(), Media.getInstance().ownName.getValue()), shadow);
         } else {
             this.renderStringAtPos(text, shadow);

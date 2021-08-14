@@ -24,7 +24,7 @@ public class UnlimitedSlider
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        if (ClickGui.getInstance().rainbowRolling.getValue().booleanValue()) {
+        if ( ClickGui.getInstance ( ).rainbowRolling.getValue ( ) ) {
             int color = ColorUtil.changeAlpha(HUD.getInstance().colorMap.get(MathUtil.clamp((int) this.y, 0, this.renderer.scaledHeight)), RenoSense.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue());
             int color1 = ColorUtil.changeAlpha(HUD.getInstance().colorMap.get(MathUtil.clamp((int) this.y + this.height, 0, this.renderer.scaledHeight)), RenoSense.moduleManager.getModuleByClass(ClickGui.class).hoverAlpha.getValue());
             RenderUtil.drawGradientRect((float) ((int) this.x), (float) ((int) this.y), (float) this.width + 7.4f, (float) this.height, color, color1);
@@ -43,14 +43,14 @@ public class UnlimitedSlider
                 if (this.setting.getValue() instanceof Double) {
                     this.setting.setValue((Double) this.setting.getValue() + 1.0);
                 } else if (this.setting.getValue() instanceof Float) {
-                    this.setting.setValue(Float.valueOf(((Float) this.setting.getValue()).floatValue() + 1.0f));
+                    this.setting.setValue( (Float) this.setting.getValue ( ) + 1.0f );
                 } else if (this.setting.getValue() instanceof Integer) {
                     this.setting.setValue((Integer) this.setting.getValue() + 1);
                 }
             } else if (this.setting.getValue() instanceof Double) {
                 this.setting.setValue((Double) this.setting.getValue() - 1.0);
             } else if (this.setting.getValue() instanceof Float) {
-                this.setting.setValue(Float.valueOf(((Float) this.setting.getValue()).floatValue() - 1.0f));
+                this.setting.setValue( (Float) this.setting.getValue ( ) - 1.0f );
             } else if (this.setting.getValue() instanceof Integer) {
                 this.setting.setValue((Integer) this.setting.getValue() - 1);
             }

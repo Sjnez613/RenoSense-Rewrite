@@ -12,7 +12,7 @@ public class Capes
     public static final ResourceLocation ZBOB_CAPE = new ResourceLocation("textures/zb0b.png");
     public static final ResourceLocation OHARE_CAPE = new ResourceLocation("textures/ohare.png");
     public static final ResourceLocation SQUID_CAPE = new ResourceLocation("textures/squidcape.png");
-    public static Map<String, String[]> UUIDs = new HashMap<String, String[]>();
+    public static Map<String, String[]> UUIDs = new HashMap <> ( );
     private static Capes instance;
 
     public Capes() {

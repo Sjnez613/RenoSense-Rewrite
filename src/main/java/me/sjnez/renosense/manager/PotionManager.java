@@ -11,11 +11,12 @@ import net.minecraft.potion.PotionEffect;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PotionManager
         extends Feature {
-    private final Map<EntityPlayer, PotionList> potions = new ConcurrentHashMap<EntityPlayer, PotionList>();
+    private final Map<EntityPlayer, PotionList> potions = new ConcurrentHashMap <> ( );
 
     public void onLogout() {
         this.potions.clear();
@@ -31,8 +32,8 @@ public class PotionManager
 
     public void update() {
         this.updatePlayer();
-        if (HUD.getInstance().isOn() && HUD.getInstance().textRadar.getValue().booleanValue() && Managers.getInstance().potions.getValue().booleanValue()) {
-            ArrayList<EntityPlayer> removeList = new ArrayList<EntityPlayer>();
+        if (HUD.getInstance().isOn() && HUD.getInstance ( ).textRadar.getValue ( ) && Managers.getInstance ( ).potions.getValue ( ) ) {
+            ArrayList<EntityPlayer> removeList = new ArrayList <> ( );
             for (Map.Entry<EntityPlayer, PotionList> potionEntry : this.potions.entrySet()) {
                 boolean notFound = true;
                 for (EntityPlayer player : PotionManager.mc.world.playerEntities) {
@@ -62,7 +63,7 @@ public class PotionManager
 
     public List<PotionEffect> getPlayerPotions(EntityPlayer player) {
         PotionList list = this.potions.get(player);
-        List<PotionEffect> potions = new ArrayList<PotionEffect>();
+        List<PotionEffect> potions = new ArrayList <> ( );
         if (list != null) {
             potions = list.getEffects();
         }
@@ -78,7 +79,7 @@ public class PotionManager
         PotionEffect[] array = new PotionEffect[3];
         for (PotionEffect effect : this.getPlayerPotions(player)) {
             Potion potion = effect.getPotion();
-            switch (I18n.format(potion.getName(), new Object[0]).toLowerCase()) {
+            switch (I18n.format(potion.getName() ).toLowerCase()) {
                 case "strength": {
                     array[0] = effect;
                     break;
@@ -98,12 +99,12 @@ public class PotionManager
 
     public String getPotionString(PotionEffect effect) {
         Potion potion = effect.getPotion();
-        return I18n.format(potion.getName(), new Object[0]) + " " + (HUD.getInstance().potions1.getValue() == false && effect.getAmplifier() == 0 ? "" : effect.getAmplifier() + 1 + " ") + "\u00a7f" + Potion.getPotionDurationString(effect, 1.0f);
+        return I18n.format(potion.getName() ) + " " + ( ! HUD.getInstance ( ).potions1.getValue ( ) && effect.getAmplifier() == 0 ? "" : effect.getAmplifier() + 1 + " ") + "\u00a7f" + Potion.getPotionDurationString(effect, 1.0f);
     }
 
     public String getColoredPotionString(PotionEffect effect) {
         Potion potion = effect.getPotion();
-        switch (I18n.format(potion.getName(), new Object[0])) {
+        switch (I18n.format(potion.getName() )) {
             case "Jump Boost":
             case "Speed": {
                 return "\u00a7b" + this.getPotionString(effect);
@@ -140,7 +141,7 @@ public class PotionManager
         PotionEffect strength = array[0];
         PotionEffect weakness = array[1];
         PotionEffect speed = array[2];
-        return "" + (strength != null ? "\u00a7c S" + (strength.getAmplifier() + 1) + " " + Potion.getPotionDurationString(strength, 1.0f) : "") + (weakness != null ? "\u00a78 W " + Potion.getPotionDurationString(weakness, 1.0f) : "") + (speed != null ? "\u00a7b S" + (speed.getAmplifier() + 1) + " " + Potion.getPotionDurationString(weakness, 1.0f) : "");
+        return "" + (strength != null ? "\u00a7c S" + (strength.getAmplifier() + 1) + " " + Potion.getPotionDurationString(strength, 1.0f) : "") + (weakness != null ? "\u00a78 W " + Potion.getPotionDurationString(weakness, 1.0f) : "") + (speed != null ? "\u00a7b S" + (speed.getAmplifier() + 1) + " " + Potion.getPotionDurationString( Objects.requireNonNull ( weakness ) , 1.0f) : "");
     }
 
     public String getTextRadarPotion(EntityPlayer player) {
@@ -152,7 +153,7 @@ public class PotionManager
     }
 
     public static class PotionList {
-        private final List<PotionEffect> effects = new ArrayList<PotionEffect>();
+        private final List<PotionEffect> effects = new ArrayList <> ( );
 
         public void addEffect(PotionEffect effect) {
             if (effect != null) {

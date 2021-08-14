@@ -19,12 +19,12 @@ import java.util.ArrayList;
 
 public class Ranges
         extends Module {
-    private final Setting<Boolean> hitSpheres = this.register(new Setting<Boolean>("HitSpheres", false));
-    private final Setting<Boolean> circle = this.register(new Setting<Boolean>("Circle", true));
-    private final Setting<Boolean> ownSphere = this.register(new Setting<Object>("OwnSphere", Boolean.valueOf(false), v -> this.hitSpheres.getValue()));
-    private final Setting<Boolean> raytrace = this.register(new Setting<Object>("RayTrace", Boolean.valueOf(false), v -> this.circle.getValue()));
-    private final Setting<Float> lineWidth = this.register(new Setting<Float>("LineWidth", Float.valueOf(1.5f), Float.valueOf(0.1f), Float.valueOf(5.0f)));
-    private final Setting<Double> radius = this.register(new Setting<Double>("Radius", 4.5, 0.1, 8.0));
+    private final Setting<Boolean> hitSpheres = this.register( new Setting <> ( "HitSpheres" , false ));
+    private final Setting<Boolean> circle = this.register( new Setting <> ( "Circle" , true ));
+    private final Setting<Boolean> ownSphere = this.register(new Setting<Object>("OwnSphere", Boolean.FALSE , v -> this.hitSpheres.getValue()));
+    private final Setting<Boolean> raytrace = this.register(new Setting<Object>("RayTrace", Boolean.FALSE , v -> this.circle.getValue()));
+    private final Setting<Float> lineWidth = this.register( new Setting <> ( "LineWidth" , 1.5f , 0.1f , 5.0f ));
+    private final Setting<Double> radius = this.register( new Setting <> ( "Radius" , 4.5 , 0.1 , 8.0 ));
 
     public Ranges() {
         super("Ranges", "Draws a circle around the player.", Module.Category.RENDER, false, false, false);
@@ -36,7 +36,7 @@ public class Ranges
 
     @Override
     public void onRender3D(Render3DEvent event) {
-        if (this.circle.getValue().booleanValue()) {
+        if ( this.circle.getValue ( ) ) {
             GlStateManager.pushMatrix();
             GlStateManager.enableBlend();
             GlStateManager.disableTexture2D();
@@ -45,16 +45,16 @@ public class Ranges
             RenderManager renderManager = Util.mc.getRenderManager();
             float hue = (float) (System.currentTimeMillis() % 7200L) / 7200.0f;
             Color color = new Color(Color.HSBtoRGB(hue, 1.0f, 1.0f));
-            ArrayList<Vec3d> hVectors = new ArrayList<Vec3d>();
+            ArrayList<Vec3d> hVectors = new ArrayList <> ( );
             double x = Ranges.mc.player.lastTickPosX + (Ranges.mc.player.posX - Ranges.mc.player.lastTickPosX) * (double) event.getPartialTicks() - renderManager.renderPosX;
             double y = Ranges.mc.player.lastTickPosY + (Ranges.mc.player.posY - Ranges.mc.player.lastTickPosY) * (double) event.getPartialTicks() - renderManager.renderPosY;
             double z = Ranges.mc.player.lastTickPosZ + (Ranges.mc.player.posZ - Ranges.mc.player.lastTickPosZ) * (double) event.getPartialTicks() - renderManager.renderPosZ;
-            GL11.glLineWidth(this.lineWidth.getValue().floatValue());
+            GL11.glLineWidth( this.lineWidth.getValue ( ) );
             GL11.glBegin(1);
             for (int i = 0; i <= 360; ++i) {
                 Vec3d vec = new Vec3d(x + Math.sin((double) i * Math.PI / 180.0) * this.radius.getValue(), y + 0.1, z + Math.cos((double) i * Math.PI / 180.0) * this.radius.getValue());
                 RayTraceResult result = Ranges.mc.world.rayTraceBlocks(new Vec3d(Ranges.mc.player.posX, Ranges.mc.player.posY + (double) Ranges.mc.player.getEyeHeight(), Ranges.mc.player.posZ), vec, false, false, true);
-                if (result != null && this.raytrace.getValue().booleanValue()) {
+                if (result != null && this.raytrace.getValue ( ) ) {
                     RenoSense.LOGGER.info("raytrace was not null");
                     hVectors.add(result.hitVec);
                     continue;
@@ -74,9 +74,9 @@ public class Ranges
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
         }
-        if (this.hitSpheres.getValue().booleanValue()) {
+        if ( this.hitSpheres.getValue ( ) ) {
             for (EntityPlayer player : Ranges.mc.world.playerEntities) {
-                if (player == null || player.equals(Ranges.mc.player) && !this.ownSphere.getValue().booleanValue())
+                if (player == null || player.equals(Ranges.mc.player) && ! this.ownSphere.getValue ( ) )
                     continue;
                 Vec3d interpolated = EntityUtil.interpolateEntity(player, event.getPartialTicks());
                 if (RenoSense.friendManager.isFriend(player.getName())) {

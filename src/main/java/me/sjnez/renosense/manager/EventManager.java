@@ -63,7 +63,7 @@ public class EventManager
             RenoSense.safetyManager.onUpdate();
             RenoSense.moduleManager.onUpdate();
             RenoSense.timerManager.update();
-            if (this.timer.passedMs(Managers.getInstance().moduleListUpdates.getValue().intValue())) {
+            if (this.timer.passedMs( Managers.getInstance ( ).moduleListUpdates.getValue ( ) )) {
                 RenoSense.moduleManager.sortModules(true);
                 RenoSense.moduleManager.alphabeticallySortModules();
                 this.timer.reset();

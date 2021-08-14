@@ -21,7 +21,7 @@ public class AutoReconnect
         INSTANCE = new AutoReconnect();
     }
 
-    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 5));
+    private final Setting<Integer> delay = this.register( new Setting <> ( "Delay" , 5 ));
 
     public AutoReconnect() {
         super("AutoReconnect", "Reconnects you if you disconnect.", Module.Category.MISC, true, false, false);
@@ -73,7 +73,7 @@ public class AutoReconnect
         }
 
         public void updateScreen() {
-            if (this.timer.passedS(AutoReconnect.this.delay.getValue().intValue())) {
+            if (this.timer.passedS( AutoReconnect.this.delay.getValue ( ) )) {
                 this.mc.displayGuiScreen(new GuiConnecting(this.parentScreen, this.mc, serverData == null ? this.mc.currentServerData : serverData));
             }
         }

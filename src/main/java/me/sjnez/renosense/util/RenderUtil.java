@@ -1668,7 +1668,7 @@ public class RenderUtil
             GL11.glLineWidth(lineWidth);
             GL11.glDisable(3553);
             GL11.glBegin(3);
-            ArrayList<Vec2f> hVectors = new ArrayList<Vec2f>();
+            ArrayList<Vec2f> hVectors = new ArrayList <> ( );
             float hue = (float) (System.currentTimeMillis() % 7200L) / 7200.0f;
             for (int i = 0; i <= 360; ++i) {
                 Vec2f vec = new Vec2f(x + (float) Math.sin((double) i * Math.PI / 180.0) * radius, y + (float) Math.cos((double) i * Math.PI / 180.0) * radius);
@@ -1888,7 +1888,7 @@ public class RenderUtil
 
     public static int getRainbow(int speed, int offset, float s, float b) {
         float hue = (System.currentTimeMillis() + (long) offset) % (long) speed;
-        return Color.getHSBColor(hue /= (float) speed, s, b).getRGB();
+        return Color.getHSBColor( hue / (float) speed , s, b).getRGB();
     }
 
     public static void hexColor(int hexColor) {
@@ -1905,7 +1905,7 @@ public class RenderUtil
 
     public static boolean isInViewFrustrum(AxisAlignedBB bb) {
         Entity current = Minecraft.getMinecraft().getRenderViewEntity();
-        frustrum.setPosition(current.posX, current.posY, current.posZ);
+        frustrum.setPosition( Objects.requireNonNull ( current ).posX, current.posY, current.posZ);
         return frustrum.isBoundingBoxInFrustum(bb);
     }
 

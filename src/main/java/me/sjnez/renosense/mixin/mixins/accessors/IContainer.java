@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value={Container.class})
 public interface IContainer {
     @Accessor(value="transactionID")
-    public void setTransactionID(short var1);
+    void setTransactionID ( short var1 );
 }
 

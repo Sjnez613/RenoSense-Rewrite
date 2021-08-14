@@ -1,7 +1,6 @@
 package me.sjnez.renosense.mixin.mixins;
 
 import com.google.common.base.Predicate;
-import java.util.List;
 import me.sjnez.renosense.event.events.PushEvent;
 import me.sjnez.renosense.features.modules.misc.Tracker;
 import me.sjnez.renosense.features.modules.render.NoRender;
@@ -19,6 +18,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
 
 @Mixin(value={World.class})
 public class MixinWorld {
@@ -48,7 +49,7 @@ public class MixinWorld {
     @Redirect(method={"handleMaterialAcceleration"}, at=@At(value="INVOKE", target="Lnet/minecraft/entity/Entity;isPushedByWater()Z"))
     public boolean isPushedbyWaterHook(Entity entity) {
         PushEvent event = new PushEvent(2, entity);
-        MinecraftForge.EVENT_BUS.post((Event)event);
+        MinecraftForge.EVENT_BUS.post( event );
         return entity.isPushedByWater() && !event.isCanceled();
     }
 }

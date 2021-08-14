@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class BuildHeight
         extends Module {
-    private final Setting<Integer> height = this.register(new Setting<Integer>("Height", 255, 0, 255));
+    private final Setting<Integer> height = this.register( new Setting <> ( "Height" , 255 , 0 , 255 ));
 
     public BuildHeight() {
         super("BuildHeight", "Allows you to place at build height", Module.Category.MISC, true, false, false);

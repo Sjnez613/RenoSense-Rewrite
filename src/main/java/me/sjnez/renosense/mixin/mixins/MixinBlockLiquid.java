@@ -27,7 +27,7 @@ extends Block {
     @Inject(method={"getCollisionBoundingBox"}, at={@At(value="HEAD")}, cancellable=true)
     public void getCollisionBoundingBoxHook(IBlockState blockState, IBlockAccess worldIn, BlockPos pos, CallbackInfoReturnable<AxisAlignedBB> info) {
         JesusEvent event = new JesusEvent(0, pos);
-        MinecraftForge.EVENT_BUS.post((Event)event);
+        MinecraftForge.EVENT_BUS.post( event );
         if (event.isCanceled()) {
             info.setReturnValue(event.getBoundingBox());
         }

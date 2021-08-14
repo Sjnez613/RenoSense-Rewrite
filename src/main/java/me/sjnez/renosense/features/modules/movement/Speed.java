@@ -19,14 +19,14 @@ import java.util.Random;
 public class Speed
         extends Module {
     private static Speed INSTANCE = new Speed();
-    public Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.INSTANT));
-    public Setting<Boolean> strafeJump = this.register(new Setting<Object>("Jump", Boolean.valueOf(false), v -> this.mode.getValue() == Mode.INSTANT));
-    public Setting<Boolean> noShake = this.register(new Setting<Object>("NoShake", Boolean.valueOf(true), v -> this.mode.getValue() != Mode.INSTANT));
-    public Setting<Boolean> useTimer = this.register(new Setting<Object>("UseTimer", Boolean.valueOf(false), v -> this.mode.getValue() != Mode.INSTANT));
-    public Setting<Double> zeroSpeed = this.register(new Setting<Object>("0-Speed", Double.valueOf(0.0), Double.valueOf(0.0), Double.valueOf(100.0), v -> this.mode.getValue() == Mode.VANILLA));
-    public Setting<Double> speed = this.register(new Setting<Object>("Speed", Double.valueOf(10.0), Double.valueOf(0.1), Double.valueOf(100.0), v -> this.mode.getValue() == Mode.VANILLA));
-    public Setting<Double> blocked = this.register(new Setting<Object>("Blocked", Double.valueOf(10.0), Double.valueOf(0.0), Double.valueOf(100.0), v -> this.mode.getValue() == Mode.VANILLA));
-    public Setting<Double> unblocked = this.register(new Setting<Object>("Unblocked", Double.valueOf(10.0), Double.valueOf(0.0), Double.valueOf(100.0), v -> this.mode.getValue() == Mode.VANILLA));
+    public Setting<Mode> mode = this.register( new Setting <> ( "Mode" , Mode.INSTANT ));
+    public Setting<Boolean> strafeJump = this.register(new Setting<Object>("Jump", Boolean.FALSE , v -> this.mode.getValue() == Mode.INSTANT));
+    public Setting<Boolean> noShake = this.register(new Setting<Object>("NoShake", Boolean.TRUE , v -> this.mode.getValue() != Mode.INSTANT));
+    public Setting<Boolean> useTimer = this.register(new Setting<Object>("UseTimer", Boolean.FALSE , v -> this.mode.getValue() != Mode.INSTANT));
+    public Setting<Double> zeroSpeed = this.register(new Setting<Object>("0-Speed", 0.0 , 0.0 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));
+    public Setting<Double> speed = this.register(new Setting<Object>("Speed", 10.0 , 0.1 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));
+    public Setting<Double> blocked = this.register(new Setting<Object>("Blocked", 10.0 , 0.0 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));
+    public Setting<Double> unblocked = this.register(new Setting<Object>("Unblocked", 10.0 , 0.0 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));
     public double startY = 0.0;
     public boolean antiShake = false;
     public double minY = 0.0;
@@ -89,7 +89,7 @@ public class Speed
                 this.vanillaCounter = this.vanilla() ? ++this.vanillaCounter : 0;
                 if (this.vanillaCounter != 4) break;
                 this.changeY = true;
-                this.minY = Speed.mc.player.getEntityBoundingBox().minY + (Speed.mc.world.getBlockState(Speed.mc.player.getPosition()).getMaterial().blocksMovement() ? -this.blocked.getValue().doubleValue() / 10.0 : this.unblocked.getValue() / 10.0) + this.getJumpBoostModifier();
+                this.minY = Speed.mc.player.getEntityBoundingBox().minY + (Speed.mc.world.getBlockState(Speed.mc.player.getPosition()).getMaterial().blocksMovement() ? - this.blocked.getValue ( ) / 10.0 : this.unblocked.getValue() / 10.0) + this.getJumpBoostModifier();
                 return;
             }
             case 1: {
@@ -138,7 +138,7 @@ public class Speed
         }
         if (EntityUtil.isEntityMoving(Speed.mc.player) && !Speed.mc.player.collidedHorizontally && !BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
             this.oneTime = true;
-            this.antiShake = this.noShake.getValue() != false && Speed.mc.player.getRidingEntity() == null;
+            this.antiShake = this.noShake.getValue ( ) && Speed.mc.player.getRidingEntity() == null;
             Random random = new Random();
             boolean rnd = random.nextBoolean();
             if (Speed.mc.player.posY >= this.startY + this.bounceHeight) {
@@ -165,7 +165,7 @@ public class Speed
                 if (this.lowChainVal >= 7.0) {
                     this.move = 0.27895f;
                 }
-                if (this.useTimer.getValue().booleanValue()) {
+                if ( this.useTimer.getValue ( ) ) {
                     RenoSense.timerManager.setTimer(1.0f);
                 }
             }
@@ -190,7 +190,7 @@ public class Speed
                 if (this.highChainVal >= 6.0) {
                     this.move = 0.43395f;
                 }
-                if (this.useTimer.getValue().booleanValue()) {
+                if ( this.useTimer.getValue ( ) ) {
                     if (rnd) {
                         RenoSense.timerManager.setTimer(1.3f);
                     } else {
@@ -223,7 +223,7 @@ public class Speed
         }
         if (EntityUtil.isEntityMoving(Speed.mc.player) && !Speed.mc.player.collidedHorizontally && !BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
             this.oneTime = true;
-            this.antiShake = this.noShake.getValue() != false && Speed.mc.player.getRidingEntity() == null;
+            this.antiShake = this.noShake.getValue ( ) && Speed.mc.player.getRidingEntity() == null;
             Random random = new Random();
             boolean rnd = random.nextBoolean();
             if (Speed.mc.player.posY >= this.startY + this.bounceHeight) {
@@ -280,7 +280,7 @@ public class Speed
                 if (this.lowChainVal >= 17.0) {
                     this.move = 0.545f;
                 }
-                if (this.useTimer.getValue().booleanValue()) {
+                if ( this.useTimer.getValue ( ) ) {
                     RenoSense.timerManager.setTimer(1.0f);
                 }
             }
@@ -338,7 +338,7 @@ public class Speed
                 if (this.highChainVal >= 17.0) {
                     this.move = 1.175f;
                 }
-                if (this.useTimer.getValue().booleanValue()) {
+                if ( this.useTimer.getValue ( ) ) {
                     if (rnd) {
                         RenoSense.timerManager.setTimer(1.3f);
                     } else {
@@ -371,7 +371,7 @@ public class Speed
         }
         if (EntityUtil.isEntityMoving(Speed.mc.player) && !Speed.mc.player.collidedHorizontally && !BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
             this.oneTime = true;
-            this.antiShake = this.noShake.getValue() != false && Speed.mc.player.getRidingEntity() == null;
+            this.antiShake = this.noShake.getValue ( ) && Speed.mc.player.getRidingEntity() == null;
             Random random = new Random();
             boolean rnd = random.nextBoolean();
             if (Speed.mc.player.posY >= this.startY + this.bounceHeight) {
@@ -428,7 +428,7 @@ public class Speed
                 if (this.lowChainVal >= 17.0) {
                     this.move = 0.545f;
                 }
-                if (this.useTimer.getValue().booleanValue()) {
+                if ( this.useTimer.getValue ( ) ) {
                     RenoSense.timerManager.setTimer(1.0f);
                 }
             }
@@ -486,7 +486,7 @@ public class Speed
                 if (this.highChainVal >= 17.0) {
                     this.move = 1.2f;
                 }
-                if (this.useTimer.getValue().booleanValue()) {
+                if ( this.useTimer.getValue ( ) ) {
                     if (rnd) {
                         RenoSense.timerManager.setTimer(1.3f);
                     } else {
@@ -534,7 +534,7 @@ public class Speed
     @SubscribeEvent
     public void onMode(MoveEvent event) {
         if (!(this.shouldReturn() || event.getStage() != 0 || this.mode.getValue() != Mode.INSTANT || Speed.nullCheck() || Speed.mc.player.isSneaking() || Speed.mc.player.isInWater() || Speed.mc.player.isInLava() || Speed.mc.player.movementInput.moveForward == 0.0f && Speed.mc.player.movementInput.moveStrafe == 0.0f)) {
-            if (Speed.mc.player.onGround && this.strafeJump.getValue().booleanValue()) {
+            if (Speed.mc.player.onGround && this.strafeJump.getValue ( ) ) {
                 Speed.mc.player.motionY = 0.4;
                 event.setY(0.4);
             }

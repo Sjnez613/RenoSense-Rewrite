@@ -63,7 +63,7 @@ public final class GLUProjection {
         if (fv.x < 0.0) {
             yaw = 360.0 - yaw;
         }
-        double pitch = 0.0;
+        double pitch;
         pitch = -fv.y > 0.0 && yaw >= 90.0 && yaw < 270.0 || fv.y > 0.0 && (!(yaw >= 90.0) || !(yaw < 270.0)) ? Math.toDegrees(Math.atan2(nuv.cross(uv).length(), nuv.dot(uv))) : -Math.toDegrees(Math.atan2(nuv.cross(uv).length(), nuv.dot(uv)));
         this.lookVec = this.getRotationVector(yaw, pitch);
         Matrix4f modelviewMatrix = new Matrix4f();
@@ -100,9 +100,9 @@ public final class GLUProjection {
             boolean[] invFrustum = this.doFrustumCheck(this.invFrustum, this.frustumPos, x, y, z);
             boolean bl2 = outsideInvertedFrustum = invFrustum[0] || invFrustum[1] || invFrustum[2] || invFrustum[3];
             if (extrudeInverted && !outsideInvertedFrustum || outsideInvertedFrustum && clampModeOutside != ClampMode.NONE) {
-                if (extrudeInverted && !outsideInvertedFrustum || clampModeOutside == ClampMode.DIRECT && outsideInvertedFrustum) {
-                    double vecX = 0.0;
-                    double vecY = 0.0;
+                if ( extrudeInverted && ! outsideInvertedFrustum || clampModeOutside == ClampMode.DIRECT ) {
+                    double vecX;
+                    double vecY;
                     if (!GLU.gluProject((float) x, (float) y, (float) z, this.modelview, this.projection, this.viewport, this.coords))
                         return new Projection(0.0, 0.0, Projection.Type.FAIL);
                     if (opposite) {
@@ -120,11 +120,12 @@ public final class GLUProjection {
                     if (vecX < 0.0) {
                         angle = 360.0 - angle;
                     }
-                    Vector3D intersect = new Vector3D(0.0, 0.0, 0.0);
+                    new Vector3D ( 0.0 , 0.0 , 0.0 );
+                    Vector3D intersect;
                     intersect = angle >= this.bra && angle < this.tra ? this.rb.intersect(vectorLine) : (angle >= this.tra && angle < this.tla ? this.tb.intersect(vectorLine) : (angle >= this.tla && angle < this.bla ? this.lb.intersect(vectorLine) : this.bb.intersect(vectorLine)));
                     return new Projection(intersect.x, intersect.y, outsideInvertedFrustum ? Projection.Type.OUTSIDE : Projection.Type.INVERTED);
                 }
-                if (clampModeOutside != ClampMode.ORTHOGONAL || !outsideInvertedFrustum)
+                if ( clampModeOutside != ClampMode.ORTHOGONAL )
                     return new Projection(0.0, 0.0, Projection.Type.FAIL);
                 if (!GLU.gluProject((float) x, (float) y, (float) z, this.modelview, this.projection, this.viewport, this.coords))
                     return new Projection(0.0, 0.0, Projection.Type.FAIL);
@@ -141,13 +142,13 @@ public final class GLUProjection {
                 }
                 if (guiY < 0.0) {
                     guiY = 0.0;
-                    return new Projection(guiX, guiY, outsideInvertedFrustum ? Projection.Type.OUTSIDE : Projection.Type.INVERTED);
+                    return new Projection(guiX, guiY, Projection.Type.OUTSIDE );
                 } else {
                     if (!(guiY > this.displayHeight * this.heightScale))
-                        return new Projection(guiX, guiY, outsideInvertedFrustum ? Projection.Type.OUTSIDE : Projection.Type.INVERTED);
+                        return new Projection(guiX, guiY, Projection.Type.OUTSIDE );
                     guiY = this.displayHeight * this.heightScale;
                 }
-                return new Projection(guiX, guiY, outsideInvertedFrustum ? Projection.Type.OUTSIDE : Projection.Type.INVERTED);
+                return new Projection(guiX, guiY, Projection.Type.OUTSIDE );
             }
             if (!GLU.gluProject((float) x, (float) y, (float) z, this.modelview, this.projection, this.viewport, this.coords))
                 return new Projection(0.0, 0.0, Projection.Type.FAIL);

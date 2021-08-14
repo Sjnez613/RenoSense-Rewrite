@@ -34,54 +34,54 @@ public class HUD
     private static final ResourceLocation codHitmarker = new ResourceLocation("earthhack", "cod_hitmarker");
     private static final ResourceLocation csgoHitmarker = new ResourceLocation("earthhack", "csgo_hitmarker");
     private static HUD INSTANCE = new HUD();
-    private final Setting<Boolean> renderingUp = this.register(new Setting<Boolean>("RenderingUp", Boolean.valueOf(false), "Orientation of the HUD-Elements."));
-    private final Setting<WaterMark> watermark = this.register(new Setting<WaterMark>("Logo", WaterMark.NONE, "WaterMark"));
-    private final Setting<Boolean> modeVer = this.register(new Setting<Object>("Version", Boolean.valueOf(false), v -> this.watermark.getValue() != WaterMark.NONE));
-    private final Setting<Boolean> arrayList = this.register(new Setting<Boolean>("ActiveModules", Boolean.valueOf(false), "Lists the active modules."));
-    private final Setting<Boolean> moduleColors = this.register(new Setting<Object>("ModuleColors", Boolean.valueOf(false), v -> this.arrayList.getValue()));
-    private final Setting<Boolean> alphabeticalSorting = this.register(new Setting<Object>("AlphabeticalSorting", Boolean.valueOf(false), v -> this.arrayList.getValue()));
-    private final Setting<Boolean> serverBrand = this.register(new Setting<Boolean>("ServerBrand", Boolean.valueOf(false), "Brand of the server you are on."));
-    private final Setting<Boolean> ping = this.register(new Setting<Boolean>("Ping", Boolean.valueOf(false), "Your response time to the server."));
-    private final Setting<Boolean> tps = this.register(new Setting<Boolean>("TPS", Boolean.valueOf(false), "Ticks per second of the server."));
-    private final Setting<Boolean> fps = this.register(new Setting<Boolean>("FPS", Boolean.valueOf(false), "Your frames per second."));
-    private final Setting<Boolean> coords = this.register(new Setting<Boolean>("Coords", Boolean.valueOf(false), "Your current coordinates"));
-    private final Setting<Boolean> direction = this.register(new Setting<Boolean>("Direction", Boolean.valueOf(false), "The Direction you are facing."));
-    private final Setting<Boolean> speed = this.register(new Setting<Boolean>("Speed", Boolean.valueOf(false), "Your Speed"));
-    private final Setting<Boolean> potions = this.register(new Setting<Boolean>("Potions", Boolean.valueOf(false), "Active potion effects"));
-    private final Setting<Boolean> altPotionsColors = this.register(new Setting<Object>("AltPotionColors", Boolean.valueOf(false), v -> this.potions.getValue()));
-    private final Setting<Boolean> armor = this.register(new Setting<Boolean>("Armor", Boolean.valueOf(false), "ArmorHUD"));
-    private final Setting<Boolean> durability = this.register(new Setting<Boolean>("Durability", Boolean.valueOf(false), "Durability"));
-    private final Setting<Boolean> percent = this.register(new Setting<Object>("Percent", Boolean.valueOf(true), v -> this.armor.getValue()));
-    private final Setting<Boolean> totems = this.register(new Setting<Boolean>("Totems", Boolean.valueOf(false), "TotemHUD"));
-    private final Setting<Greeter> greeter = this.register(new Setting<Greeter>("Greeter", Greeter.NONE, "Greets you."));
+    private final Setting<Boolean> renderingUp = this.register( new Setting <> ( "RenderingUp" , Boolean.FALSE , "Orientation of the HUD-Elements." ));
+    private final Setting<WaterMark> watermark = this.register( new Setting <> ( "Logo" , WaterMark.NONE , "WaterMark" ));
+    private final Setting<Boolean> modeVer = this.register(new Setting<Object>("Version", Boolean.FALSE , v -> this.watermark.getValue() != WaterMark.NONE));
+    private final Setting<Boolean> arrayList = this.register( new Setting <> ( "ActiveModules" , Boolean.FALSE , "Lists the active modules." ));
+    private final Setting<Boolean> moduleColors = this.register(new Setting<Object>("ModuleColors", Boolean.FALSE , v -> this.arrayList.getValue()));
+    private final Setting<Boolean> alphabeticalSorting = this.register(new Setting<Object>("AlphabeticalSorting", Boolean.FALSE , v -> this.arrayList.getValue()));
+    private final Setting<Boolean> serverBrand = this.register( new Setting <> ( "ServerBrand" , Boolean.FALSE , "Brand of the server you are on." ));
+    private final Setting<Boolean> ping = this.register( new Setting <> ( "Ping" , Boolean.FALSE , "Your response time to the server." ));
+    private final Setting<Boolean> tps = this.register( new Setting <> ( "TPS" , Boolean.FALSE , "Ticks per second of the server." ));
+    private final Setting<Boolean> fps = this.register( new Setting <> ( "FPS" , Boolean.FALSE , "Your frames per second." ));
+    private final Setting<Boolean> coords = this.register( new Setting <> ( "Coords" , Boolean.FALSE , "Your current coordinates" ));
+    private final Setting<Boolean> direction = this.register( new Setting <> ( "Direction" , Boolean.FALSE , "The Direction you are facing." ));
+    private final Setting<Boolean> speed = this.register( new Setting <> ( "Speed" , Boolean.FALSE , "Your Speed" ));
+    private final Setting<Boolean> potions = this.register( new Setting <> ( "Potions" , Boolean.FALSE , "Active potion effects" ));
+    private final Setting<Boolean> altPotionsColors = this.register(new Setting<Object>("AltPotionColors", Boolean.FALSE , v -> this.potions.getValue()));
+    private final Setting<Boolean> armor = this.register( new Setting <> ( "Armor" , Boolean.FALSE , "ArmorHUD" ));
+    private final Setting<Boolean> durability = this.register( new Setting <> ( "Durability" , Boolean.FALSE , "Durability" ));
+    private final Setting<Boolean> percent = this.register(new Setting<Object>("Percent", Boolean.TRUE , v -> this.armor.getValue()));
+    private final Setting<Boolean> totems = this.register( new Setting <> ( "Totems" , Boolean.FALSE , "TotemHUD" ));
+    private final Setting<Greeter> greeter = this.register( new Setting <> ( "Greeter" , Greeter.NONE , "Greets you." ));
     private final Setting<String> spoofGreeter = this.register(new Setting<Object>("GreeterName", "CharlesDana", v -> this.greeter.getValue() == Greeter.CUSTOM));
-    private final Setting<LagNotify> lag = this.register(new Setting<LagNotify>("Lag", LagNotify.GRAY, "Lag Notifier"));
-    private final Setting<Boolean> hitMarkers = this.register(new Setting<Boolean>("HitMarkers", true));
-    private final Setting<Boolean> grayNess = this.register(new Setting<Boolean>("FutureColour", true));
+    private final Setting<LagNotify> lag = this.register( new Setting <> ( "Lag" , LagNotify.GRAY , "Lag Notifier" ));
+    private final Setting<Boolean> hitMarkers = this.register( new Setting <> ( "HitMarkers" , true ));
+    private final Setting<Boolean> grayNess = this.register( new Setting <> ( "FutureColour" , true ));
     private final Timer timer = new Timer();
     private final Timer moduleTimer = new Timer();
-    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Sync", Boolean.valueOf(false), "Universal colors for hud."));
-    public Setting<Boolean> rainbow = this.register(new Setting<Boolean>("Rainbow", Boolean.valueOf(false), "Rainbow hud."));
-    public Setting<Integer> factor = this.register(new Setting<Object>("Factor", Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(20), v -> this.rainbow.getValue()));
-    public Setting<Boolean> rolling = this.register(new Setting<Object>("Rolling", Boolean.valueOf(false), v -> this.rainbow.getValue()));
-    public Setting<Integer> rainbowSpeed = this.register(new Setting<Object>("RSpeed", Integer.valueOf(20), Integer.valueOf(0), Integer.valueOf(100), v -> this.rainbow.getValue()));
-    public Setting<Integer> rainbowSaturation = this.register(new Setting<Object>("Saturation", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbow.getValue()));
-    public Setting<Integer> rainbowBrightness = this.register(new Setting<Object>("Brightness", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbow.getValue()));
-    public Setting<Boolean> potionIcons = this.register(new Setting<Boolean>("PotionIcons", Boolean.valueOf(true), "Draws Potion Icons."));
-    public Setting<Boolean> shadow = this.register(new Setting<Boolean>("Shadow", Boolean.valueOf(false), "Draws the text with a shadow."));
-    public Setting<Integer> animationHorizontalTime = this.register(new Setting<Object>("AnimationHTime", Integer.valueOf(500), Integer.valueOf(1), Integer.valueOf(1000), v -> this.arrayList.getValue()));
-    public Setting<Integer> animationVerticalTime = this.register(new Setting<Object>("AnimationVTime", Integer.valueOf(50), Integer.valueOf(1), Integer.valueOf(500), v -> this.arrayList.getValue()));
-    public Setting<Boolean> textRadar = this.register(new Setting<Boolean>("TextRadar", Boolean.valueOf(false), "A TextRadar"));
-    public Setting<Boolean> time = this.register(new Setting<Boolean>("Time", Boolean.valueOf(false), "The time"));
-    public Setting<Integer> hudRed = this.register(new Setting<Object>("Red", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbow.getValue() == false));
-    public Setting<Integer> hudGreen = this.register(new Setting<Object>("Green", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbow.getValue() == false));
-    public Setting<Integer> hudBlue = this.register(new Setting<Object>("Blue", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbow.getValue() == false));
-    public Setting<Boolean> potions1 = this.register(new Setting<Object>("LevelPotions", Boolean.valueOf(false), v -> this.potions.getValue()));
-    public Setting<Boolean> MS = this.register(new Setting<Object>("ms", Boolean.valueOf(false), v -> this.ping.getValue()));
-    public Map<Module, Float> moduleProgressMap = new HashMap<Module, Float>();
-    public Map<Integer, Integer> colorMap = new HashMap<Integer, Integer>();
-    private Map<String, Integer> players = new HashMap<String, Integer>();
-    private final Map<Potion, Color> potionColorMap = new HashMap<Potion, Color>();
+    public Setting<Boolean> colorSync = this.register( new Setting <> ( "Sync" , Boolean.FALSE , "Universal colors for hud." ));
+    public Setting<Boolean> rainbow = this.register( new Setting <> ( "Rainbow" , Boolean.FALSE , "Rainbow hud." ));
+    public Setting<Integer> factor = this.register(new Setting<Object>("Factor", 1 , 0 , 20 , v -> this.rainbow.getValue()));
+    public Setting<Boolean> rolling = this.register(new Setting<Object>("Rolling", Boolean.FALSE , v -> this.rainbow.getValue()));
+    public Setting<Integer> rainbowSpeed = this.register(new Setting<Object>("RSpeed", 20 , 0 , 100 , v -> this.rainbow.getValue()));
+    public Setting<Integer> rainbowSaturation = this.register(new Setting<Object>("Saturation", 255 , 0 , 255 , v -> this.rainbow.getValue()));
+    public Setting<Integer> rainbowBrightness = this.register(new Setting<Object>("Brightness", 255 , 0 , 255 , v -> this.rainbow.getValue()));
+    public Setting<Boolean> potionIcons = this.register( new Setting <> ( "PotionIcons" , Boolean.TRUE , "Draws Potion Icons." ));
+    public Setting<Boolean> shadow = this.register( new Setting <> ( "Shadow" , Boolean.FALSE , "Draws the text with a shadow." ));
+    public Setting<Integer> animationHorizontalTime = this.register(new Setting<Object>("AnimationHTime", 500 , 1 , 1000 , v -> this.arrayList.getValue()));
+    public Setting<Integer> animationVerticalTime = this.register(new Setting<Object>("AnimationVTime", 50 , 1 , 500 , v -> this.arrayList.getValue()));
+    public Setting<Boolean> textRadar = this.register( new Setting <> ( "TextRadar" , Boolean.FALSE , "A TextRadar" ));
+    public Setting<Boolean> time = this.register( new Setting <> ( "Time" , Boolean.FALSE , "The time" ));
+    public Setting<Integer> hudRed = this.register(new Setting<Object>("Red", 255 , 0 , 255 , v -> ! this.rainbow.getValue ( ) ));
+    public Setting<Integer> hudGreen = this.register(new Setting<Object>("Green", 0 , 0 , 255 , v -> ! this.rainbow.getValue ( ) ));
+    public Setting<Integer> hudBlue = this.register(new Setting<Object>("Blue", 0 , 0 , 255 , v -> ! this.rainbow.getValue ( ) ));
+    public Setting<Boolean> potions1 = this.register(new Setting<Object>("LevelPotions", Boolean.FALSE , v -> this.potions.getValue()));
+    public Setting<Boolean> MS = this.register(new Setting<Object>("ms", Boolean.FALSE , v -> this.ping.getValue()));
+    public Map<Module, Float> moduleProgressMap = new HashMap <> ( );
+    public Map<Integer, Integer> colorMap = new HashMap <> ( );
+    private Map<String, Integer> players = new HashMap <> ( );
+    private final Map<Potion, Color> potionColorMap = new HashMap <> ( );
     private int color;
     private boolean shouldIncrement;
     private int hitMarkerTimer;
@@ -330,7 +330,7 @@ public class HUD
         } else {
             if (this.serverBrand.getValue()) {
                 final String text2 = grayString + "Server brand " + ChatFormatting.WHITE + RenoSense.serverManager.getServerBrand();
-                this.renderer.drawString(text2, (float) (width - (this.renderer.getStringWidth(text2) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
+                this.renderer.drawString(text2, (float) (width - (this.renderer.getStringWidth(text2) + 2)), (float) (2 + 0 ), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
             }
             if (this.potions.getValue()) {
                 for (final PotionEffect effect : RenoSense.potionManager.getOwnPotions()) {
@@ -520,15 +520,11 @@ public class HUD
             if (!percent) {
                 continue;
             }
-            int dmg = 0;
+            int dmg;
             final int itemDurability = is.getMaxDamage() - is.getItemDamage();
             final float green = (is.getMaxDamage() - (float) is.getItemDamage()) / is.getMaxDamage();
             final float red = 1.0f - green;
-            if (percent) {
-                dmg = 100 - (int) (red * 100.0f);
-            } else {
-                dmg = itemDurability;
-            }
+            dmg = 100 - (int) (red * 100.0f);
             this.renderer.drawStringWithShadow(dmg + "", (float) (x + 8 - this.renderer.getStringWidth(dmg + "") / 2), (float) (y - 11), ColorUtil.toRGBA((int) (red * 255.0f), (int) (green * 255.0f), 0));
         }
         GlStateManager.enableDepth();

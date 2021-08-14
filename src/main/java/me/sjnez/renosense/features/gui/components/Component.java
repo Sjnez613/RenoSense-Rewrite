@@ -58,18 +58,18 @@ public class Component
         this.drag(mouseX, mouseY);
         float totalItemHeight = this.open ? this.getTotalItemHeight() - 2.0f : 0.0f;
         int color = -7829368;
-        if (ClickGui.getInstance().devSettings.getValue().booleanValue()) {
-            int n = color = ClickGui.getInstance().colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColorHex() : ColorUtil.toARGB(ClickGui.getInstance().topRed.getValue(), ClickGui.getInstance().topGreen.getValue(), ClickGui.getInstance().topBlue.getValue(), ClickGui.getInstance().topAlpha.getValue());
+        if ( ClickGui.getInstance ( ).devSettings.getValue ( ) ) {
+            int n = color = ClickGui.getInstance ( ).colorSync.getValue ( ) ? Colors.INSTANCE.getCurrentColorHex() : ColorUtil.toARGB(ClickGui.getInstance().topRed.getValue(), ClickGui.getInstance().topGreen.getValue(), ClickGui.getInstance().topBlue.getValue(), ClickGui.getInstance().topAlpha.getValue());
         }
-        if (ClickGui.getInstance().rainbowRolling.getValue().booleanValue() && ClickGui.getInstance().colorSync.getValue().booleanValue() && Colors.INSTANCE.rainbow.getValue().booleanValue()) {
+        if ( ClickGui.getInstance ( ).rainbowRolling.getValue ( ) && ClickGui.getInstance ( ).colorSync.getValue ( ) && Colors.INSTANCE.rainbow.getValue ( ) ) {
             RenderUtil.drawGradientRect((float) this.x, (float) this.y - 1.5f, (float) this.width, (float) (this.height - 4), HUD.getInstance().colorMap.get(MathUtil.clamp(this.y, 0, this.renderer.scaledHeight)), HUD.getInstance().colorMap.get(MathUtil.clamp(this.y + this.height - 4, 0, this.renderer.scaledHeight)));
         } else {
             RenderUtil.drawRect(this.x, (float) this.y - 1.5f, this.x + this.width, this.y + this.height - 6, color);
         }
         if (this.open) {
             RenderUtil.drawRect(this.x, (float) this.y + 12.5f, this.x + this.width, (float) (this.y + this.height) + totalItemHeight, 0x77000000);
-            if (ClickGui.getInstance().outline.getValue().booleanValue()) {
-                if (ClickGui.getInstance().rainbowRolling.getValue().booleanValue()) {
+            if ( ClickGui.getInstance ( ).outline.getValue ( ) ) {
+                if ( ClickGui.getInstance ( ).rainbowRolling.getValue ( ) ) {
                     GlStateManager.disableTexture2D();
                     GlStateManager.enableBlend();
                     GlStateManager.disableAlpha();
@@ -111,7 +111,7 @@ public class Component
                     GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                     GlStateManager.shadeModel(7425);
                     GL11.glBegin(2);
-                    Color outlineColor = ClickGui.getInstance().colorSync.getValue() != false ? new Color(Colors.INSTANCE.getCurrentColorHex()) : new Color(RenoSense.colorManager.getColorAsIntFullAlpha());
+                    Color outlineColor = ClickGui.getInstance ( ).colorSync.getValue ( ) ? new Color(Colors.INSTANCE.getCurrentColorHex()) : new Color(RenoSense.colorManager.getColorAsIntFullAlpha());
                     GL11.glColor4f((float) outlineColor.getRed(), (float) outlineColor.getGreen(), (float) outlineColor.getBlue(), (float) outlineColor.getAlpha());
                     GL11.glVertex3f((float) this.x, (float) this.y - 1.5f, 0.0f);
                     GL11.glVertex3f((float) (this.x + this.width), (float) this.y - 1.5f, 0.0f);

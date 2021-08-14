@@ -19,7 +19,7 @@ extends Entity {
 
     @Inject(method={"isElytraFlying"}, at={@At(value="HEAD")}, cancellable=true)
     private void isElytraFlyingHook(CallbackInfoReturnable<Boolean> info) {
-        if (Util.mc.player != null && Util.mc.player.equals((Object)this) && ElytraFlight.getInstance().isOn() && ElytraFlight.getInstance().mode.getValue() == ElytraFlight.Mode.BETTER) {
+        if (Util.mc.player != null && Util.mc.player.equals( this ) && ElytraFlight.getInstance().isOn() && ElytraFlight.getInstance().mode.getValue() == ElytraFlight.Mode.BETTER) {
             info.setReturnValue(false);
         }
     }

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class CosmeticsManager
         implements Util {
-    public Map<String, List<ModelBase>> cosmeticsUserMap = new HashMap<String, List<ModelBase>>();
+    public Map<String, List<ModelBase>> cosmeticsUserMap = new HashMap <> ( );
 
     public CosmeticsManager() {
         this.cosmeticsUserMap.put("a5e36d37-5fbe-4481-b5be-1f06baee1f1c", Arrays.asList(Cosmetics.INSTANCE.santaHatModel, Cosmetics.INSTANCE.glassesModel));

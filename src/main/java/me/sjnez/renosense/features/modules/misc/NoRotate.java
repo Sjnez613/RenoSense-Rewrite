@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class NoRotate
         extends Module {
-    private final Setting<Integer> waitDelay = this.register(new Setting<Integer>("Delay", 2500, 0, 10000));
+    private final Setting<Integer> waitDelay = this.register( new Setting <> ( "Delay" , 2500 , 0 , 10000 ));
     private final Timer timer = new Timer();
     private boolean cancelPackets = true;
     private boolean timerReset = false;
@@ -32,7 +32,7 @@ public class NoRotate
 
     @Override
     public void onUpdate() {
-        if (this.timerReset && !this.cancelPackets && this.timer.passedMs(this.waitDelay.getValue().intValue())) {
+        if (this.timerReset && !this.cancelPackets && this.timer.passedMs( this.waitDelay.getValue ( ) )) {
             Command.sendMessage("<NoRotate> \u00a7cThis module might desync you!");
             this.cancelPackets = true;
             this.timerReset = false;

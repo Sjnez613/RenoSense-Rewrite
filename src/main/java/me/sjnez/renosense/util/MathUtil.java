@@ -120,7 +120,7 @@ public class MathUtil
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map, boolean descending) {
-        LinkedList<Map.Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>(map.entrySet());
+        LinkedList<Map.Entry<K, V>> list = new LinkedList <> ( map.entrySet ( ) );
         if (descending) {
             list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
         } else {
@@ -186,7 +186,7 @@ public class MathUtil
     }
 
     public static List<Vec3d> getBlockBlocks(Entity entity) {
-        ArrayList<Vec3d> vec3ds = new ArrayList<Vec3d>();
+        ArrayList<Vec3d> vec3ds = new ArrayList <> ( );
         AxisAlignedBB bb = entity.getEntityBoundingBox();
         double y = entity.posY;
         double minX = MathUtil.round(bb.minX, 0);

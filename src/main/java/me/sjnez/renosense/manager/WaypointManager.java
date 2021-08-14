@@ -15,7 +15,7 @@ import java.util.Map;
 public class WaypointManager
         extends Feature {
     public static final ResourceLocation WAYPOINT_RESOURCE = new ResourceLocation("textures/waypoint.png");
-    public Map<String, Waypoint> waypoints = new HashMap<String, Waypoint>();
+    public Map<String, Waypoint> waypoints = new HashMap <> ( );
 
     public static class Waypoint {
         public String owner;

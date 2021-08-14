@@ -13,8 +13,8 @@ import net.minecraft.item.ItemStack;
 
 public class ChestSwap extends Module
 {
-    public final Setting<Boolean> PreferElytra = new Setting<Boolean>("PreferElytra",true);
-    public final Setting<Boolean> Curse = new Setting<Boolean>("Curse", false);
+    public final Setting<Boolean> PreferElytra = new Setting <> ( "PreferElytra" , true );
+    public final Setting<Boolean> Curse = new Setting <> ( "Curse" , false );
 
     public ChestSwap()
     {
@@ -73,7 +73,7 @@ public class ChestSwap extends Module
                 continue;
 
             ItemStack s = mc.player.inventoryContainer.getInventory().get(i);
-            if (s != null && s.getItem() != Items.AIR)
+            if ( s.getItem ( ) != Items.AIR )
             {
                 if (s.getItem() instanceof ItemArmor)
                 {
@@ -82,7 +82,7 @@ public class ChestSwap extends Module
                     {
                         final float currentDamage = (armor.damageReduceAmount + EnchantmentHelper.getEnchantmentLevel(Enchantments.PROTECTION, s));
 
-                        final boolean cursed = Curse.getValue() ? (EnchantmentHelper.hasBindingCurse(s)) : false;
+                        final boolean cursed = Curse.getValue ( ) && ( EnchantmentHelper.hasBindingCurse ( s ) );
 
                         if (currentDamage > damage && !cursed)
                         {

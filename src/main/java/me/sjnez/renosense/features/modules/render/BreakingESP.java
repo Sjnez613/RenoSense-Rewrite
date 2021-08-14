@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class BreakingESP
         extends Module {
-    private final Map<BlockPos, Integer> breakingProgressMap = new HashMap<BlockPos, Integer>();
+    private final Map<BlockPos, Integer> breakingProgressMap = new HashMap <> ( );
 
     public BreakingESP() {
         super("BreakingESP", "Shows block breaking progress", Module.Category.RENDER, true, false, false);

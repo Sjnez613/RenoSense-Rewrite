@@ -30,7 +30,7 @@ public class DiscordPresence
         (DiscordPresence.thread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 DiscordPresence.rpc.Discord_RunCallbacks();
-                String string = "";
+                String string;
                 StringBuilder sb = new StringBuilder();
                 DiscordRichPresence presence;
                 presence = DiscordPresence.presence;
@@ -52,7 +52,7 @@ public class DiscordPresence
                 try {
                     Thread.sleep(2000L);
                 }
-                catch (InterruptedException ex) {}
+                catch (InterruptedException ignored ) {}
             }
         }, "RPC-Callback-Handler")).start();
     }

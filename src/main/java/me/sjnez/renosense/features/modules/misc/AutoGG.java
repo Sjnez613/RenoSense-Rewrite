@@ -17,23 +17,20 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AutoGG
         extends Module {
     private static final String path = "renosense/autogg.txt";
-    private final Setting<Boolean> onOwnDeath = this.register(new Setting<Boolean>("OwnDeath", false));
-    private final Setting<Boolean> greentext = this.register(new Setting<Boolean>("Greentext", false));
-    private final Setting<Boolean> loadFiles = this.register(new Setting<Boolean>("LoadFiles", false));
-    private final Setting<Integer> targetResetTimer = this.register(new Setting<Integer>("Reset", 30, 0, 90));
-    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 10, 0, 30));
-    private final Setting<Boolean> test = this.register(new Setting<Boolean>("Test", false));
-    public Map<EntityPlayer, Integer> targets = new ConcurrentHashMap<EntityPlayer, Integer>();
-    public List<String> messages = new ArrayList<String>();
+    private final Setting<Boolean> onOwnDeath = this.register( new Setting <> ( "OwnDeath" , false ));
+    private final Setting<Boolean> greentext = this.register( new Setting <> ( "Greentext" , false ));
+    private final Setting<Boolean> loadFiles = this.register( new Setting <> ( "LoadFiles" , false ));
+    private final Setting<Integer> targetResetTimer = this.register( new Setting <> ( "Reset" , 30 , 0 , 90 ));
+    private final Setting<Integer> delay = this.register( new Setting <> ( "Delay" , 10 , 0 , 30 ));
+    private final Setting<Boolean> test = this.register( new Setting <> ( "Test" , false ));
+    public Map<EntityPlayer, Integer> targets = new ConcurrentHashMap <> ( );
+    public List<String> messages = new ArrayList <> ( );
     public EntityPlayer cauraTarget;
     private final Timer timer = new Timer();
     private final Timer cooldownTimer = new Timer();
@@ -60,7 +57,7 @@ public class AutoGG
 
     @Override
     public void onTick() {
-        if (this.loadFiles.getValue().booleanValue()) {
+        if ( this.loadFiles.getValue ( ) ) {
             this.loadMessages();
             Command.sendMessage("<AutoGG> Loaded messages.");
             this.loadFiles.setValue(false);
@@ -68,14 +65,14 @@ public class AutoGG
         if (AutoCrystal.target != null && this.cauraTarget != AutoCrystal.target) {
             this.cauraTarget = AutoCrystal.target;
         }
-        if (this.test.getValue().booleanValue()) {
+        if ( this.test.getValue ( ) ) {
             this.announceDeath(AutoGG.mc.player);
             this.test.setValue(false);
         }
         if (!this.cooldown) {
             this.cooldownTimer.reset();
         }
-        if (this.cooldownTimer.passedS(this.delay.getValue().intValue()) && this.cooldown) {
+        if (this.cooldownTimer.passedS( this.delay.getValue ( ) ) && this.cooldown) {
             this.cooldown = false;
             this.cooldownTimer.reset();
         }
@@ -101,7 +98,7 @@ public class AutoGG
             this.announceDeath(event.player);
             this.cooldown = true;
         }
-        if (event.player == AutoGG.mc.player && this.onOwnDeath.getValue().booleanValue()) {
+        if (event.player == AutoGG.mc.player && this.onOwnDeath.getValue ( ) ) {
             this.announceDeath(event.player);
             this.cooldown = true;
         }
@@ -117,7 +114,7 @@ public class AutoGG
     @SubscribeEvent
     public void onSendAttackPacket(PacketEvent.Send event) {
         CPacketUseEntity packet;
-        if (event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet.getEntityFromWorld(AutoGG.mc.world) instanceof EntityPlayer && !RenoSense.friendManager.isFriend((EntityPlayer) packet.getEntityFromWorld(AutoGG.mc.world))) {
+        if (event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet.getEntityFromWorld(AutoGG.mc.world) instanceof EntityPlayer && !RenoSense.friendManager.isFriend((EntityPlayer) Objects.requireNonNull ( packet.getEntityFromWorld ( AutoGG.mc.world ) ) )) {
             this.targets.put((EntityPlayer) packet.getEntityFromWorld(AutoGG.mc.world), 0);
         }
     }
@@ -139,7 +136,7 @@ public class AutoGG
     }
 
     public void announceDeath(EntityPlayer target) {
-        AutoGG.mc.player.connection.sendPacket(new CPacketChatMessage((this.greentext.getValue() != false ? ">" : "") + this.getRandomMessage().replaceAll("<player>", target.getDisplayNameString())));
+        AutoGG.mc.player.connection.sendPacket(new CPacketChatMessage(( this.greentext.getValue ( ) ? ">" : "") + this.getRandomMessage().replaceAll("<player>", target.getDisplayNameString())));
     }
 }
 

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinGuiToast {
     @Inject(method={"drawToast"}, at={@At(value="HEAD")}, cancellable=true)
     public void drawToastHook(ScaledResolution resolution, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().advancements.getValue().booleanValue()) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance ( ).advancements.getValue ( ) ) {
             info.cancel();
         }
     }

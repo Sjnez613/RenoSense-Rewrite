@@ -18,7 +18,7 @@ public class PeekCommand
     public void execute(String[] commands) {
         if (commands.length == 1) {
             ItemStack stack = PeekCommand.mc.player.getHeldItemMainhand();
-            if (stack != null && stack.getItem() instanceof ItemShulkerBox) {
+            if ( stack.getItem() instanceof ItemShulkerBox ) {
                 ToolTips.displayInv(stack, null);
             } else {
                 Command.sendMessage("\u00a7cYou need to hold a Shulker in your mainhand.");
@@ -26,7 +26,7 @@ public class PeekCommand
             }
         }
         if (commands.length > 1) {
-            if (ToolTips.getInstance().isOn() && ToolTips.getInstance().shulkerSpy.getValue().booleanValue()) {
+            if (ToolTips.getInstance().isOn() && ToolTips.getInstance ( ).shulkerSpy.getValue ( ) ) {
                 for (Map.Entry<EntityPlayer, ItemStack> entry : ToolTips.getInstance().spiedPlayers.entrySet()) {
                     if (!entry.getKey().getName().equalsIgnoreCase(commands[0])) continue;
                     ItemStack stack = entry.getValue();

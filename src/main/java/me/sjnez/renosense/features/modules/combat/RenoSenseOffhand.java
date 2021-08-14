@@ -28,18 +28,18 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class RenoSenseOffhand
         extends Module {
     private static RenoSenseOffhand instance;
-    private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue<InventoryUtil.Task>();
+    private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue <> ( );
     private final Timer timer = new Timer();
     private final Timer secondTimer = new Timer();
-    public Setting<Boolean> crystal = this.register(new Setting<Boolean>("Crystal", true));
-    public Setting<Float> crystalHealth = this.register(new Setting<Float>("CrystalHP", Float.valueOf(13.0f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
-    public Setting<Float> crystalHoleHealth = this.register(new Setting<Float>("CrystalHoleHP", Float.valueOf(3.5f), Float.valueOf(0.1f), Float.valueOf(36.0f)));
-    public Setting<Boolean> gapple = this.register(new Setting<Boolean>("Gapple", true));
-    public Setting<Boolean> antiGappleFail = this.register(new Setting<Boolean>("AntiGapFail", false));
-    public Setting<Boolean> armorCheck = this.register(new Setting<Boolean>("ArmorCheck", true));
-    public Setting<Integer> actions = this.register(new Setting<Integer>("Packets", 4, 1, 4));
-    public Setting<Boolean> fallDistance = this.register(new Setting<Boolean>("FallDistance", false));
-    public Setting<Float> Height = this.register(new Setting<Float>("Height", 0F, 0F, 30F, v -> this.fallDistance.getValue()));
+    public Setting<Boolean> crystal = this.register( new Setting <> ( "Crystal" , true ));
+    public Setting<Float> crystalHealth = this.register( new Setting <> ( "CrystalHP" , 13.0f , 0.1f , 36.0f ));
+    public Setting<Float> crystalHoleHealth = this.register( new Setting <> ( "CrystalHoleHP" , 3.5f , 0.1f , 36.0f ));
+    public Setting<Boolean> gapple = this.register( new Setting <> ( "Gapple" , true ));
+    public Setting<Boolean> antiGappleFail = this.register( new Setting <> ( "AntiGapFail" , false ));
+    public Setting<Boolean> armorCheck = this.register( new Setting <> ( "ArmorCheck" , true ));
+    public Setting<Integer> actions = this.register( new Setting <> ( "Packets" , 4 , 1 , 4 ));
+    public Setting<Boolean> fallDistance = this.register( new Setting <> ( "FallDistance" , false ));
+    public Setting<Float> Height = this.register( new Setting <> ( "Height" , 0F , 0F , 30F , v -> this.fallDistance.getValue ( ) ));
     public Mode2 currentMode = Mode2.TOTEMS;
     public int totems = 0;
     public int crystals = 0;
@@ -152,9 +152,9 @@ public class RenoSenseOffhand
 
     public void doSwitch() {
         this.currentMode = Mode2.TOTEMS;
-        if (this.gapple.getValue().booleanValue() && mc.player.getHeldItemMainhand().getItem() instanceof ItemSword && mc.gameSettings.keyBindUseItem.isKeyDown()) {
+        if ( this.gapple.getValue ( ) && mc.player.getHeldItemMainhand().getItem() instanceof ItemSword && mc.gameSettings.keyBindUseItem.isKeyDown()) {
             this.currentMode = Mode2.GAPPLES;
-        } else if (this.currentMode != Mode2.CRYSTALS && this.crystal.getValue().booleanValue() && (EntityUtil.isSafe(mc.player) && EntityUtil.getHealth(mc.player, true) > this.crystalHoleHealth.getValue().floatValue() || EntityUtil.getHealth(mc.player, true) > this.crystalHealth.getValue().floatValue())) {
+        } else if (this.currentMode != Mode2.CRYSTALS && this.crystal.getValue ( ) && (EntityUtil.isSafe(mc.player) && EntityUtil.getHealth(mc.player, true) > this.crystalHoleHealth.getValue ( ) || EntityUtil.getHealth(mc.player, true) > this.crystalHealth.getValue ( ) )) {
             this.currentMode = Mode2.CRYSTALS;
         }
         if(this.antiGappleFail.getValue()) {
@@ -172,14 +172,14 @@ public class RenoSenseOffhand
             }
             this.setMode(Mode2.TOTEMS);
         }
-        if (this.switchedForHealthReason && (EntityUtil.isSafe(mc.player) && EntityUtil.getHealth(mc.player, true) > this.crystalHoleHealth.getValue().floatValue() || EntityUtil.getHealth(mc.player, true) > this.crystalHealth.getValue().floatValue())) {
+        if (this.switchedForHealthReason && (EntityUtil.isSafe(mc.player) && EntityUtil.getHealth(mc.player, true) > this.crystalHoleHealth.getValue ( ) || EntityUtil.getHealth(mc.player, true) > this.crystalHealth.getValue ( ) )) {
             this.setMode(Mode2.CRYSTALS);
             this.switchedForHealthReason = false;
         }
-        if (this.currentMode == Mode2.CRYSTALS && this.armorCheck.getValue().booleanValue() && (mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.AIR || mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == Items.AIR || mc.player.getItemStackFromSlot(EntityEquipmentSlot.LEGS).getItem() == Items.AIR || mc.player.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == Items.AIR)) {
+        if (this.currentMode == Mode2.CRYSTALS && this.armorCheck.getValue ( ) && (mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.AIR || mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == Items.AIR || mc.player.getItemStackFromSlot(EntityEquipmentSlot.LEGS).getItem() == Items.AIR || mc.player.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == Items.AIR)) {
             this.setMode(Mode2.TOTEMS);
         }
-        if ((this.currentMode == Mode2.CRYSTALS || this.currentMode == Mode2.GAPPLES) && mc.player.fallDistance > this.Height.getValue().floatValue() && this.fallDistance.getValue()){
+        if ((this.currentMode == Mode2.CRYSTALS || this.currentMode == Mode2.GAPPLES) && mc.player.fallDistance > this.Height.getValue ( ) && this.fallDistance.getValue()){
             this.setMode(Mode2.TOTEMS);
         }
         if (mc.currentScreen instanceof GuiContainer && !(mc.currentScreen instanceof GuiInventory)) {

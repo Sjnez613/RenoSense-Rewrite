@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class FriendManager
         extends Feature {
-    private final Map<String, UUID> friends = new HashMap<String, UUID>();
+    private final Map<String, UUID> friends = new HashMap <> ( );
 
     public FriendManager() {
         super("Friends");
@@ -44,7 +44,7 @@ public class FriendManager
     public void saveFriends() {
         this.clearSettings();
         for (Map.Entry<String, UUID> entry : this.friends.entrySet()) {
-            this.register(new Setting<String>(entry.getValue().toString(), entry.getKey()));
+            this.register( new Setting <> ( entry.getValue ( ).toString ( ) , entry.getKey ( ) ));
         }
     }
 

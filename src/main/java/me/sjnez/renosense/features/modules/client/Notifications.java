@@ -23,26 +23,26 @@ import java.util.List;
 public class Notifications
         extends Module {
     private static final String fileName = "phobos/util/ModuleMessage_List.txt";
-    private static final List<String> modules = new ArrayList<String>();
+    private static final List<String> modules = new ArrayList <> ( );
     private static Notifications INSTANCE = new Notifications();
     private final Timer timer = new Timer();
-    public Setting<Boolean> totemPops = this.register(new Setting<Boolean>("TotemPops", false));
-    public Setting<Boolean> totemNoti = this.register(new Setting<Object>("TotemNoti", Boolean.valueOf(true), v -> this.totemPops.getValue()));
+    public Setting<Boolean> totemPops = this.register( new Setting <> ( "TotemPops" , false ));
+    public Setting<Boolean> totemNoti = this.register(new Setting<Object>("TotemNoti", Boolean.TRUE , v -> this.totemPops.getValue()));
     public Setting<Integer> delay = this.register(new Setting<Object>("Delay", 2000, 0, 5000, v -> this.totemPops.getValue(), "Delays messages."));
-    public Setting<Boolean> clearOnLogout = this.register(new Setting<Boolean>("LogoutClear", false));
-    public Setting<Boolean> moduleMessage = this.register(new Setting<Boolean>("ModuleMessage", false));
-    public Setting<Boolean> list = this.register(new Setting<Object>("List", Boolean.valueOf(false), v -> this.moduleMessage.getValue()));
-    public Setting<Boolean> watermark = this.register(new Setting<Object>("Watermark", Boolean.valueOf(true), v -> this.moduleMessage.getValue()));
-    public Setting<Boolean> visualRange = this.register(new Setting<Boolean>("VisualRange", false));
-    public Setting<Boolean> VisualRangeSound = this.register(new Setting<Boolean>("VisualRangeSound", false));
-    public Setting<Boolean> coords = this.register(new Setting<Object>("Coords", Boolean.valueOf(true), v -> this.visualRange.getValue()));
-    public Setting<Boolean> leaving = this.register(new Setting<Object>("Leaving", Boolean.valueOf(false), v -> this.visualRange.getValue()));
-    public Setting<Boolean> pearls = this.register(new Setting<Boolean>("PearlNotifs", false));
-    public Setting<Boolean> crash = this.register(new Setting<Boolean>("Crash", false));
-    public Setting<Boolean> popUp = this.register(new Setting<Boolean>("PopUpVisualRange", false));
+    public Setting<Boolean> clearOnLogout = this.register( new Setting <> ( "LogoutClear" , false ));
+    public Setting<Boolean> moduleMessage = this.register( new Setting <> ( "ModuleMessage" , false ));
+    public Setting<Boolean> list = this.register(new Setting<Object>("List", Boolean.FALSE , v -> this.moduleMessage.getValue()));
+    public Setting<Boolean> watermark = this.register(new Setting<Object>("Watermark", Boolean.TRUE , v -> this.moduleMessage.getValue()));
+    public Setting<Boolean> visualRange = this.register( new Setting <> ( "VisualRange" , false ));
+    public Setting<Boolean> VisualRangeSound = this.register( new Setting <> ( "VisualRangeSound" , false ));
+    public Setting<Boolean> coords = this.register(new Setting<Object>("Coords", Boolean.TRUE , v -> this.visualRange.getValue()));
+    public Setting<Boolean> leaving = this.register(new Setting<Object>("Leaving", Boolean.FALSE , v -> this.visualRange.getValue()));
+    public Setting<Boolean> pearls = this.register( new Setting <> ( "PearlNotifs" , false ));
+    public Setting<Boolean> crash = this.register( new Setting <> ( "Crash" , false ));
+    public Setting<Boolean> popUp = this.register( new Setting <> ( "PopUpVisualRange" , false ));
     public Timer totemAnnounce = new Timer();
-    private final Setting<Boolean> readfile = this.register(new Setting<Object>("LoadFile", Boolean.valueOf(false), v -> this.moduleMessage.getValue()));
-    private List<EntityPlayer> knownPlayers = new ArrayList<EntityPlayer>();
+    private final Setting<Boolean> readfile = this.register(new Setting<Object>("LoadFile", Boolean.FALSE , v -> this.moduleMessage.getValue()));
+    private List<EntityPlayer> knownPlayers = new ArrayList <> ( );
     private boolean check;
 
     public Notifications() {
@@ -74,7 +74,7 @@ public class Notifications
 
     @Override
     public void onEnable() {
-        this.knownPlayers = new ArrayList<EntityPlayer>();
+        this.knownPlayers = new ArrayList <> ( );
         if (!this.check) {
             this.loadFile();
         }
@@ -82,7 +82,7 @@ public class Notifications
 
     @Override
     public void onUpdate() {
-        if (this.readfile.getValue().booleanValue()) {
+        if ( this.readfile.getValue ( ) ) {
             if (!this.check) {
                 Command.sendMessage("Loading File...");
                 this.timer.reset();
@@ -94,7 +94,7 @@ public class Notifications
             this.readfile.setValue(false);
             this.check = false;
         }
-        if (this.visualRange.getValue().booleanValue()) {
+        if ( this.visualRange.getValue ( ) ) {
             ArrayList<EntityPlayer> tickPlayerList = new ArrayList<>(Notifications.mc.world.playerEntities);
             if (tickPlayerList.size() > 0) {
                 for (EntityPlayer player : tickPlayerList) {
@@ -102,11 +102,11 @@ public class Notifications
                         continue;
                     this.knownPlayers.add(player);
                     if (RenoSense.friendManager.isFriend(player)) {
-                        Command.sendMessage("Player \u00a7a" + player.getName() + "\u00a7r" + " entered your visual range" + (this.coords.getValue() != false ? " at (" + (int) player.posX + ", " + (int) player.posY + ", " + (int) player.posZ + ")!" : "!"), this.popUp.getValue());
+                        Command.sendMessage("Player \u00a7a" + player.getName() + "\u00a7r" + " entered your visual range" + ( this.coords.getValue ( ) ? " at (" + (int) player.posX + ", " + (int) player.posY + ", " + (int) player.posZ + ")!" : "!"), this.popUp.getValue());
                     } else {
-                        Command.sendMessage("Player \u00a7c" + player.getName() + "\u00a7r" + " entered your visual range" + (this.coords.getValue() != false ? " at (" + (int) player.posX + ", " + (int) player.posY + ", " + (int) player.posZ + ")!" : "!"), this.popUp.getValue());
+                        Command.sendMessage("Player \u00a7c" + player.getName() + "\u00a7r" + " entered your visual range" + ( this.coords.getValue ( ) ? " at (" + (int) player.posX + ", " + (int) player.posY + ", " + (int) player.posZ + ")!" : "!"), this.popUp.getValue());
                     }
-                    if (this.VisualRangeSound.getValue().booleanValue()) {
+                    if ( this.VisualRangeSound.getValue ( ) ) {
                         Notifications.mc.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
                     }
                     return;
@@ -116,11 +116,11 @@ public class Notifications
                 for (EntityPlayer player : this.knownPlayers) {
                     if (tickPlayerList.contains(player)) continue;
                     this.knownPlayers.remove(player);
-                    if (this.leaving.getValue().booleanValue()) {
+                    if ( this.leaving.getValue ( ) ) {
                         if (RenoSense.friendManager.isFriend(player)) {
-                            Command.sendMessage("Player \u00a7a" + player.getName() + "\u00a7r" + " left your visual range" + (this.coords.getValue() != false ? " at (" + (int) player.posX + ", " + (int) player.posY + ", " + (int) player.posZ + ")!" : "!"), this.popUp.getValue());
+                            Command.sendMessage("Player \u00a7a" + player.getName() + "\u00a7r" + " left your visual range" + ( this.coords.getValue ( ) ? " at (" + (int) player.posX + ", " + (int) player.posY + ", " + (int) player.posZ + ")!" : "!"), this.popUp.getValue());
                         } else {
-                            Command.sendMessage("Player \u00a7c" + player.getName() + "\u00a7r" + " left your visual range" + (this.coords.getValue() != false ? " at (" + (int) player.posX + ", " + (int) player.posY + ", " + (int) player.posZ + ")!" : "!"), this.popUp.getValue());
+                            Command.sendMessage("Player \u00a7c" + player.getName() + "\u00a7r" + " left your visual range" + ( this.coords.getValue ( ) ? " at (" + (int) player.posX + ", " + (int) player.posY + ", " + (int) player.posZ + ")!" : "!"), this.popUp.getValue());
                         }
                     }
                     return;
@@ -142,7 +142,7 @@ public class Notifications
 
     @SubscribeEvent
     public void onReceivePacket(PacketEvent.Receive event) {
-        if (event.getPacket() instanceof SPacketSpawnObject && this.pearls.getValue().booleanValue()) {
+        if (event.getPacket() instanceof SPacketSpawnObject && this.pearls.getValue ( ) ) {
             SPacketSpawnObject packet = event.getPacket();
             EntityPlayer player = Notifications.mc.world.getClosestPlayer(packet.getX(), packet.getY(), packet.getZ(), 1.0, false);
             if (player == null) {
@@ -205,10 +205,10 @@ public class Notifications
     public void onToggleModule(ClientEvent event) {
         int moduleNumber;
         Module module;
-        if (!this.moduleMessage.getValue().booleanValue()) {
+        if (! this.moduleMessage.getValue ( ) ) {
             return;
         }
-        if (!(event.getStage() != 0 || (module = (Module) event.getFeature()).equals(this) || !modules.contains(module.getDisplayName()) && this.list.getValue().booleanValue())) {
+        if (!(event.getStage() != 0 || (module = (Module) event.getFeature()).equals(this) || !modules.contains(module.getDisplayName()) && this.list.getValue ( ) )) {
             moduleNumber = 0;
             for (char character : module.getDisplayName().toCharArray()) {
                 moduleNumber += character;
@@ -217,7 +217,7 @@ public class Notifications
             Notifications.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(getNotifierOff(module), moduleNumber);
         }
 
-        if (event.getStage() == 1 && (modules.contains((module = (Module) event.getFeature()).getDisplayName()) || !this.list.getValue().booleanValue())) {
+        if (event.getStage() == 1 && (modules.contains((module = (Module) event.getFeature()).getDisplayName()) || ! this.list.getValue ( ) )) {
             moduleNumber = 0;
             for (char character : module.getDisplayName().toCharArray()) {
                 moduleNumber += character;

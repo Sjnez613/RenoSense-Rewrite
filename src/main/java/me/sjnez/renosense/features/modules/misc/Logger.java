@@ -13,10 +13,10 @@ import java.lang.reflect.Field;
 
 public class Logger
         extends Module {
-    public Setting<Packets> packets = this.register(new Setting<Packets>("Packets", Packets.OUTGOING));
-    public Setting<Boolean> chat = this.register(new Setting<Boolean>("Chat", false));
-    public Setting<Boolean> fullInfo = this.register(new Setting<Boolean>("FullInfo", false));
-    public Setting<Boolean> noPing = this.register(new Setting<Boolean>("NoPing", false));
+    public Setting<Packets> packets = this.register( new Setting <> ( "Packets" , Packets.OUTGOING ));
+    public Setting<Boolean> chat = this.register( new Setting <> ( "Chat" , false ));
+    public Setting<Boolean> fullInfo = this.register( new Setting <> ( "FullInfo" , false ));
+    public Setting<Boolean> noPing = this.register( new Setting <> ( "NoPing" , false ));
 
     public Logger() {
         super("Logger", "Logs stuff", Module.Category.MISC, true, false, false);
@@ -24,11 +24,11 @@ public class Logger
 
     @SubscribeEvent(receiveCanceled = true)
     public void onPacketSend(PacketEvent.Send event) {
-        if (this.noPing.getValue().booleanValue() && Logger.mc.currentScreen instanceof GuiMultiplayer) {
+        if ( this.noPing.getValue ( ) && Logger.mc.currentScreen instanceof GuiMultiplayer) {
             return;
         }
         if (this.packets.getValue() == Packets.OUTGOING || this.packets.getValue() == Packets.ALL) {
-            if (this.chat.getValue().booleanValue()) {
+            if ( this.chat.getValue ( ) ) {
                 Command.sendMessage(event.getPacket().toString());
             } else {
                 this.writePacketOnConsole(event.getPacket(), false);
@@ -38,11 +38,11 @@ public class Logger
 
     @SubscribeEvent(receiveCanceled = true)
     public void onPacketReceive(PacketEvent.Receive event) {
-        if (this.noPing.getValue().booleanValue() && Logger.mc.currentScreen instanceof GuiMultiplayer) {
+        if ( this.noPing.getValue ( ) && Logger.mc.currentScreen instanceof GuiMultiplayer) {
             return;
         }
         if (this.packets.getValue() == Packets.INCOMING || this.packets.getValue() == Packets.ALL) {
-            if (this.chat.getValue().booleanValue()) {
+            if ( this.chat.getValue ( ) ) {
                 Command.sendMessage(event.getPacket().toString());
             } else {
                 this.writePacketOnConsole(event.getPacket(), true);
@@ -51,7 +51,7 @@ public class Logger
     }
 
     private void writePacketOnConsole(Packet<?> packet, boolean in) {
-        if (this.fullInfo.getValue().booleanValue()) {
+        if ( this.fullInfo.getValue ( ) ) {
             System.out.println((in ? "In: " : "Send: ") + packet.getClass().getSimpleName() + " {");
             try {
                 for (Class<?> clazz = packet.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
