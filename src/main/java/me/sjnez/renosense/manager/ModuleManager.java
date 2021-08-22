@@ -32,6 +32,7 @@ public class ModuleManager
     public Map<Module, Color> moduleColorMap = new HashMap<Module, Color>();
 
     public void init() {
+        this.modules.add(new Blink());
         this.modules.add(new ModuleTools());
         this.modules.add(new ChestSwap());
         this.modules.add(new FriendSettings());

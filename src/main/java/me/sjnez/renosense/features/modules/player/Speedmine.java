@@ -45,7 +45,6 @@ public class Speedmine
     public Setting<Boolean> doubleBreak = this.register(new Setting<Boolean>("DoubleBreak", false));
     public Setting<Boolean> webSwitch = this.register(new Setting<Boolean>("WebSwitch", false));
     public Setting<Boolean> silentSwitch = this.register(new Setting<Boolean>("SilentSwitch", false));
-    public Setting<Boolean> illegal = this.register(new Setting<Boolean>("IllegalMine", false));
     public Setting<Boolean> render = this.register(new Setting<Boolean>("Render", false));
     public Setting<Boolean> box = this.register(new Setting<Object>("Box", Boolean.valueOf(false), v -> this.render.getValue()));
     private final Setting<Integer> boxAlpha = this.register(new Setting<Object>("BoxAlpha", Integer.valueOf(85), Integer.valueOf(0), Integer.valueOf(255), v -> this.box.getValue() != false && this.render.getValue() != false));

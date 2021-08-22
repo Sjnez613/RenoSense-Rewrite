@@ -1,6 +1,7 @@
 package me.sjnez.renosense.mixin.mixins;
 
 import io.netty.channel.ChannelHandlerContext;
+import me.sjnez.renosense.event.events.EventNetworkPacketEvent;
 import me.sjnez.renosense.event.events.PacketEvent;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -37,6 +38,31 @@ public class MixinNetworkManager {
         MinecraftForge.EVENT_BUS.post((Event)event);
         if (event.isCanceled()) {
             info.cancel();
+        }
+    }
+
+    @Inject(method = "sendPacket(Lnet/minecraft/network/Packet;)V", at = @At("HEAD"), cancellable = true)
+    private void onSendPacket(Packet<?> p_Packet, CallbackInfo callbackInfo)
+    {
+        EventNetworkPacketEvent l_Event = new EventNetworkPacketEvent(p_Packet);
+        MinecraftForge.EVENT_BUS.post(l_Event);
+
+        if (l_Event.isCanceled())
+        {
+            callbackInfo.cancel();
+        }
+    }
+
+    @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
+    private void onChannelRead(ChannelHandlerContext context, Packet<?> p_Packet, CallbackInfo callbackInfo)
+    {
+        EventNetworkPacketEvent l_Event = new EventNetworkPacketEvent(p_Packet);
+        MinecraftForge.EVENT_BUS.post(l_Event);
+
+        if (l_Event.isCanceled())
+
+        {
+            callbackInfo.cancel();
         }
     }
 }
