@@ -1,5 +1,7 @@
 # RenoSense
 
+# Remove the rat ow wait there is none lol
+
 GANG
 
 How to build:
